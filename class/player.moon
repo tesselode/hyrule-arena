@@ -1,4 +1,4 @@
-class Player
+export class Player
   new: (@x, @y) =>
     @w, @h = 40, 40
     @speed = 300

@@ -1,8 +1,10 @@
-export Gamestate = require 'lib.hump.gamestate'
+export gamestate = require 'lib.hump.gamestate'
 
-game = require 'game'
+require 'class.player'
+
+require 'game'
 
 love.load =  ->
-  with Gamestate
+  with gamestate
     .registerEvents!
-    .switch game
+    .switch Game
