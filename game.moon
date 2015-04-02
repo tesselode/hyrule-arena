@@ -10,6 +10,11 @@ export Game = {
       if v.update
         v\update dt
 
+  keypressed: (key) =>
+    for k, v in pairs @instances
+      if v.keypressed
+        v\keypressed key
+
   draw: =>
     --draw all instances
     for k, v in pairs @instances

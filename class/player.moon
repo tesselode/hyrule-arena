@@ -5,6 +5,7 @@ export class Player extends Physical
     @drag = 1000
     @maxSpeed = 300
     @direction = 0
+    @canShoot = true
 
   update: (dt) =>
     --movement
@@ -47,6 +48,12 @@ export class Player extends Physical
       @direction = math.atan2 @velocity.y, @velocity.x
 
     super\update dt
+
+  keypressed: (key) =>
+    --shooting
+    if key == 'x'
+      x, y = gamestate.current!.world\getRect self
+      table.insert gamestate.current!.instances, Projectile x + 20, y + 20, 10, 10, 800, @direction
 
   draw: =>
     super\draw!

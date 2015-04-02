@@ -4,6 +4,7 @@ love.load =  ->
   export bump = require 'lib.bump'
 
   require 'class.physical'
+  require 'class.projectile'
   require 'class.player'
 
   require 'game'
