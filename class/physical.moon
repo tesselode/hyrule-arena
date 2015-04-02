@@ -1,5 +1,5 @@
 export class Physical
-  @drawHitbox = true
+  drawHitbox: true
 
   new: (x, y, w, h) =>
     gamestate.current!.world\add self, x, y, w, h
@@ -13,6 +13,7 @@ export class Physical
     gamestate.current!.world\move self, x + @velocity.x * dt, y + @velocity.y * dt, @filter
 
   draw: =>
+    --draw hitboxes (debugging)
     if @@drawHitbox
       with love.graphics
         .setColor 255, 255, 255, 150
