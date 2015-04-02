@@ -1,4 +1,4 @@
-export Game =
+export Game = {
   enter: =>
     @instances = {}
     table.insert @instances, Player 400, 300
@@ -12,3 +12,4 @@ export Game =
     for k, v in pairs @instances
       if v.draw
         v\draw!
+}
