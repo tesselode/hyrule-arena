@@ -1,5 +1,6 @@
 export Game = {
   enter: =>
+    @world = bump.newWorld!
     @instances = {}
     table.insert @instances, Player 400, 300
 

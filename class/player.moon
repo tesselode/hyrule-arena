@@ -20,8 +20,3 @@ export class Player extends Physical
     @velocity = @velocity\normalized! * @speed
 
     super\update dt
-
-  draw: =>
-    with love.graphics
-      .setColor 255, 255, 255, 255
-      .rectangle 'fill', @x, @y, @w, @h
