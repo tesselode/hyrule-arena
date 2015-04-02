@@ -1,17 +1,25 @@
-export class Player
-  new: (@x, @y) =>
-    @w, @h = 40, 40
+export class Player extends Physical
+  new: (x, y) =>
+    super x, y, 40, 40
     @speed = 300
 
   update: (dt) =>
+    --movement
     if love.keyboard.isDown 'left'
-      @x -= @speed * dt
+      @velocity.x = -1
     elseif love.keyboard.isDown 'right'
-      @x += @speed * dt
+      @velocity.x = 1
+    else
+      @velocity.x = 0
     if love.keyboard.isDown 'up'
-      @y -= @speed * dt
+      @velocity.y = -1
     elseif love.keyboard.isDown 'down'
-      @y += @speed * dt
+      @velocity.y = 1
+    else
+      @velocity.y = 0
+    @velocity = @velocity\normalized! * @speed
+
+    super\update dt
 
   draw: =>
     with love.graphics
