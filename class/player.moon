@@ -26,14 +26,19 @@ export class Player extends Physical
 
   update: (dt) =>
     --movement
+    dir = vector!
     if love.keyboard.isDown 'left'
       @velocity.x -= @acceleration * dt
+      dir.x = -1
     if love.keyboard.isDown 'right'
       @velocity.x += @acceleration * dt
+      dir.x = 1
     if love.keyboard.isDown 'up'
       @velocity.y -= @acceleration * dt
+      dir.y = -1
     if love.keyboard.isDown 'down'
       @velocity.y += @acceleration * dt
+      dir.y = 1
 
     --drag
     with @velocity
@@ -45,10 +50,8 @@ export class Player extends Physical
       @velocity = @velocity\normalized! * @maxSpeed
 
     --find the direction the player is facing
-    if love.keyboard.isDown 'left','right','up','down'
-      @direction = math.atan2 @velocity.y, @velocity.x
-      --limit to 8 directions
-      @direction = util.multiple @direction, math.pi / 4
+    if dir ~= vector 0,0
+      @direction = dir\normalized!\angleTo!
 
     cols = super\update dt
 
