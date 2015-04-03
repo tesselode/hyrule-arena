@@ -1,23 +1,19 @@
 export Game = {
   enter: =>
     @world = bump.newWorld!
-    @instances = {}
-    table.insert @instances, Player 400, 300
+    @player = Player @world, 400, 300
 
   update: (dt) =>
     --update all instances
-    for k, v in pairs @instances
-      if v.update
-        v\update dt
+    for item in *@world\getItems!
+      item\update dt
 
   keypressed: (key) =>
-    for k, v in pairs @instances
-      if v.keypressed
-        v\keypressed key
+    for item in *@world\getItems!
+      item\keypressed key if item.keypressed
 
   draw: =>
     --draw all instances
-    for k, v in pairs @instances
-      if v.draw
-        v\draw!
+    for item in *@world\getItems!
+      item\draw!
 }

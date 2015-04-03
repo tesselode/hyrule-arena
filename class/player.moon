@@ -1,6 +1,6 @@
 export class Player extends Physical
-  new: (x, y) =>
-    super x, y, 40, 40
+  new: (world, x, y) =>
+    super world, x, y, 40, 40
     @acceleration = 2500
     @drag = 10
     @maxSpeed = 300
@@ -36,8 +36,8 @@ export class Player extends Physical
   keypressed: (key) =>
     --shooting
     if key == 'x'
-      x, y = gamestate.current!.world\getRect self
-      table.insert gamestate.current!.instances, Projectile x + 20, y + 20, 10, 10, 800, @direction
+      x, y = @world\getRect self
+      Projectile @world, x + 20, y + 20, 10, 10, 800, @direction
 
   draw: =>
     super\draw!
@@ -46,7 +46,7 @@ export class Player extends Physical
     with love.graphics
       .setColor 255, 255, 255, 255
       .setLineWidth 3
-      x, y = gamestate.current!.world\getRect self
+      x, y = @world\getRect self
       .circle 'line', x + 20, y + 20, 20
       directionLine = vector.new(20, 0)\rotated(@direction)
       .line x + 20, y + 20, x + 20 + directionLine.x, y + 20 + directionLine.y
