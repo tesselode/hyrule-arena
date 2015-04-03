@@ -6,6 +6,7 @@ export class Player extends Physical
     @maxSpeed = 300
     @direction = 0
     @canShoot = true
+    @attackRange = 40
 
     @filter = (other) =>
       if other.id == 'wall'
@@ -37,7 +38,7 @@ export class Player extends Physical
     if (love.keyboard.isDown 'left') or (love.keyboard.isDown 'right') or (love.keyboard.isDown 'up') or (love.keyboard.isDown 'down')
       @direction = math.atan2 @velocity.y, @velocity.x
       --limit to 8 directions
-      if true
+      if false
         @direction = util.multiple @direction, math.pi / 4
 
     _, _, cols = super\update dt
@@ -48,10 +49,17 @@ export class Player extends Physical
       @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
 
   keypressed: (key) =>
-    --shooting
     if key == 'x'
+      --shooting
       x, y = @world\getRect self
       Projectile @world, x + 20, y + 20, 10, 10, 800, @direction
+
+      --stabbing
+      @swordHitbox = {center: vector.new(x + 20, y + 20) + vector.new(@attackRange, 0)\rotated(@direction), drawAlpha: 255}
+      flux.to @swordHitbox, .5, {drawAlpha: 0}
+      for item in *@world\queryRect @swordHitbox.center.x - 20, @swordHitbox.center.y - 20, 40, 40
+        if item.__class == Enemy
+          item\takeDamage self
 
   draw: =>
     super\draw!
@@ -64,3 +72,9 @@ export class Player extends Physical
       .circle 'line', x + 20, y + 20, 20
       directionLine = vector.new(20, 0)\rotated(@direction)
       .line x + 20, y + 20, x + 20 + directionLine.x, y + 20 + directionLine.y
+
+    --show range of sword attack (debugging)
+    if @swordHitbox
+      with love.graphics
+        .setColor 255, 255, 255, @swordHitbox.drawAlpha
+        .rectangle 'fill', @swordHitbox.center.x - 20, @swordHitbox.center.y - 20, 40, 40

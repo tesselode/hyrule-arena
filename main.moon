@@ -5,10 +5,12 @@ love.load =  ->
   gamestate = require 'lib.hump.gamestate'
   bump = require 'lib.bump'
   util = require 'lib.util'
+  flux = require 'lib.flux'
 
   require 'class.physical'
   require 'class.projectile'
   require 'class.player'
+  require 'class.enemy'
   require 'class.map'
 
   require 'game'
@@ -16,3 +18,6 @@ love.load =  ->
   with gamestate
     .registerEvents!
     .switch Game
+
+love.update = (dt) ->
+  flux.update dt
