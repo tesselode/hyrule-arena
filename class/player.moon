@@ -40,7 +40,7 @@ export class Player extends Physical
       @velocity = @velocity\normalized! * @maxSpeed
 
     --find the direction the player is facing
-    if (love.keyboard.isDown 'left') or (love.keyboard.isDown 'right') or (love.keyboard.isDown 'up') or (love.keyboard.isDown 'down')
+    if love.keyboard.isDown 'left','right','up','down'
       @direction = math.atan2 @velocity.y, @velocity.x
       --limit to 8 directions
       if false
