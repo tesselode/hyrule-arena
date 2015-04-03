@@ -9,6 +9,9 @@ export Game = {
       item\update dt
 
   keypressed: (key) =>
+    if key == 'escape' -- change this later
+      love.event.quit!
+
     for item in *@world\getItems!
       item\keypressed key if item.keypressed
 
