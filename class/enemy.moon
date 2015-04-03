@@ -6,7 +6,16 @@ export class Enemy extends Physical
       if other.__class == Wall
         return 'slide'
       else
-        return false
+        return 'cross'
+
+  update: (dt) =>
+    collisions = super dt
+
+    for col in *collisions
+      other = col.other
+      if other.__class == Player
+        other\takeDamage self
+
 
   takeDamage: (other) =>
     if other.__class == Player

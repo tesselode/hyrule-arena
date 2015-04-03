@@ -13,9 +13,8 @@ export class Physical
   update: (dt) =>
     --movement
     x, y = @world\getRect self
-
-    -- will return newX, newY, cols, len
-    return @world\move self, x + @velocity.x * dt, y + @velocity.y * dt, @filter
+    _, _, cols = @world\move self, x + @velocity.x * dt, y + @velocity.y * dt, @filter
+    return cols
 
   draw: =>
     --draw hitboxes (debugging)

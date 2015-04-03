@@ -16,6 +16,8 @@ export class Player extends Physical
     @maxHealth = 10
     @health = @maxHealth
 
+    @ghostingTime = 0
+
     @filter = (other) =>
       if other.__class == Wall
         return 'slide'
@@ -49,20 +51,12 @@ export class Player extends Physical
       if false
         @direction = util.multiple @direction, math.pi / 4
 
-    _, _, cols = super\update dt
+    cols = super\update dt
 
     -- velocity resolution (weird stuff happens without it)
     -- for col in *cols
     --   @velocity.x = 0 if col.normal.x ~= 0 and col.normal.x ~= util.sign @velocity.x
     --   @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
-
-    for col in *cols
-      other = col.other
-      if other.__class == Enemy
-        thisCenter = vector @getCenter!
-        otherCenter = vector other\getCenter!
-        knockback = (thisCenter - otherCenter)\normalized!
-        @velocity = knockback * 1000
 
 
   keypressed: (key) =>
@@ -82,6 +76,12 @@ export class Player extends Physical
         for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
           if item.__class == Enemy
             item\takeDamage self
+
+  takeDamage: (other) =>
+    thisCenter = vector @getCenter!
+    otherCenter = vector other\getCenter!
+    knockback = (thisCenter - otherCenter)\normalized!
+    @velocity = knockback * 1000
 
   draw: =>
     super\draw!
