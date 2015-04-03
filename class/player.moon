@@ -48,8 +48,7 @@ export class Player extends Physical
     if love.keyboard.isDown 'left','right','up','down'
       @direction = math.atan2 @velocity.y, @velocity.x
       --limit to 8 directions
-      if false
-        @direction = util.multiple @direction, math.pi / 4
+      @direction = util.multiple @direction, math.pi / 4
 
     cols = super\update dt
 
