@@ -61,23 +61,22 @@ export class Player extends Physical
     --   @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
 
 
-  keypressed: (key) =>
-    if key == 'x'
-      --shooting
-      x, y, w, h = @world\getRect self
-      Projectile @world, x + w/2, y + h/2, 10, 10, 800, @direction
+  attack: =>
+    --shooting
+    x, y, w, h = @world\getRect self
+    Projectile @world, x + w/2, y + h/2, 10, 10, 800, @direction
 
-      --stabbing
+    --stabbing
 
-      with @swordHitbox
-        .center = vector.new(x + w/2, y + h/2) + vector.new(@attackRange, 0)\rotated(@direction)
-        .drawAlpha = 255
-        flux.to @swordHitbox, .5, drawAlpha: 0 --cosmetic debugging stuff
+    with @swordHitbox
+      .center = vector.new(x + w/2, y + h/2) + vector.new(@attackRange, 0)\rotated(@direction)
+      .drawAlpha = 255
+      flux.to @swordHitbox, .5, drawAlpha: 0 --cosmetic debugging stuff
 
-        --deal damage to any enemies in range
-        for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
-          if item.__class == Enemy
-            item\takeDamage self
+      --deal damage to any enemies in range
+      for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
+        if item.__class == Enemy
+          item\takeDamage self
 
   takeDamage: (other) =>
     knockback = (@getCenter! - other\getCenter!)\normalized!

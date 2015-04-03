@@ -16,8 +16,8 @@ export Game = {
     if key == 'escape' -- change this later
       love.event.quit!
 
-    for item in *@world\getItems!
-      item\keypressed key if item.keypressed
+    if key == 'x'
+      @map.player\attack!
 
   draw: =>
     --draw all instances
