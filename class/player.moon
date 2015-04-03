@@ -36,6 +36,9 @@ export class Player extends Physical
     --find the direction the player is facing
     if (love.keyboard.isDown 'left') or (love.keyboard.isDown 'right') or (love.keyboard.isDown 'up') or (love.keyboard.isDown 'down')
       @direction = math.atan2 @velocity.y, @velocity.x
+      --limit to 8 directions
+      if true
+        @direction = util.multiple @direction, math.pi / 4
 
     _, _, cols = super\update dt
 
