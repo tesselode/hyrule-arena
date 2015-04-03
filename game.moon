@@ -9,7 +9,7 @@ export Game = {
   update: (dt) =>
     --update all instances
     for item in *@world\getItems!
-      item\update dt
+      item\update dt if item.update
 
   keypressed: (key) =>
     if key == 'escape' -- change this later
@@ -21,5 +21,5 @@ export Game = {
   draw: =>
     --draw all instances
     for item in *@world\getItems!
-      item\draw!
+      item\draw! if item.draw
 }
