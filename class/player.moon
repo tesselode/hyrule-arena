@@ -7,7 +7,11 @@ export class Player extends Physical
     @direction = 0
     @canShoot = true
 
-    @filter = (other) => 'slide'
+    @filter = (other) =>
+      if other.id == 'wall'
+        return 'slide'
+      else
+        return false
 
   update: (dt) =>
     --movement

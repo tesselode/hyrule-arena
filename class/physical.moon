@@ -4,7 +4,8 @@ export class Physical
   new: (@world, x, y, w, h) =>
     @world\add self, x, y, w, h
     @velocity = vector.new 0, 0
-    @filter = (item, other) -> 'cross'
+    @filter = (other) => false
+    self --return new instance for further tweaking
 
   update: (dt) =>
     --movement
