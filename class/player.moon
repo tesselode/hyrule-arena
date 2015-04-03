@@ -41,11 +41,6 @@ export class Player extends Physical
       @velocity.y += @acceleration * dt
       dir.y = 1
 
-    --drag
-    with @velocity
-      .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
-      .y = util.interpolate .y, 0, dt * @drag
-
     --limit speed
     if @velocity\len! > @maxSpeed
       @velocity = @velocity\normalized! * @maxSpeed

@@ -4,7 +4,6 @@ export class Enemy extends Physical
 
     @isEnemy = true
     @knockback = false
-    @drag = 8
 
     --collision filter
     @filter = (other) =>
@@ -22,6 +21,7 @@ export class Enemy extends Physical
         .y = util.interpolate .y, 0, dt * @drag
       if math.abs(@velocity\len!) < 50
         @knockback = false
+        @drag = 0
 
     collisions = super dt
     for col in *collisions
@@ -37,3 +37,4 @@ export class Enemy extends Physical
       --knockback movement
       @knockback = true
       @velocity = vector.new(1000, 0)\rotated(other.direction)
+      @drag = 8

@@ -3,7 +3,8 @@ export class Physical
 
   new: (@world, x, y, w, h) =>
     @world\add self, x, y, w, h
-    @velocity = vector 0, 0
+    @velocity = vector!
+    @drag = 0
     @filter = (other) => false
 
   getCenter: =>
@@ -11,6 +12,11 @@ export class Physical
     vector x + w/2, y + h/2
 
   update: (dt) =>
+    --drag
+    with @velocity
+      .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
+      .y = util.interpolate .y, 0, dt * @drag
+
     --movement
     x, y = @world\getRect self
     _, _, cols = @world\move self, x + @velocity.x * dt, y + @velocity.y * dt, @filter
