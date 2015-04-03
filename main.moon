@@ -9,6 +9,7 @@ love.load =  ->
   require 'class.physical'
   require 'class.projectile'
   require 'class.player'
+  require 'class.map'
 
   require 'game'
 

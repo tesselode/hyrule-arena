@@ -2,6 +2,9 @@ export Game = {
   enter: =>
     @world = bump.newWorld!
     @player = Player @world, 400, 300
+    @map = Map @world
+
+    @map\addWall 200, 200, 100, 100
 
   update: (dt) =>
     --update all instances

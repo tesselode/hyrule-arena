@@ -7,6 +7,8 @@ export class Player extends Physical
     @direction = 0
     @canShoot = true
 
+    @filter = (other) => 'slide'
+
   update: (dt) =>
     --movement
     if love.keyboard.isDown 'left'
@@ -31,7 +33,12 @@ export class Player extends Physical
     if (love.keyboard.isDown 'left') or (love.keyboard.isDown 'right') or (love.keyboard.isDown 'up') or (love.keyboard.isDown 'down')
       @direction = math.atan2 @velocity.y, @velocity.x
 
-    super\update dt
+    _, _, cols = super\update dt
+
+    -- velocity resolution (weird stuff happens without it)
+    for col in *cols
+      @velocity.x = 0 if col.normal.x ~= 0 and col.normal.x ~= util.sign @velocity.x
+      @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
 
   keypressed: (key) =>
     --shooting
