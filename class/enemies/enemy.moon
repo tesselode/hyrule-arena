@@ -3,10 +3,10 @@ export class Enemy extends Physical
     super world, x, y, 40, 40
 
     @isEnemy = true
-    @velocity = vector!
     @knockback = false
     @drag = 8
 
+    --collision filter
     @filter = (other) =>
       if other.__class == Wall
         return 'slide'
@@ -20,7 +20,7 @@ export class Enemy extends Physical
       with @velocity
         .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
         .y = util.interpolate .y, 0, dt * @drag
-      if math.abs(@velocity\len!) < 10
+      if math.abs(@velocity\len!) < 50
         @knockback = false
 
     collisions = super dt
@@ -37,6 +37,3 @@ export class Enemy extends Physical
       --knockback movement
       @knockback = true
       @velocity = vector.new(1000, 0)\rotated(other.direction)
-
-  draw: =>
-    super\draw!

@@ -3,7 +3,7 @@ export class Physical
 
   new: (@world, x, y, w, h) =>
     @world\add self, x, y, w, h
-    @velocity = vector.new 0, 0
+    @velocity = vector 0, 0
     @filter = (other) => false
 
   getCenter: =>

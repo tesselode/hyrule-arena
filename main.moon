@@ -1,5 +1,5 @@
 love.load =  ->
-  math.randomseed os.time!
+  math.randomseed os.time! --isn't love supposed to do this automatically?
 
   export * -- globalizes all variables in this scope
 
@@ -26,5 +26,6 @@ love.load =  ->
     .switch Game
 
 love.update = (dt) ->
+  --update some libraries
   tick.update dt
   flux.update dt
