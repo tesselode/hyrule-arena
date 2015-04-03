@@ -12,6 +12,7 @@ love.load =  ->
   require 'class.projectile'
   require 'class.player'
   require 'class.enemy'
+  require 'class.enemies.follower'
   require 'class.map'
 
   require 'game'

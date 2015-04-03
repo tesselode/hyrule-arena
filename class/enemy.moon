@@ -3,7 +3,8 @@ export class Enemy extends Physical
     super world, x, y, 40, 40
 
     @velocity = vector!
-    @speed = 100
+    @knockback = false
+    @drag = 8
 
     @filter = (other) =>
       if other.__class == Wall
@@ -12,30 +13,27 @@ export class Enemy extends Physical
         return 'cross'
 
   update: (dt) =>
-    -- move towards the player
-    player = @map.player
-    @velocity = (player\getCenter! - @getCenter!)\normalized! * @speed
+    --knockback movement
+    if @knockback
+      --drag
+      with @velocity
+        .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
+        .y = util.interpolate .y, 0, dt * @drag
+      if math.abs(@velocity\len!) < 10
+        @knockback = false
 
     collisions = super dt
-
     for col in *collisions
       other = col.other
+      --damage the player
       if other.__class == Player
         other\takeDamage self
 
-
   takeDamage: (other) =>
     if other.__class == Player
-      --knockback movement tween
-      --get starting position
-      x, y, w, h = @world\getRect self
-      @tweenPosition = vector.new x + w/2, y + h/2
-      --get ending position
-      tweenGoal = @tweenPosition + vector.new(100, 0)\rotated(other.direction)
-      --perform the tween
-      @knockbackTween = flux.to(@tweenPosition, 0.3, {x: tweenGoal.x, y: tweenGoal.y})\onupdate(->
-        --move the bump object to match the tween
-        @world\move self, @tweenPosition.x - w/2, @tweenPosition.y - h/2, @filter)
+      --knockback movement
+      @knockback = true
+      @velocity = vector.new(1000, 0)\rotated(other.direction)
 
   draw: =>
     super\draw!

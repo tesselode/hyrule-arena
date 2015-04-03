@@ -5,5 +5,5 @@ export class Map
 	addWall: (x, y, w, h) =>
 		Wall @world, x, y, w, h
 
-	addEnemy: (x, y) =>
-		Enemy @world, self, x, y
+	addEnemy: (enemyType, x, y) =>
+		enemyType @world, self, x, y

@@ -5,7 +5,7 @@ export Game = {
 
     with @map
       \addWall 200, 200, 100, 100
-      \addEnemy 600, 500
+      \addEnemy Follower, 600, 500
 
   update: (dt) =>
     --update all instances

@@ -67,7 +67,6 @@ export class Player extends Physical
     Projectile @world, x + w/2, y + h/2, 10, 10, 800, @direction
 
     --stabbing
-
     with @swordHitbox
       .center = vector.new(x + w/2, y + h/2) + vector.new(@attackRange, 0)\rotated(@direction)
       .drawAlpha = 255
@@ -75,7 +74,7 @@ export class Player extends Physical
 
       --deal damage to any enemies in range
       for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
-        if item.__class == Enemy
+        if item.__class == Enemy or item.__class.__parent == Enemy
           item\takeDamage self
 
   takeDamage: (other) =>
