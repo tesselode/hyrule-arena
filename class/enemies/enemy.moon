@@ -29,6 +29,8 @@ export class Enemy extends Physical
       if other.__class == Player
         other\takeDamage self
 
+    return collisions
+
   takeDamage: (other) =>
     if other.__class == Player
       --knockback movement

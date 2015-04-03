@@ -5,7 +5,12 @@ export Game = {
 
     with @map
       \addWall 200, 200, 100, 100
-      \addEnemy Follower, 600, 500
+      --game border (temporary)
+      \addWall 0, 0, 1280, 20
+      \addWall 0, 700, 1280, 20
+      \addWall 0, 20, 20, 680
+      \addWall 1260, 20, 20, 680
+      \addEnemy Octorok, 600, 500
 
   update: (dt) =>
     --update all instances
