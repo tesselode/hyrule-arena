@@ -2,7 +2,7 @@ export class Player extends Physical
   new: (world, x, y) =>
     super world, x, y, 40, 40
     @acceleration = 2500
-    @drag = 10
+    @drag = 8
     @maxSpeed = 300
     @direction = 0
     @canShoot = true
@@ -10,14 +10,17 @@ export class Player extends Physical
 
     @swordHitbox =
       w: 40, h: 40
-      drawAlpha: 255
+      drawAlpha: 0
       center: vector.new!
+
+    @maxHealth = 10
+    @health = @maxHealth
 
     @filter = (other) =>
       if other.__class == Wall
         return 'slide'
       else
-        return false
+        return 'cross'
 
   update: (dt) =>
     --movement
@@ -52,6 +55,15 @@ export class Player extends Physical
     -- for col in *cols
     --   @velocity.x = 0 if col.normal.x ~= 0 and col.normal.x ~= util.sign @velocity.x
     --   @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
+
+    for col in *cols
+      other = col.other
+      if other.__class == Enemy
+        thisCenter = vector @getCenter!
+        otherCenter = vector other\getCenter!
+        knockback = (thisCenter - otherCenter)\normalized!
+        @velocity = knockback * 1000
+
 
   keypressed: (key) =>
     if key == 'x'

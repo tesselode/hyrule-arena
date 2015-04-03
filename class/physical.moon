@@ -6,6 +6,10 @@ export class Physical
     @velocity = vector.new 0, 0
     @filter = (other) => false
 
+  getCenter: =>
+    x, y, w, h = @world\getRect self
+    x + w/2, y + h/2
+
   update: (dt) =>
     --movement
     x, y = @world\getRect self
