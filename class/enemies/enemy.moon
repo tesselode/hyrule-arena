@@ -2,6 +2,7 @@ export class Enemy extends Physical
   new: (world, @map, x, y) =>
     super world, x, y, 40, 40
 
+    @isEnemy = true
     @velocity = vector!
     @knockback = false
     @drag = 8

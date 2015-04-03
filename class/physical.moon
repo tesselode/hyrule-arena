@@ -20,5 +20,8 @@ export class Physical
     --draw hitboxes (debugging)
     if @@drawHitbox
       with love.graphics
-        .setColor 255, 255, 255, 150
+        if @isEnemy
+          .setColor 255, 0, 0, 150
+        else
+          .setColor 255, 255, 255, 150
         .rectangle 'fill', @world\getRect self
