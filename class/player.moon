@@ -8,6 +8,11 @@ export class Player extends Physical
     @canShoot = true
     @attackRange = 40
 
+    @swordHitbox =
+      w: 40, h: 40
+      drawAlpha: 255
+      center: vector.new!
+
     @filter = (other) =>
       if other.__class == Wall
         return 'slide'
@@ -44,23 +49,27 @@ export class Player extends Physical
     _, _, cols = super\update dt
 
     -- velocity resolution (weird stuff happens without it)
-    --for col in *cols
-    --  @velocity.x = 0 if col.normal.x ~= 0 and col.normal.x ~= util.sign @velocity.x
-    --  @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
+    -- for col in *cols
+    --   @velocity.x = 0 if col.normal.x ~= 0 and col.normal.x ~= util.sign @velocity.x
+    --   @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
 
   keypressed: (key) =>
     if key == 'x'
       --shooting
-      x, y = @world\getRect self
-      Projectile @world, x + 20, y + 20, 10, 10, 800, @direction
+      x, y, w, h = @world\getRect self
+      Projectile @world, x + w/2, y + h/2, 10, 10, 800, @direction
 
       --stabbing
-      @swordHitbox = {center: vector.new(x + 20, y + 20) + vector.new(@attackRange, 0)\rotated(@direction), drawAlpha: 255}
-      flux.to @swordHitbox, .5, {drawAlpha: 0} --cosmetic debugging stuff
-      --deal damage to any enemies in range
-      for item in *@world\queryRect @swordHitbox.center.x - 20, @swordHitbox.center.y - 20, 40, 40
-        if item.__class == Enemy
-          item\takeDamage self
+
+      with @swordHitbox
+        .center = vector.new(x + w/2, y + h/2) + vector.new(@attackRange, 0)\rotated(@direction)
+        .drawAlpha = 255
+        flux.to @swordHitbox, .5, drawAlpha: 0 --cosmetic debugging stuff
+
+        --deal damage to any enemies in range
+        for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
+          if item.__class == Enemy
+            item\takeDamage self
 
   draw: =>
     super\draw!
@@ -69,13 +78,12 @@ export class Player extends Physical
     with love.graphics
       .setColor 255, 255, 255, 255
       .setLineWidth 3
-      x, y = @world\getRect self
-      .circle 'line', x + 20, y + 20, 20
+      x, y, w, h = @world\getRect self
+      .circle 'line', x + w/2, y + h/2, w/2
       directionLine = vector.new(20, 0)\rotated(@direction)
-      .line x + 20, y + 20, x + 20 + directionLine.x, y + 20 + directionLine.y
+      .line x + w/2, y + h/2, x + w/2 + directionLine.x, y + h/2 + directionLine.y
 
     --show range of sword attack (debugging)
-    if @swordHitbox
-      with love.graphics
-        .setColor 255, 255, 255, @swordHitbox.drawAlpha
-        .rectangle 'fill', @swordHitbox.center.x - 20, @swordHitbox.center.y - 20, 40, 40
+    with @swordHitbox
+      love.graphics.setColor 255, 255, 255, .drawAlpha
+      love.graphics.rectangle 'fill', .center.x - .w/2, .center.y - .h/2, .w, .h
