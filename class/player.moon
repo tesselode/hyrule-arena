@@ -9,7 +9,7 @@ export class Player extends Physical
     @attackRange = 40
 
     @filter = (other) =>
-      if other.id == 'wall'
+      if other.__class == Wall
         return 'slide'
       else
         return false
@@ -56,7 +56,8 @@ export class Player extends Physical
 
       --stabbing
       @swordHitbox = {center: vector.new(x + 20, y + 20) + vector.new(@attackRange, 0)\rotated(@direction), drawAlpha: 255}
-      flux.to @swordHitbox, .5, {drawAlpha: 0}
+      flux.to @swordHitbox, .5, {drawAlpha: 0} --cosmetic debugging stuff
+      --deal damage to any enemies in range
       for item in *@world\queryRect @swordHitbox.center.x - 20, @swordHitbox.center.y - 20, 40, 40
         if item.__class == Enemy
           item\takeDamage self

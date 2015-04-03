@@ -8,6 +8,7 @@ love.load =  ->
   flux = require 'lib.flux'
 
   require 'class.physical'
+  require 'class.wall'
   require 'class.projectile'
   require 'class.player'
   require 'class.enemy'

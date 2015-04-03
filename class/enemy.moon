@@ -3,7 +3,7 @@ export class Enemy extends Physical
     super world, x, y, 40, 40
     @velocity = vector.new(-50, -50)
     @filter = (other) =>
-      if other.id == 'wall'
+      if other.__class == Wall
         return 'slide'
       else
         return false
