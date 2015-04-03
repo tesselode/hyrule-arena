@@ -8,7 +8,7 @@ export class Physical
 
   getCenter: =>
     x, y, w, h = @world\getRect self
-    x + w/2, y + h/2
+    vector x + w/2, y + h/2
 
   update: (dt) =>
     --movement

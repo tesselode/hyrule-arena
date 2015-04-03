@@ -14,7 +14,7 @@ export class Enemy extends Physical
   update: (dt) =>
     -- move towards the player
     player = @map.player
-    @velocity = (vector(player\getCenter!) - vector(@getCenter!))\normalized! * @speed
+    @velocity = (player\getCenter! - @getCenter!)\normalized! * @speed
 
     collisions = super dt
 

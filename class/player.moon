@@ -78,9 +78,7 @@ export class Player extends Physical
             item\takeDamage self
 
   takeDamage: (other) =>
-    thisCenter = vector @getCenter!
-    otherCenter = vector other\getCenter!
-    knockback = (thisCenter - otherCenter)\normalized!
+    knockback = (@getCenter! - other\getCenter!)\normalized!
     @velocity = knockback * 1000
 
   draw: =>
