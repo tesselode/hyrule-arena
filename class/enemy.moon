@@ -1,7 +1,10 @@
 export class Enemy extends Physical
-  new: (world, x, y) =>
+  new: (world, @map, x, y) =>
     super world, x, y, 40, 40
-    @velocity = vector.new(-50, -50)
+
+    @velocity = vector!
+    @speed = 100
+
     @filter = (other) =>
       if other.__class == Wall
         return 'slide'
@@ -9,6 +12,10 @@ export class Enemy extends Physical
         return 'cross'
 
   update: (dt) =>
+    -- move towards the player
+    player = @map.player
+    @velocity = (vector(player\getCenter!) - vector(@getCenter!))\normalized! * @speed
+
     collisions = super dt
 
     for col in *collisions
