@@ -2,7 +2,7 @@ export class Player extends Physical
   new: (x, y) =>
     super x, y, 40, 40
     @acceleration = 2500
-    @drag = 1000
+    @drag = 10
     @maxSpeed = 300
     @direction = 0
     @canShoot = true
@@ -19,25 +19,9 @@ export class Player extends Physical
       @velocity.y += @acceleration * dt
 
     --drag
-    if @velocity.x < 0
-      @velocity.x += @drag * dt
-      if @velocity.x > 0
-        @velocity.x = 0
-
-    if @velocity.x > 0
-      @velocity.x -= @drag * dt
-      if @velocity.x < 0
-        @velocity.x = 0
-
-    if @velocity.y < 0
-      @velocity.y += @drag * dt
-      if @velocity.y > 0
-        @velocity.y = 0
-
-    if @velocity.y > 0
-      @velocity.y -= @drag * dt
-      if @velocity.y < 0
-        @velocity.y = 0
+    with @velocity
+      .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
+      .y = util.interpolate .y, 0, dt * @drag
 
     --limit speed
     if @velocity\len! > @maxSpeed

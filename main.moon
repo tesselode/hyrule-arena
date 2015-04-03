@@ -1,7 +1,10 @@
 love.load =  ->
-  export vector = require 'lib.hump.vector'
-  export gamestate = require 'lib.hump.gamestate'
-  export bump = require 'lib.bump'
+  export * -- globalizes all variables in this scope
+
+  vector = require 'lib.hump.vector'
+  gamestate = require 'lib.hump.gamestate'
+  bump = require 'lib.bump'
+  util = require 'lib.util'
 
   require 'class.physical'
   require 'class.projectile'
