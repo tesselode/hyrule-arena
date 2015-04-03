@@ -20,8 +20,8 @@ export class Octorok extends Enemy
         @velocity = vector.new(0, 0),
       3.5
     tick.delay ->
-        projectile = Projectile @world, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction,
-        projectile.isEnemy = true
+        projectile = Projectile @world, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
+        projectile.isEnemy = true,
       3.75
 
   update: (dt) =>
