@@ -1,6 +1,4 @@
 love.load =  ->
-  math.randomseed os.time! --isn't love supposed to do this automatically?
-
   export * -- globalizes all variables in this scope
 
   vector = require 'lib.hump.vector'
