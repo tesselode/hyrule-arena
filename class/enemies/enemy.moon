@@ -3,6 +3,7 @@ export class Enemy extends Physical
     super world, x, y, 40, 40
 
     @isEnemy = true
+    @inAir = false
     @knockback = false
 
     --collision filter
@@ -27,7 +28,7 @@ export class Enemy extends Physical
     for col in *collisions
       other = col.other
       --damage the player
-      if other.__class == Player
+      if @inAir == false and other.__class == Player
         other\takeDamage self
 
     return collisions

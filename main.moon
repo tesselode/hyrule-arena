@@ -1,6 +1,9 @@
 love.load =  ->
   export * -- globalizes all variables in this scope
 
+  images = {}
+  images.shadow = love.graphics.newImage 'images/shadow.png'
+
   vector = require 'lib.hump.vector'
   gamestate = require 'lib.hump.gamestate'
   bump = require 'lib.bump'
@@ -15,6 +18,7 @@ love.load =  ->
   require 'class.enemies.enemy'
   require 'class.enemies.follower'
   require 'class.enemies.octorok'
+  require 'class.enemies.tektite'
   require 'class.map'
 
   require 'game'

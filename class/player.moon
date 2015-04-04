@@ -70,7 +70,8 @@ export class Player extends Physical
       --deal damage to any enemies in range
       for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
         if item.__class == Enemy or item.__class.__parent == Enemy
-          item\takeDamage self
+          if not item.inAir
+            item\takeDamage self
 
   takeDamage: (other) =>
     knockback = (@getCenter! - other\getCenter!)\normalized!
@@ -81,14 +82,13 @@ export class Player extends Physical
 
     --debug stuff - shows which way the player is facing
     with love.graphics
-      .setColor 255, 255, 255, 255
+      .setColor 0, 0, 0, 255
       .setLineWidth 3
       x, y, w, h = @world\getRect self
-      .circle 'line', @getCenter!.x, @getCenter!.y, w/2
       directionLine = vector(w/2, 0)\rotated(@direction)
       .line @getCenter!.x, @getCenter!.y, @getCenter!.x + directionLine.x, @getCenter!.y + directionLine.y
 
     --show range of sword attack (debugging)
     with @swordHitbox
-      love.graphics.setColor 255, 255, 255, .drawAlpha
+      love.graphics.setColor 0, 0, 0, .drawAlpha
       love.graphics.rectangle 'fill', .center.x - .w/2, .center.y - .h/2, .w, .h

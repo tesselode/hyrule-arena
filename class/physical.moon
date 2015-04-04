@@ -5,6 +5,7 @@ export class Physical
     @world\add self, x, y, w, h
     @velocity = vector!
     @drag = 0
+    @z = 0
     @filter = (other) => false
 
   getCenter: =>
@@ -23,11 +24,17 @@ export class Physical
     return cols
 
   draw: =>
+    --draw shadow
+    with love.graphics
+      .setColor 255, 255, 255, 255
+      .draw images.shadow, @getCenter!.x, @getCenter!.y, 0, 1, 1, images.shadow\getWidth! / 2
+
     --draw hitboxes (debugging)
     if @@drawHitbox
       with love.graphics
         if @isEnemy
-          .setColor 255, 0, 0, 150
+          .setColor 255, 0, 0, 255
         else
-          .setColor 255, 255, 255, 150
-        .rectangle 'fill', @world\getRect self
+          .setColor 255, 255, 255, 255
+        x, y, w, h = @world\getRect self
+        .rectangle 'fill', x, y - @z, w, h
