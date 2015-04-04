@@ -45,7 +45,7 @@ function util.shuffle(array)
 end
 
 function util.trandom(array)
-	return array[math.random(#array)]
+	return array[love.math.random(#array)]
 end
 
 function util.sign(n)
