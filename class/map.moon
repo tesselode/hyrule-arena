@@ -11,11 +11,11 @@ export class Map
 		with @player
 			{:x, :y} = \getCenter!
 			_, _, width, height = .world\getRect @player
-			if x + width < rx and .velocity.x < 0
+			if x < rx and .velocity.x < 0
 				@exploreTo room.x - 1, room.y
 			elseif x >= rx + rw and .velocity.x > 0
 				@exploreTo room.x + 1, room.y
-			elseif y + height < ry and .velocity.y < 0
+			elseif y < ry and .velocity.y < 0
 				@exploreTo room.x, room.y - 1
 			elseif y >= ry + rh and .velocity.y > 0
 				@exploreTo room.x, room.y + 1
