@@ -3,14 +3,14 @@ export Game = {
     @world = bump.newWorld!
     @map = Map @world
 
-    with @map
-      \addWall 200, 200, 100, 100
-      \addEnemy Tektite, 600, 500
-      --game border (temporary)
-      \addWall 0, 0, 1280, 20
-      \addWall 0, 700, 1280, 20
-      \addWall 0, 20, 20, 680
-      \addWall 1260, 20, 20, 680
+    -- with @map
+    --   \addWall 200, 200, 100, 100
+    --   \addEnemy Tektite, 600, 500
+    --   --game border (temporary)
+    --   \addWall 0, 0, 1280, 20
+    --   \addWall 0, 700, 1280, 20
+    --   \addWall 0, 20, 20, 680
+    --   \addWall 1260, 20, 20, 680
 
     --temporary code so I can see shadows
     love.graphics.setBackgroundColor 100, 100, 100, 255

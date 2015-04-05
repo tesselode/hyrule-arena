@@ -20,6 +20,7 @@ love.load =  ->
   require 'class.enemies.octorok'
   require 'class.enemies.tektite'
   require 'class.map'
+  require 'class.room'
 
   require 'game'
 
