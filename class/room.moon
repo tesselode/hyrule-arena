@@ -2,7 +2,7 @@ random = love.math.random -- convenience
 
 export class Room
 	tileSize: 80
-	roomDensity: 6
+	roomDensity: 4
 	doorSize: 4
 
 	new: (@world, @x, @y) =>
@@ -34,7 +34,7 @@ export class Room
 		wallWidth = @roomWidth/2 - @doorSize/2
 		wallHeight = @roomHeight/2 - @doorSize/2
 		midX = @roomWidth/2 + @doorSize/2 + 1
-		midY = @roomHeight/2 + @doorSize/2
+		midY = @roomHeight/2 + @doorSize/2 + 1
 
 		-- top left
 		@addRoomTile 1, 1, wallWidth, 1
@@ -51,6 +51,9 @@ export class Room
 		-- bottom right
 		@addRoomTile midX, @roomHeight, wallWidth, 1
 		@addRoomTile @roomWidth, midY, 1, wallHeight
+
+		@doors =
+			left: @
 
 		-- generate some tiles
 		tx = random 2, @roomWidth - 1

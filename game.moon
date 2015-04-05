@@ -21,11 +21,10 @@ export Game = {
     for item in *@world\getItems!
       item\update dt if item.update
 
-    -- x, y = @map.rooms[1]\getWorldCenter!
-    -- @camera\lookAt x, y
+    @map\update dt
 
-    with @map.player\getCenter!
-      @camera\lookAt .x, .y
+    x, y = @map.currentRoom\getWorldCenter!
+    @camera\lookAt x, y
 
   keypressed: (key) =>
     if key == 'escape' -- change this later
