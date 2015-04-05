@@ -23,12 +23,13 @@ export class Physical
     _, _, cols = @world\move self, x + @velocity.x * dt, y + @velocity.y * dt, @filter
     return cols
 
-  draw: =>
+  drawShadow: =>
     --draw shadow
     with love.graphics
       .setColor 255, 255, 255, 255
       .draw images.shadow, @getCenter!.x, @getCenter!.y, 0, 1, 1, images.shadow\getWidth! / 2
 
+  draw: =>
     --draw hitboxes (debugging)
     if @@drawHitbox
       with love.graphics

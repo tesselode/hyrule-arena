@@ -22,9 +22,6 @@ export class Map
 			elseif y >= ry + rh and .velocity.y > 0
 				@exploreTo room.x, room.y + 1
 
-	addWall: (x, y, w, h) =>
-		Wall @world, x, y, w, h
-
 	addEnemy: (enemyType, x, y) =>
 		enemyType @world, self, x, y
 
@@ -40,3 +37,13 @@ export class Map
 		@currentRoom = @getRoomAt(x, y) or @addRoom x, y
 
 	getRoomAt: (x, y) => @rooms[x] and @rooms[x][y] or nil
+
+	draw: =>
+		-- here we'd probably also draw the shadow of everything else as well
+		@player\drawShadow!
+
+		for i,row in pairs @rooms
+			for j,room in pairs row
+				room\draw!
+
+		@player\draw!

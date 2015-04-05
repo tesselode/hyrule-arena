@@ -37,8 +37,10 @@ export Game = {
     @camera\attach!
 
     --draw all instances
-    for item in *@world\getItems!
-      item\draw! if item.draw
+    -- for item in *@world\getItems!
+    --   item\draw! if item.draw
+
+    @map\draw!
 
     @camera\detach!
 

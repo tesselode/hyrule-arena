@@ -52,9 +52,6 @@ export class Room
 		@addRoomTile midX, @roomHeight, wallWidth, 1
 		@addRoomTile @roomWidth, midY, 1, wallHeight
 
-		@doors =
-			left: @
-
 		-- generate some tiles
 		tx = random 2, @roomWidth - 1
 		ty = random 2, @roomHeight - 1
