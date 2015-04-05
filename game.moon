@@ -21,6 +21,9 @@ export Game = {
     for item in *@world\getItems!
       item\update dt if item.update
 
+    -- x, y = @map.rooms[1]\getWorldCenter!
+    -- @camera\lookAt x, y
+
     with @map.player\getCenter!
       @camera\lookAt .x, .y
 

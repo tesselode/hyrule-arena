@@ -1,12 +1,14 @@
-export class Room
-	random = love.math.random -- convenience
+random = love.math.random -- convenience
 
-	roomWidth: 20
-	roomHeight: 11
-	tileSize: 64
+export class Room
+	tileSize: 80
 	roomDensity: 6
+	doorSize: 4
 
 	new: (@world, @x, @y) =>
+		w, h = love.graphics.getDimensions!
+		@roomWidth  = math.floor w / @tileSize
+		@roomHeight = math.floor h / @tileSize
 		@generateRoom!
 
 	getWorldSize: =>
@@ -28,11 +30,27 @@ export class Room
 	generateRoom: =>
 		@tiles = {}
 
-		-- outer walls
-		@addRoomTile 1, 1, 1, @roomHeight          -- left
-		@addRoomTile 1, 1, @roomWidth, 1           -- top
-		@addRoomTile @roomWidth, 1, 1, @roomHeight -- right
-		@addRoomTile 1, @roomHeight, @roomWidth, 1 -- bottom
+		-- outer wall calculations
+		wallWidth = @roomWidth/2 - @doorSize/2
+		wallHeight = @roomHeight/2 - @doorSize/2
+		midX = @roomWidth/2 + @doorSize/2 + 1
+		midY = @roomHeight/2 + @doorSize/2
+
+		-- top left
+		@addRoomTile 1, 1, wallWidth, 1
+		@addRoomTile 1, 1, 1, wallHeight
+
+		-- top right
+		@addRoomTile midX, 1, wallWidth, 1
+		@addRoomTile @roomWidth, 1, 1, wallHeight
+
+		-- bottom left
+		@addRoomTile 1, @roomHeight, wallWidth, 1
+		@addRoomTile 1, midY, 1, wallHeight
+
+		-- bottom right
+		@addRoomTile midX, @roomHeight, wallWidth, 1
+		@addRoomTile @roomWidth, midY, 1, wallHeight
 
 		-- generate some tiles
 		tx = random 2, @roomWidth - 1
@@ -45,7 +63,7 @@ export class Room
 			@addRoomTile @roomWidth/2 + (@roomWidth/2 - tx) + 1, ty, 1, 1
 
 			-- the math here is done so we never get two tiles in the same position
-			-- we're not going to bother doing it so it checks for mirrored blocks
+			-- we're not going to bother checking for mirrored blocks
 			tx += random @roomWidth - 2
 			ty += random @roomHeight - 2
 
@@ -55,10 +73,10 @@ export class Room
 	addRoomTile: (tx, ty, tw, th) =>
 		wx, wy = @getWorldPosition!
 		table.insert @tiles, Wall @world,
-			wx + (tx - 1) * @tileSize,
-			wy + (ty - 1) * @tileSize,
-			tw * @tileSize,
-			th * @tileSize
+			wx + util.multiple(tx - 1) * @tileSize,
+			wy + util.multiple(ty - 1) * @tileSize,
+			util.multiple(tw) * @tileSize,
+			util.multiple(th) * @tileSize
 
 	draw: =>
 		tile\draw! for tile in *@tiles
