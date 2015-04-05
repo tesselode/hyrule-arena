@@ -24,7 +24,7 @@ export Game = {
     @map\update dt
 
     x, y = @map.currentRoom\getWorldCenter!
-    @camera\lookAt x, y
+    @camera\lookAt util.interpolate(@camera.x, x, dt * 7), util.interpolate(@camera.y, y, dt * 7)
 
   keypressed: (key) =>
     if key == 'escape' -- change this later
