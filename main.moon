@@ -6,6 +6,7 @@ love.load =  ->
 
   vector = require 'lib.hump.vector'
   gamestate = require 'lib.hump.gamestate'
+  camera = require 'lib.hump.camera'
   bump = require 'lib.bump'
   util = require 'lib.util'
   tick = require 'lib.tick'

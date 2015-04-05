@@ -4,9 +4,14 @@ export class Room
 	roomWidth: 20
 	roomHeight: 11
 	tileSize: 64
-	density: 6
+	roomDensity: 6
 
-	new: (@world) =>
+	new: (@world, @x, @y) =>
+		@generateRoom!
+
+	generateRoom: =>
+		@tiles = {}
+
 		-- outer walls
 		@addRoomTile 1, 1, 1, @roomHeight          -- left
 		@addRoomTile 1, 1, @roomWidth, 1           -- top
@@ -17,7 +22,7 @@ export class Room
 		tx = random 2, @roomWidth - 1
 		ty = random 2, @roomHeight - 1
 
-		for i=1, @density
+		for i=1, @roomDensity
 			@addRoomTile tx, ty, 1, 1
 
 			-- mirror it across the vertical room center
@@ -32,8 +37,11 @@ export class Room
 			if ty > @roomHeight - 1 then ty -= @roomHeight - 2
 
 	addRoomTile: (tx, ty, tw, th) =>
-		Wall @world,
-			(tx - 1) * @tileSize,
-			(ty - 1) * @tileSize,
+		table.insert @tiles, Wall @world,
+			@x * @roomWidth * @tileSize + (tx - 1) * @tileSize,
+			@y * @roomHeight * @tileSize + (ty - 1) * @tileSize,
 			tw * @tileSize,
 			th * @tileSize
+
+	draw: =>
+		tile\draw! for tile in *@tiles
