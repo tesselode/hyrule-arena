@@ -2,9 +2,7 @@ export class Map
 	new: (@world) =>
 		@player = Player @world, 400, 300
 		@rooms = {}
-		@currentRoom = nil
-
-		@addRoom 0, 0
+		@currentRoom = @addRoom 0, 0
 
 	update: (dt) =>
 		room = @currentRoom
@@ -27,10 +25,8 @@ export class Map
 
 	addRoom: (x, y) =>
 		newRoom = Room @world, x, y
-
 		@rooms[x] or= {}
 		@rooms[x][y] = newRoom
-		@currentRoom or= newRoom
 		newRoom
 
 	exploreTo: (x, y) =>
