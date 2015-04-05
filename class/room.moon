@@ -9,6 +9,22 @@ export class Room
 	new: (@world, @x, @y) =>
 		@generateRoom!
 
+	getWorldSize: =>
+		@roomWidth * @tileSize, @roomHeight * @tileSize
+
+	getWorldPosition: =>
+		w, h = @getWorldSize!
+		@x * w, @y * h
+
+	getWorldRect: =>
+		x, y = @getWorldPosition!
+		w, h = @getWorldSize!
+		x, y, w, h
+
+	getWorldCenter: =>
+		x, y, w, h = @getWorldRect!
+		x + w/2, y + h/2
+
 	generateRoom: =>
 		@tiles = {}
 
@@ -37,9 +53,10 @@ export class Room
 			if ty > @roomHeight - 1 then ty -= @roomHeight - 2
 
 	addRoomTile: (tx, ty, tw, th) =>
+		wx, wy = @getWorldPosition!
 		table.insert @tiles, Wall @world,
-			@x * @roomWidth * @tileSize + (tx - 1) * @tileSize,
-			@y * @roomHeight * @tileSize + (ty - 1) * @tileSize,
+			wx + (tx - 1) * @tileSize,
+			wy + (ty - 1) * @tileSize,
 			tw * @tileSize,
 			th * @tileSize
 
