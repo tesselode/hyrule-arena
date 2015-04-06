@@ -50,5 +50,7 @@ export class Map
 		--for enemy in *@enemies do
 		--	enemy\draw!
 
-		for object in *@world\getItems!
-			object\draw!
+		objects = @world\getItems!
+		table.sort objects, (a, b) -> return a.depth < b.depth --sort objects by drawing order
+		for object in *objects
+			object\draw! if object.draw
