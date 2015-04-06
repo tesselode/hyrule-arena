@@ -21,7 +21,7 @@ export class Enemy extends Physical
     --knockback movement
     if @knockback
       @drag = 8
-      if math.abs(@velocity\len!) < 50
+      if @velocity\len! < 50
         @knockback = false
         @drag = 0
         @velocity = @velocityPrev
