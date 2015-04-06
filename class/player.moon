@@ -15,8 +15,10 @@ export class Player extends Physical
 
     @maxHealth = 10
     @health = @maxHealth
-
-    @ghostingTime = 0
+    @ghosting = false
+    @ghostingTime = 1
+    @ghostingVisible = true
+    tick.recur (-> @ghostingVisible = not @ghostingVisible), .08
 
     --collision filter
     @filter = (other) =>
@@ -74,11 +76,15 @@ export class Player extends Physical
             item\takeDamage self
 
   takeDamage: (other) =>
-    knockback = (@getCenter! - other\getCenter!)\normalized!
-    @velocity = knockback * 1000
+    if not @ghosting
+      knockback = (@getCenter! - other\getCenter!)\normalized!
+      @velocity = knockback * 1000
+      @ghosting = true
+      tick.delay (-> @ghosting = false), @ghostingTime
 
   draw: =>
-    super\draw!
+    if (not @ghosting) or (@ghostingVisible)
+      super\draw!
 
     --debug stuff - shows which way the player is facing
     with love.graphics
