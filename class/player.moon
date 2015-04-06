@@ -67,9 +67,10 @@ export class Player extends Physical
     cols = super\update dt
 
     -- velocity resolution (weird stuff happens without it)
-    --for col in *cols
-    --  @velocity.x = 0 if col.normal.x ~= 0 and col.normal.x ~= util.sign @velocity.x
-    --  @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
+    for col in *cols
+      if col.other.__class == Wall
+        @velocity.x = 0 if col.normal.x ~= 0 and col.normal.x ~= util.sign @velocity.x
+        @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
 
 
   attack: =>
