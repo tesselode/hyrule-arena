@@ -27,6 +27,8 @@ export class Player extends Physical
       else
         return 'cross'
 
+    @drawShadow = true
+
   update: (dt) =>
     --movement
     dir = vector!

@@ -7,6 +7,7 @@ export class Physical
     @drag = 0
     @z = 0
     @filter = (other) => false
+    @drawShadow = false
 
   getCenter: =>
     x, y, w, h = @world\getRect self
@@ -23,13 +24,13 @@ export class Physical
     _, _, cols = @world\move self, x + @velocity.x * dt, y + @velocity.y * dt, @filter
     return cols
 
-  drawShadow: =>
-    --draw shadow
-    with love.graphics
-      .setColor 255, 255, 255, 255
-      .draw images.shadow, @getCenter!.x, @getCenter!.y, 0, 1, 1, images.shadow\getWidth! / 2
-
   draw: =>
+    --draw shadow
+    if @drawShadow
+      with love.graphics
+        .setColor 255, 255, 255, 255
+        .draw images.shadow, @getCenter!.x, @getCenter!.y, 0, 1, 1, images.shadow\getWidth! / 2
+
     --draw hitboxes (debugging)
     if @@drawHitbox
       with love.graphics

@@ -13,6 +13,8 @@ export class Enemy extends Physical
       else
         return 'cross'
 
+    @drawShadow = true
+
   update: (dt) =>
     --knockback movement
     if @knockback
