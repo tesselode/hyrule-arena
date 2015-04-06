@@ -3,6 +3,7 @@ export Game = {
     @world = bump.newWorld!
     @map = Map @world
     @camera = camera.new!
+    @map\addEnemy Octorok, 300, 300
 
     -- with @map
     --   \addWall 200, 200, 100, 100
