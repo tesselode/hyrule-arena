@@ -16,6 +16,7 @@ export class Player extends Physical
 
     @maxHealth = 10
     @health = @maxHealth
+    @damage = 1
     @ghosting = false
     @ghostingTime = 1
     @ghostingVisible = true
@@ -82,10 +83,12 @@ export class Player extends Physical
       for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
         if item.__class == Enemy or item.__class.__parent == Enemy
           if not item.inAir
-            item\takeDamage self
+            item\takeDamage self, @damage
 
   takeDamage: (other) =>
     if not @ghosting
+      @health -= other.damage
+      --knockback stuff
       knockbackVector = (@getCenter! - other\getCenter!)\normalized!
       @velocity = knockbackVector * 650
       @knockback = true
