@@ -2,6 +2,7 @@ export class Player extends Physical
   new: (world, x, y) =>
     super world, x, y, 40, 40
 
+    --movement stuff
     @acceleration = 2500
     @drag = 8
     @maxSpeed = 300
@@ -14,6 +15,7 @@ export class Player extends Physical
       drawAlpha: 0
       center: vector!
 
+    --health and damage stuff
     @maxHealth = 10
     @health = @maxHealth
     @damage = 1
@@ -29,6 +31,7 @@ export class Player extends Physical
       else
         return 'cross'
 
+    --cosmetic
     @drawShadow = true
 
   update: (dt) =>
@@ -56,7 +59,7 @@ export class Player extends Physical
       if dir ~= vector 0,0
         @direction = dir\normalized!\angleTo!
 
-    --knockback movement tweaks
+    --knockback movement
     if @knockback
       if @velocity\len! < 100
         @knockback = false
@@ -70,14 +73,15 @@ export class Player extends Physical
 
 
   attack: =>
-    --shooting
-    Projectile @world, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
+    --full health beam
+    if @health == @maxHealth
+      Projectile @world, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
 
     --stabbing
     with @swordHitbox
       .center = @getCenter! + vector(@attackRange, 0)\rotated(@direction)
       .drawAlpha = 255
-      flux.to @swordHitbox, .5, drawAlpha: 0 --cosmetic debugging stuff
+      flux.to @swordHitbox, .5, drawAlpha: 0 --delete me when the game actually has graphics
 
       --deal damage to any enemies in range
       for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
