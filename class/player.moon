@@ -7,6 +7,7 @@ export class Player extends Physical
     @maxSpeed = 300
     @direction = 0
     @attackRange = 40
+    @knockback = false
 
     @swordHitbox =
       w: 40, h: 40
@@ -30,35 +31,43 @@ export class Player extends Physical
     @drawShadow = true
 
   update: (dt) =>
-    --movement
-    dir = vector!
-    if love.keyboard.isDown 'left'
-      @velocity.x -= @acceleration * dt
-      dir.x = -1
-    if love.keyboard.isDown 'right'
-      @velocity.x += @acceleration * dt
-      dir.x = 1
-    if love.keyboard.isDown 'up'
-      @velocity.y -= @acceleration * dt
-      dir.y = -1
-    if love.keyboard.isDown 'down'
-      @velocity.y += @acceleration * dt
-      dir.y = 1
+    if not @knockback
+      --movement
+      dir = vector!
+      if love.keyboard.isDown 'left'
+        @velocity.x -= @acceleration * dt
+        dir.x = -1
+      if love.keyboard.isDown 'right'
+        @velocity.x += @acceleration * dt
+        dir.x = 1
+      if love.keyboard.isDown 'up'
+        @velocity.y -= @acceleration * dt
+        dir.y = -1
+      if love.keyboard.isDown 'down'
+        @velocity.y += @acceleration * dt
+        dir.y = 1
 
-    --limit speed
-    if @velocity\len! > @maxSpeed
-      @velocity = @velocity\normalized! * @maxSpeed
+      --limit speed
+      if @velocity\len! > @maxSpeed
+        @velocity = @velocity\normalized! * @maxSpeed
 
-    --find the direction the player is facing
-    if dir ~= vector 0,0
-      @direction = dir\normalized!\angleTo!
+      --find the direction the player is facing
+      if dir ~= vector 0,0
+        @direction = dir\normalized!\angleTo!
+
+    --knockback movement tweaks
+    if @knockback
+      @drag = 8
+      if @velocity\len! < 100
+        @knockback = false
+        @drag = 8
 
     cols = super\update dt
 
     -- velocity resolution (weird stuff happens without it)
-    for col in *cols
-      @velocity.x = 0 if col.normal.x ~= 0 and col.normal.x ~= util.sign @velocity.x
-      @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
+    --for col in *cols
+    --  @velocity.x = 0 if col.normal.x ~= 0 and col.normal.x ~= util.sign @velocity.x
+    --  @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
 
 
   attack: =>
@@ -79,8 +88,9 @@ export class Player extends Physical
 
   takeDamage: (other) =>
     if not @ghosting
-      knockback = (@getCenter! - other\getCenter!)\normalized!
-      @velocity = knockback * 1000
+      knockbackVector = (@getCenter! - other\getCenter!)\normalized!
+      @velocity = knockbackVector * 800
+      @knockback = true
       @ghosting = true
       tick.delay (-> @ghosting = false), @ghostingTime
 
