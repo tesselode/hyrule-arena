@@ -22,7 +22,7 @@ export class Player extends Physical
     @ghosting = false
     @ghostingTime = 1
     @ghostingVisible = true
-    tick.recur (-> @ghostingVisible = not @ghostingVisible), .08
+    @timer\recur (-> @ghostingVisible = not @ghostingVisible), .08
 
     --collision filter
     @filter = (other) =>
@@ -98,7 +98,7 @@ export class Player extends Physical
       @velocity = knockbackVector * 650
       @knockback = true
       @ghosting = true
-      tick.delay (-> @ghosting = false), @ghostingTime
+      @timer\delay (-> @ghosting = false), @ghostingTime
 
   draw: =>
     if (not @ghosting) or (@ghostingVisible)

@@ -6,20 +6,20 @@ export class Octorok extends Enemy
 
     --loop movement pattern
     @movementPattern!
-    tick.recur (-> @movementPattern!), 4
+    @timer\recur (-> @movementPattern!), 4
 
   switchDirection: =>
     @velocity = vector.new(@speed, 0)\rotated util.trandom {0, math.pi / 2, math.pi, -math.pi / 2}
 
   movementPattern: =>
     @switchDirection!
-    tick.delay ->
+    @timer\delay ->
         @switchDirection!,
       2
-    tick.delay ->
+    @timer\delay ->
         @velocity = vector.new(0, 0),
       3.5
-    tick.delay ->
+    @timer\delay ->
         projectile = Projectile @world, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
         projectile.isEnemy = true,
       3.75

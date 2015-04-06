@@ -12,6 +12,7 @@ love.load =  ->
   tick = require 'lib.tick'
   flux = require 'lib.flux'
 
+  require 'class.common'
   require 'class.physical'
   require 'class.wall'
   require 'class.projectile'

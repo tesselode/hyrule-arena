@@ -3,7 +3,7 @@ export class Tektite extends Enemy
     super world, map, x, y
 
     --jumping pattern
-    tick.recur ->
+    @timer\recur ->
         @inAir = true
         flux.to(self, .5, {z: 100})\oncomplete(->
           flux.to(self, .5, {z: 0})\ease('quadin')\oncomplete(->

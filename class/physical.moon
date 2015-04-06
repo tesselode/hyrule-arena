@@ -1,7 +1,8 @@
-export class Physical
+export class Physical extends Common
   drawHitbox: true
 
   new: (@world, x, y, w, h) =>
+    super!
     @world\add self, x, y, w, h
     @velocity = vector!
     @drag = 0
@@ -14,6 +15,8 @@ export class Physical
     vector x + w/2, y + h/2
 
   update: (dt) =>
+    super\update dt
+
     --drag
     with @velocity
       .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
