@@ -38,27 +38,33 @@ export class Player extends Physical
   update: (dt) =>
     if not @knockback
       --movement
-      dir = vector!
       if love.keyboard.isDown 'left'
-        @velocity.x -= @acceleration * dt
-        dir.x = -1
+        if not love.keyboard.isDown 'right'
+          @velocity.x -= @acceleration * dt
+        if not love.keyboard.isDown 'up', 'down'
+          @direction = math.pi
+
       if love.keyboard.isDown 'right'
-        @velocity.x += @acceleration * dt
-        dir.x = 1
+        if not love.keyboard.isDown 'left'
+          @velocity.x += @acceleration * dt
+        if not love.keyboard.isDown 'up', 'down'
+          @direction = 0
+
       if love.keyboard.isDown 'up'
-        @velocity.y -= @acceleration * dt
-        dir.y = -1
+        if not love.keyboard.isDown 'down'
+          @velocity.y -= @acceleration * dt
+        if not love.keyboard.isDown 'left', 'right'
+          @direction = -math.pi / 2
+
       if love.keyboard.isDown 'down'
-        @velocity.y += @acceleration * dt
-        dir.y = 1
+        if not love.keyboard.isDown 'up'
+          @velocity.y += @acceleration * dt
+        if not love.keyboard.isDown 'left', 'right'
+          @direction = math.pi / 2
 
       --limit speed
       if @velocity\len! > @maxSpeed
         @velocity = @velocity\normalized! * @maxSpeed
-
-      --find the direction the player is facing
-      if dir ~= vector 0,0
-        @direction = dir\normalized!\angleTo!
 
     --knockback movement
     if @knockback
