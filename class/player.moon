@@ -89,7 +89,7 @@ export class Player extends Physical
     with @swordHitbox
       .center = @getCenter! + vector(@attackRange, 0)\rotated(@direction)
       .drawAlpha = 255
-      flux.to @swordHitbox, .5, drawAlpha: 0 --delete me when the game actually has graphics
+      @tween\to @swordHitbox, .5, drawAlpha: 0 --delete me when the game actually has graphics
 
       --deal damage to any enemies in range
       for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
