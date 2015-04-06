@@ -18,13 +18,11 @@ export class Enemy extends Physical
   update: (dt) =>
     --knockback movement
     if @knockback
-      --drag
-      with @velocity
-        .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
-        .y = util.interpolate .y, 0, dt * @drag
+      @drag = 8
       if math.abs(@velocity\len!) < 50
         @knockback = false
         @drag = 0
+        @velocity = @velocityPrev
 
     collisions = super dt
     for col in *collisions
@@ -39,5 +37,5 @@ export class Enemy extends Physical
     if other.__class == Player
       --knockback movement
       @knockback = true
-      @velocity = vector.new(1000, 0)\rotated(other.direction)
-      @drag = 8
+      @velocityPrev = @velocity
+      @velocity = vector.new(800, 0)\rotated(other.direction)

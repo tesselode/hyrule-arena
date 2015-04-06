@@ -57,10 +57,8 @@ export class Player extends Physical
 
     --knockback movement tweaks
     if @knockback
-      @drag = 8
       if @velocity\len! < 100
         @knockback = false
-        @drag = 8
 
     cols = super\update dt
 
@@ -89,7 +87,7 @@ export class Player extends Physical
   takeDamage: (other) =>
     if not @ghosting
       knockbackVector = (@getCenter! - other\getCenter!)\normalized!
-      @velocity = knockbackVector * 800
+      @velocity = knockbackVector * 650
       @knockback = true
       @ghosting = true
       tick.delay (-> @ghosting = false), @ghostingTime
