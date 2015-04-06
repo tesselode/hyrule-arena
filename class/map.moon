@@ -3,7 +3,6 @@ export class Map
 		@player = Player @world, 400, 300
 		@rooms = {}
 		@currentRoom = @addRoom 0, 0
-		@enemies = {}
 
 	update: (dt) =>
 		room = @currentRoom
@@ -22,7 +21,7 @@ export class Map
 				@exploreTo room.x, room.y + 1
 
 	addEnemy: (enemyType, x, y) =>
-		table.insert @enemies, enemyType @world, self, x, y
+		enemyType @world, self, x, y
 
 	addRoom: (x, y) =>
 		newRoom = Room @world, x, y
@@ -37,16 +36,19 @@ export class Map
 
 	draw: =>
 		-- here we'd probably also draw the shadow of everything else as well
-		@player\drawShadow!
+		--@player\drawShadow!
 
-		for enemy in *@enemies do
-			enemy\drawShadow!
+		--for enemy in *@enemies do
+		--	enemy\drawShadow!
 
-		for i,row in pairs @rooms
-			for j,room in pairs row
-				room\draw!
+		--for i,row in pairs @rooms
+		--	for j,room in pairs row
+		--		room\draw!
 
-		@player\draw!
+		--@player\draw!
 
-		for enemy in *@enemies do
-			enemy\draw!
+		--for enemy in *@enemies do
+		--	enemy\draw!
+
+		for object in *@world\getItems!
+			object\draw!
