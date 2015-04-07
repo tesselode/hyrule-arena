@@ -21,6 +21,7 @@ export Game = {
     --update all instances
     for item in *@world\getItems!
       if item.delete then
+        item\onDelete! if item.onDelete
         @world\remove item
       else
         item\update dt if item.update

@@ -7,7 +7,7 @@ export class Physical extends Common
     @velocity = vector!
     @drag = 0
     @z = 0
-    @filter = (other) => false
+    @filter = (other) => 'cross'
     @drawShadow = false
 
   getCenter: =>
@@ -15,7 +15,7 @@ export class Physical extends Common
     vector x + w/2, y + h/2
 
   update: (dt) =>
-    super\update dt
+    super dt
 
     --drag
     with @velocity
@@ -43,3 +43,10 @@ export class Physical extends Common
           .setColor 255, 255, 255, 255
         x, y, w, h = @world\getRect self
         .rectangle 'fill', x, y - @z, w, h
+
+    --draw image
+    if @image
+      with love.graphics
+        .setColor 255, 255, 255, 255
+        x, y, w, h = @world\getRect self
+        .draw @image, x, y

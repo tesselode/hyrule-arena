@@ -3,6 +3,7 @@ love.load =  ->
 
   images = {}
   images.shadow = love.graphics.newImage 'images/shadow.png'
+  images.gemBlue = love.graphics.newImage 'images/placeholder/gemBlue.png'
 
   vector = require 'lib.hump.vector'
   gamestate = require 'lib.hump.gamestate'
@@ -16,6 +17,7 @@ love.load =  ->
   require 'class.physical'
   require 'class.wall'
   require 'class.projectile'
+  require 'class.gem'
   require 'class.player'
   require 'class.enemies.enemy'
   require 'class.enemies.follower'

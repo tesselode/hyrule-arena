@@ -71,7 +71,7 @@ export class Player extends Physical
       if @velocity\len! < 100
         @knockback = false
 
-    cols = super\update dt
+    cols = super dt
 
     -- velocity resolution (weird stuff happens without it)
     for col in *cols

@@ -37,6 +37,10 @@ export class Octorok extends Enemy
     if @velocity\len! != 0
       @direction = math.atan2 @velocity.y, @velocity.x
 
+  onDelete: =>
+    for i = 1, 5
+      Gem @world, @getCenter!.x, @getCenter!.y
+
   draw: =>
     super\draw!
 
