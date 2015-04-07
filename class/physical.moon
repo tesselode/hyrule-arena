@@ -7,6 +7,7 @@ export class Physical extends Common
     @z = 0
     @velocity = vector!
     @drag = 0
+    @delete = false
 
     @filter = (other) => 'cross'
 
@@ -52,3 +53,5 @@ export class Physical extends Common
         .setColor 255, 255, 255, 255
         x, y, w, h = @world\getRect self
         .draw @image, x, y
+
+  onDelete: =>

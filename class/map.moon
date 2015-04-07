@@ -9,10 +9,11 @@ export class Map
 	update: (dt) =>
 		--update all instances
 		for item in *@world\getItems!
-			item\update dt if item.update
 			if item.delete
-				item\onDelete! if item.onDelete
+				item\onDelete!
 				@world\remove item
+			else
+				item\update dt
 
 		--keep track of which room the player is in
 		room = @currentRoom
@@ -46,4 +47,4 @@ export class Map
 		objects = @world\getItems!
 		table.sort objects, (a, b) -> return a.depth < b.depth --sort objects by drawing order
 		for object in *objects
-			object\draw! if object.draw
+			object\draw!
