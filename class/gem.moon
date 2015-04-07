@@ -6,6 +6,20 @@ export class Gem extends Physical
     @velocity = vector.new(love.math.random(500, 1000), 0)\rotated(math.random(2 * math.pi))
     @drag = 8
 
+    @filter = (other) =>
+      if other.__class == Wall
+        return 'slide'
+      else
+        return false
+    --allow the player to pick up gems after a certain time period
+    @timer\delay (->
+      @filter = (other) =>
+        if other.__class == Wall
+          return 'slide'
+        else
+          return 'cross'),
+      .5
+
     @image = images.gemBlue
     @depth = 50
 
