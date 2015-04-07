@@ -3,6 +3,7 @@ export class Map
 		@world = bump.newWorld!
 		@player = Player @world, 400, 300
 		@rooms = {}
+		@currentLevel = 1
 		@currentRoom = @addRoom 0, 0
 		Octorok @world, 300, 300
 
@@ -32,9 +33,10 @@ export class Map
 				@exploreTo room.x, room.y + 1
 
 	addRoom: (x, y) =>
-		newRoom = Room @world, x, y
+		newRoom = Room @world, x, y, @currentLevel
 		@rooms[x] or= {}
 		@rooms[x][y] = newRoom
+		@currentLevel += 1/3
 		newRoom
 
 	exploreTo: (x, y) =>

@@ -5,7 +5,7 @@ export class Room
 	roomDensity: 4
 	doorSize: 4
 
-	new: (@world, @x, @y) =>
+	new: (@world, @x, @y, @level) =>
 		w, h = love.graphics.getDimensions!
 		@roomWidth  = math.floor w / @tileSize
 		@roomHeight = math.floor h / @tileSize
@@ -28,7 +28,11 @@ export class Room
 		x + w/2, y + h/2
 
 	generateRoom: =>
+		-- store tiles for later
 		@tiles = {}
+
+		-- compute possible spawn positions (all tiles within walls)
+		spawnPositions = [ vector x,y for x=2, @roomWidth - 1 for y=2, @roomHeight - 1]
 
 		-- outer wall calculations
 		wallWidth = @roomWidth/2 - @doorSize/2
@@ -53,22 +57,27 @@ export class Room
 		@addRoomTile @roomWidth, midY, 1, wallHeight
 
 		-- generate some tiles
-		tx = random 2, @roomWidth - 1
-		ty = random 2, @roomHeight - 1
-
 		for i=1, @roomDensity
-			@addRoomTile tx, ty, 1, 1
+			pos = table.remove spawnPositions, love.math.random #spawnPositions
+			mirrored = vector pos.x + (@roomWidth/2 - pos.x)*2 + 1, pos.y
 
-			-- mirror it across the vertical room center
-			@addRoomTile @roomWidth/2 + (@roomWidth/2 - tx) + 1, ty, 1, 1
+			@addRoomTile pos.x, pos.y, 1, 1
+			@addRoomTile mirrored.x, mirrored.y, 1, 1
 
-			-- the math here is done so we never get two tiles in the same position
-			-- we're not going to bother checking for mirrored blocks
-			tx += random @roomWidth - 2
-			ty += random @roomHeight - 2
+		-- throw in some enemies
+		for i=1, @level
+			pos = table.remove spawnPositions, love.math.random #spawnPositions
+			worldPos = vector(@getWorldPosition!) + (pos + vector 0.5, 0.5) * @tileSize
 
-			if tx > @roomWidth - 1  then tx -= @roomWidth - 2
-			if ty > @roomHeight - 1 then ty -= @roomHeight - 2
+			EnemyType = switch love.math.random 2
+				when 1
+					Octorok
+				when 2
+					Tektite
+
+			with EnemyType @world, 0, 0
+				\setPositionCentered worldPos\unpack!
+
 
 	addRoomTile: (tx, ty, tw, th) =>
 		wx, wy = @getWorldPosition!
@@ -77,6 +86,3 @@ export class Room
 			wy + util.multiple(ty - 1) * @tileSize,
 			util.multiple(tw) * @tileSize,
 			util.multiple(th) * @tileSize
-
-	draw: =>
-		tile\draw! for tile in *@tiles

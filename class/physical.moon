@@ -17,6 +17,13 @@ export class Physical extends Common
     x, y, w, h = @world\getRect self
     vector x + w/2, y + h/2
 
+  setPosition: (x, y) =>
+    @world\update self, x, y
+
+  setPositionCentered: (x, y) =>
+    _, _, w, h = @world\getRect self
+    @setPosition x - w/2, y - h/2
+
   update: (dt) =>
     super dt
 
