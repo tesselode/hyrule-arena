@@ -4,10 +4,12 @@ export class Physical extends Common
   new: (@world, x, y, w, h) =>
     super!
     @world\add self, x, y, w, h
+    @z = 0
     @velocity = vector!
     @drag = 0
-    @z = 0
+
     @filter = (other) => 'cross'
+
     @drawShadow = false
 
   getCenter: =>

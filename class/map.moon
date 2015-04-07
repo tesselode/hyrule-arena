@@ -1,10 +1,20 @@
 export class Map
-	new: (@world) =>
+	new: =>
+		@world = bump.newWorld!
 		@player = Player @world, 400, 300
 		@rooms = {}
 		@currentRoom = @addRoom 0, 0
+		Octorok @world, 300, 300
 
 	update: (dt) =>
+		--update all instances
+		for item in *@world\getItems!
+			item\update dt if item.update
+			if item.delete
+				item\onDelete! if item.onDelete
+				@world\remove item
+
+		--keep track of which room the player is in
 		room = @currentRoom
 		rx, ry, rw, rh = room\getWorldRect!
 
@@ -20,9 +30,6 @@ export class Map
 			elseif y >= ry + rh and .velocity.y > 0
 				@exploreTo room.x, room.y + 1
 
-	addEnemy: (enemyType, x, y) =>
-		enemyType @world, self, x, y
-
 	addRoom: (x, y) =>
 		newRoom = Room @world, x, y
 		@rooms[x] or= {}
@@ -35,21 +42,7 @@ export class Map
 	getRoomAt: (x, y) => @rooms[x] and @rooms[x][y] or nil
 
 	draw: =>
-		-- here we'd probably also draw the shadow of everything else as well
-		--@player\drawShadow!
-
-		--for enemy in *@enemies do
-		--	enemy\drawShadow!
-
-		--for i,row in pairs @rooms
-		--	for j,room in pairs row
-		--		room\draw!
-
-		--@player\draw!
-
-		--for enemy in *@enemies do
-		--	enemy\draw!
-
+		--draw all instances
 		objects = @world\getItems!
 		table.sort objects, (a, b) -> return a.depth < b.depth --sort objects by drawing order
 		for object in *objects

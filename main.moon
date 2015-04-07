@@ -36,3 +36,7 @@ love.update = (dt) ->
   --update some libraries
   tick.update dt
   flux.update dt
+
+love.keypressed = (key) ->
+  if key == 'escape' -- change this later
+    love.event.quit!

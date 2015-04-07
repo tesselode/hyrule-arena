@@ -1,6 +1,6 @@
 export class Octorok extends Enemy
-  new: (world, map, x, y) =>
-    super world, map, x, y
+  new: (world, x, y) =>
+    super world, x, y
     @speed = 150
     @direction = 0
 

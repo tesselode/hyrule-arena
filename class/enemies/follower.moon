@@ -1,7 +1,7 @@
 export class Follower extends Enemy
-  new: (world, map, x, y) =>
-    super world, map, x, y
-    
+  new: (world, x, y) =>
+    super world, x, y
+
     @speed = 100
 
   update: (dt) =>

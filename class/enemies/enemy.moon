@@ -1,5 +1,5 @@
 export class Enemy extends Physical
-  new: (world, @map, x, y) =>
+  new: (world, x, y) =>
     super world, x, y, 40, 40
 
     @isEnemy = true
