@@ -1,3 +1,4 @@
 *.lua
 !lib/*.lua
 .atom-build.json
+Thumbs.db
