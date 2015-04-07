@@ -11,7 +11,7 @@ export class Physical extends Common
 
     @filter = (other) => 'cross'
 
-    @shadowVisible = true
+    @shadowVisible = false
 
   getCenter: =>
     x, y, w, h = @world\getRect self

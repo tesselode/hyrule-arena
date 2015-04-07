@@ -7,6 +7,7 @@ export class Enemy extends Physical
     @knockback = false
     @health = 3
     @damage = 1
+    @shadowVisible = true
 
     --collision filter
     @filter = (other) =>
