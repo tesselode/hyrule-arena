@@ -25,6 +25,7 @@ love.load =  ->
   require 'class.enemies.tektite'
   require 'class.map'
   require 'class.room'
+  require 'class.door'
 
   require 'game'
 
