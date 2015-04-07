@@ -6,4 +6,4 @@ export class Common
 
   update: (dt) =>
     @timer\update dt
-    @flux\update dt
+    @tween\update dt
