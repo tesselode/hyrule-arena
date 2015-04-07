@@ -32,7 +32,6 @@ export class Player extends Physical
         return 'cross'
 
     --cosmetic
-    @drawShadow = true
     @depth = 100
 
   update: (dt) =>

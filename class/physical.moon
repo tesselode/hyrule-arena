@@ -11,7 +11,7 @@ export class Physical extends Common
 
     @filter = (other) => 'cross'
 
-    @drawShadow = false
+    @shadowVisible = true
 
   getCenter: =>
     x, y, w, h = @world\getRect self
@@ -30,13 +30,14 @@ export class Physical extends Common
     _, _, cols = @world\move self, x + @velocity.x * dt, y + @velocity.y * dt, @filter
     return cols
 
-  draw: =>
+  drawShadow: =>
     --draw shadow
-    if @drawShadow
+    if @shadowVisible
       with love.graphics
         .setColor 255, 255, 255, 255
         .draw images.shadow, @getCenter!.x, @getCenter!.y, 0, 1, 1, images.shadow\getWidth! / 2
 
+  draw: =>
     --draw hitboxes (debugging)
     if @@drawHitbox
       with love.graphics

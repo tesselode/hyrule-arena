@@ -46,5 +46,9 @@ export class Map
 		--draw all instances
 		objects = @world\getItems!
 		table.sort objects, (a, b) -> return a.depth < b.depth --sort objects by drawing order
+
+		for object in *objects
+			object\drawShadow!
+
 		for object in *objects
 			object\draw!

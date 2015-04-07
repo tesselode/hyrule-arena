@@ -2,6 +2,8 @@ export class Gem extends Physical
   new: (world, x, y) =>
     super world, x, y, 25, 25
 
+    @shadowVisible = false
+
     --burst movement
     @velocity = vector.new(love.math.random(500, 1000), 0)\rotated(math.random(2 * math.pi))
     @drag = 8
