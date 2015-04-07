@@ -26,7 +26,7 @@ export class Player extends Physical
 
     --collision filter
     @filter = (other) =>
-      if other.__class == Wall
+      if other.__class == Wall or (other.__class == Door and not other.isOpen)
         return 'slide'
       else
         return 'cross'

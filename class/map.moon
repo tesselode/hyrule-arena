@@ -5,7 +5,6 @@ export class Map
 		@rooms = {}
 		@currentLevel = 1
 		@currentRoom = @addRoom 0, 0
-		Octorok @world, 300, 300
 
 	update: (dt) =>
 		--update all instances
@@ -32,11 +31,21 @@ export class Map
 			elseif y >= ry + rh and .velocity.y > 0
 				@exploreTo room.x, room.y + 1
 
+		with room
+			if \isCompleted!
+				\openDoors!
+			else
+				if \withinWalls @player
+					\closeDoors!
+				-- else
+				-- 	\openDoors!
+
+
 	addRoom: (x, y) =>
 		newRoom = Room @world, x, y, @currentLevel
 		@rooms[x] or= {}
 		@rooms[x][y] = newRoom
-		@currentLevel += 1/3
+		@currentLevel += 1/3 -- increase level by one every three levels
 		newRoom
 
 	exploreTo: (x, y) =>

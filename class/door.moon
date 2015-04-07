@@ -2,16 +2,20 @@ export class Door extends Wall
 	new: (...) =>
 		super ...
 
-		@open = false
-		@opacity = 1
+		@isOpen = true
+		@opacity = 0
 
 	update: (dt) =>
 		@tween\update dt
 
 	open: =>
 		with @tween\to self, 0.3, opacity: 0
-			\oncomplete -> @open = true
+			\oncomplete -> @isOpen = true
 
 	close: =>
 		with @tween\to self, 0.3, opacity: 1
-			\oncomplete -> @open = false
+			\oncomplete -> @isOpen = false
+
+	draw: =>
+		love.graphics.setColor 255, 255, 255, 255 * @opacity
+		love.graphics.rectangle 'fill', @world\getRect self

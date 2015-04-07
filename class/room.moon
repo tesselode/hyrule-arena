@@ -9,6 +9,9 @@ export class Room
 		w, h = love.graphics.getDimensions!
 		@roomWidth  = math.floor w / @tileSize
 		@roomHeight = math.floor h / @tileSize
+		@tiles = {}
+		@enemies = {}
+		@doorsOpen = true
 		@generateRoom!
 
 	getWorldSize: =>
@@ -28,17 +31,22 @@ export class Room
 		x + w/2, y + h/2
 
 	generateRoom: =>
-		-- store tiles for later
-		@tiles = {}
-
 		-- compute possible spawn positions (all tiles within walls)
-		spawnPositions = [ vector x,y for x=2, @roomWidth - 1 for y=2, @roomHeight - 1]
+		spawnPositions = [ vector x,y for x=2, @roomWidth - 1 for y=2, @roomHeight - 1 ]
 
 		-- outer wall calculations
 		wallWidth = @roomWidth/2 - @doorSize/2
 		wallHeight = @roomHeight/2 - @doorSize/2
 		midX = @roomWidth/2 + @doorSize/2 + 1
 		midY = @roomHeight/2 + @doorSize/2 + 1
+
+		-- doors
+		@doors = {
+			@addRoomTile             1, wallHeight + 1,         1, @doorSize, Door -- left
+			@addRoomTile wallWidth + 1,              1, @doorSize,         1, Door -- top
+			@addRoomTile    @roomWidth, wallHeight + 1,         1, @doorSize, Door -- right
+			@addRoomTile wallWidth + 1,    @roomHeight, @doorSize,         1, Door -- bottom
+		}
 
 		-- top left
 		@addRoomTile 1, 1, wallWidth, 1
@@ -67,7 +75,7 @@ export class Room
 		-- throw in some enemies
 		for i=1, @level
 			pos = table.remove spawnPositions, love.math.random #spawnPositions
-			worldPos = vector(@getWorldPosition!) + (pos + vector 0.5, 0.5) * @tileSize
+			worldPos = vector(@getWorldPosition!) + (pos - vector 0.5, 0.5) * @tileSize
 
 			EnemyType = switch love.math.random 2
 				when 1
@@ -75,14 +83,50 @@ export class Room
 				when 2
 					Tektite
 
-			with EnemyType @world, 0, 0
+			with e = EnemyType @world, 0, 0
 				\setPositionCentered worldPos\unpack!
+				table.insert @enemies, e
 
+	closeDoors: =>
+		return if not @doorsOpen
 
-	addRoomTile: (tx, ty, tw, th) =>
+		for door in *@doors
+			door\close!
+
+		@doorsOpen = false
+
+	openDoors: =>
+		return if @doorsOpen
+
+		for door in *@doors
+			door\open!
+
+		@doorsOpen = true
+
+	isCompleted: =>
+		aliveEnemies = [ enemy for enemy in *@enemies when enemy.health > 0 ]
+		#aliveEnemies == 0
+
+	withinWalls: (player) =>
+		x, y, w, h = player.world\getRect player
+		wx, wy, ww, wh = @getWorldRect!
+
+		wx += @tileSize
+		wy += @tileSize
+		ww -= @tileSize*2
+		wh -= @tileSize*2
+
+		-- god i hate this
+		x > wx and y > wy and x + w < wx + ww and y + h < wy + wh
+
+	addRoomTile: (tx, ty, tw, th, TileClass = Wall) =>
 		wx, wy = @getWorldPosition!
-		table.insert @tiles, Wall @world,
+
+		wall = TileClass @world,
 			wx + util.multiple(tx - 1) * @tileSize,
 			wy + util.multiple(ty - 1) * @tileSize,
 			util.multiple(tw) * @tileSize,
 			util.multiple(th) * @tileSize
+
+		table.insert @tiles, wall
+		wall
