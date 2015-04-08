@@ -45,7 +45,7 @@ export class Map
 		newRoom = Room @world, x, y, @currentLevel
 		@rooms[x] or= {}
 		@rooms[x][y] = newRoom
-		@currentLevel += 1/3 -- increase level by one every three levels
+		@currentLevel += 1 -- increase level by one
 		newRoom
 
 	exploreTo: (x, y) =>

@@ -5,7 +5,17 @@ export class Tektite extends Enemy
     --jumping pattern
     @timer\recur ->
         @inAir = true
-        flux.to(self, .5, {z: 100})\oncomplete(->
-          flux.to(self, .5, {z: 0})\ease('quadin')\oncomplete(->
-            @inAir = false)),
+        player = gamestate.current!.map.player
+        @velocity = vector player\getCenter!.x - @getCenter!.x, player\getCenter!.y - @getCenter!.y
+        @velocity = @velocity\normalized! * 200
+        flux.to(self, .3, {z: 50})\oncomplete(->
+          flux.to(self, .3, {z: 0})\ease('quadin')\oncomplete(->
+            @inAir = false
+            @velocity = vector 0, 0)),
       2
+
+  update: (dt) =>
+    super dt
+
+    --makes things look a little better
+    @depth = 100 + @z

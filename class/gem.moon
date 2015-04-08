@@ -9,14 +9,14 @@ export class Gem extends Physical
     @drag = 8
 
     @filter = (other) =>
-      if other.__class == Wall
+      if other.__class == Wall or other.__class == Door
         return 'slide'
       else
         return false
     --allow the player to pick up gems after a certain time period
     @timer\delay (->
       @filter = (other) =>
-        if other.__class == Wall
+        if other.__class == Wall or other.__class == Door
           return 'slide'
         else
           return 'cross'),
@@ -28,6 +28,10 @@ export class Gem extends Physical
   update: (dt) =>
     cols = super dt
     for col in *cols
+      --bounce off of walls
+      if col.other.__class == Wall
+        @velocity = -@velocity
+      --get collected by the player
       if col.other.__class == Player
         self.delete = true
 

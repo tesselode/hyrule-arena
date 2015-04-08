@@ -27,19 +27,11 @@ export class Octorok extends Enemy
   update: (dt) =>
     collisions = super\update dt
 
-    --bounce off of walls
-    for col in *collisions
-      other = col.other
-      if other.__class == Wall
-        @velocity = -@velocity
+    
 
     --get facing direction
     if @velocity\len! != 0
       @direction = math.atan2 @velocity.y, @velocity.x
-
-  onDelete: =>
-    for i = 1, 5
-      Gem @world, @getCenter!.x, @getCenter!.y
 
   draw: =>
     super\draw!

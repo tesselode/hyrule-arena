@@ -3,15 +3,15 @@ export class Player extends Physical
     super world, x, y, 40, 40
 
     --movement stuff
-    @acceleration = 2500
+    @acceleration = 4000
     @drag = 8
     @maxSpeed = 300
     @direction = 0
-    @attackRange = 40
+    @attackRange = 50
     @knockback = false
 
     @swordHitbox =
-      w: 40, h: 40
+      w: 50, h: 50
       drawAlpha: 0
       center: vector!
 
@@ -94,8 +94,8 @@ export class Player extends Physical
       --deal damage to any enemies in range
       for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
         if item.__class == Enemy or item.__class.__parent == Enemy
-          if not item.inAir
-            item\takeDamage self, @damage
+          --if not item.inAir
+          item\takeDamage self, @damage
 
   takeDamage: (other) =>
     if not @ghosting

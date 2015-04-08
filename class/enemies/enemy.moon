@@ -7,14 +7,17 @@ export class Enemy extends Physical
     @knockback = false
     @health = 3
     @damage = 1
+    @gemAmount = 5
     @shadowVisible = true
 
     --collision filter
     @filter = (other) =>
-      if other.__class == Wall or other.__class == Door
+      if other.__class == Wall or other.__class == Door or other.__class.__parent == Enemy
         return 'slide'
       else
         return 'cross'
+
+    @depth = 100
 
   update: (dt) =>
     --knockback movement
@@ -32,6 +35,9 @@ export class Enemy extends Physical
     if @health > 0
       for col in *collisions
         other = col.other
+        --bounce off of walls
+        if other.__class == Wall
+          @velocity = -@velocity
         --damage the player
         if @inAir == false and other.__class == Player
           other\takeDamage self
@@ -45,3 +51,8 @@ export class Enemy extends Physical
       @knockback = true
       @velocityPrev = @velocity
       @velocity = vector.new(800, 0)\rotated(other.direction)
+
+  onDelete: =>
+    --spawn gems when dead
+    for i = 1, @gemAmount
+      Gem @world, @getCenter!.x, @getCenter!.y

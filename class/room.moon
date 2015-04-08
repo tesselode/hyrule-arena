@@ -73,15 +73,17 @@ export class Room
 			@addRoomTile mirrored.x, mirrored.y, 1, 1
 
 		-- throw in some enemies
-		for i=1, @level
+		for i=2, 2 + @level
 			pos = table.remove spawnPositions, love.math.random #spawnPositions
 			worldPos = vector(@getWorldPosition!) + (pos - vector 0.5, 0.5) * @tileSize
 
-			EnemyType = switch love.math.random 2
+			EnemyType = switch love.math.random 3
 				when 1
 					Octorok
 				when 2
 					Tektite
+				when 3
+					Follower
 
 			with e = EnemyType @world, 0, 0
 				\setPositionCentered worldPos\unpack!
