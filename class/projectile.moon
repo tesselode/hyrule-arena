@@ -9,11 +9,13 @@ export class Projectile extends Physical
     @shadowVisible = false
 
   update: (dt) =>
-    --destroy after hitting a wall
     cols = super dt
     for col in *cols
+      --destroy after hitting a wall
       if col.other.__class == Wall
         self.delete = true
-      if col.other.__class.__parent == Enemy
-        col.other\takeDamage self, @damage
-        self.delete = true
+      --damage player and enemies
+      if col.other.__class.__parent == Enemy or col.other.__class == Player
+        if @isEnemy ~= col.other.isEnemy
+          col.other\takeDamage self, @damage
+          self.delete = true

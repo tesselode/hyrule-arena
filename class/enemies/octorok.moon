@@ -27,8 +27,6 @@ export class Octorok extends Enemy
   update: (dt) =>
     collisions = super\update dt
 
-    
-
     --get facing direction
     if @velocity\len! != 0
       @direction = math.atan2 @velocity.y, @velocity.x
