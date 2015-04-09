@@ -1,6 +1,4 @@
 export class Physical extends Common
-  drawHitbox: true
-
   new: (@world, x, y, w, h) =>
     super!
     @world\add self, x, y, w, h
@@ -46,7 +44,7 @@ export class Physical extends Common
 
   draw: =>
     --draw hitboxes (debugging)
-    if @@drawHitbox
+    if true
       with love.graphics
         if @isEnemy
           .setColor 255, 0, 0, 255
