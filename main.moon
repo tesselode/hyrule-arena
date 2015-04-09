@@ -4,6 +4,8 @@ love.load =  ->
   images = {}
   images.shadow = love.graphics.newImage 'images/shadow.png'
   images.gemBlue = love.graphics.newImage 'images/placeholder/gemBlue.png'
+  images.heartEmpty = love.graphics.newImage 'images/placeholder/heartEmpty.png'
+  images.heartFull = love.graphics.newImage 'images/placeholder/heartFull.png'
 
   vector = require 'lib.hump.vector'
   gamestate = require 'lib.hump.gamestate'

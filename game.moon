@@ -1,8 +1,10 @@
 export Game = {
   enter: =>
-    @camera = camera.new!
+    @mainCamera = camera.new!
+    @mainCamera\zoomTo love.graphics.getHeight! / 576
+
     @map = Map!
-    @camera\zoomTo love.graphics.getHeight! / 576
+    @mapCamera = camera.new!
 
     --temporary code so I can see shadows
     love.graphics.setBackgroundColor 100, 100, 100, 255
@@ -12,17 +14,29 @@ export Game = {
 
     --update camera
     x, y = @map.currentRoom\getWorldCenter!
-    @camera\lookAt util.interpolate(@camera.x, x, dt * 7), util.interpolate(@camera.y, y, dt * 7)
+    @mapCamera\lookAt util.interpolate(@mapCamera.x, x, dt * 7), util.interpolate(@mapCamera.y, y, dt * 7)
 
   keypressed: (key) =>
     if key == 'x'
       @map.player\attack!
 
   draw: =>
-    --draw the game world
-    @camera\attach!
-    @map\draw!
-    @camera\detach!
+    @mainCamera\attach!
 
-    -- gui would be drawn here
+    --draw the game world
+    @mapCamera\attach!
+    @map\draw!
+    @mapCamera\detach!
+
+    --gui stuff
+    for i = 1, @map.player.maxHealth
+      topLeftX, topLeftY = @mainCamera\worldCoords 0, 0
+      with love.graphics
+        .setColor 255, 255, 255, 255
+        if i > @map.player.health
+          .draw images.heartEmpty, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
+        else
+          .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
+
+    @mainCamera\detach!
 }
