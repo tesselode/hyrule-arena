@@ -7,13 +7,16 @@ export class Player extends Physical
     @drag = 8
     @maxSpeed = 300
     @direction = 0
+
+    --attack stuff
     @attackRange = 50
     @knockback = false
-
     @swordHitbox =
       w: 50, h: 50
       drawAlpha: 0
       center: vector!
+    @canShoot = true
+    @reloadTime = .5
 
     --health and damage stuff
     @maxHealth = 10
@@ -82,8 +85,10 @@ export class Player extends Physical
 
   attack: =>
     --full health beam
-    if @health == @maxHealth
+    if @health == @maxHealth and @canShoot
       Projectile @world, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
+      @canShoot = false
+      @timer\delay (-> @canShoot = true), @reloadTime
 
     --stabbing
     with @swordHitbox

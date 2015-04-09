@@ -45,8 +45,12 @@ export class Enemy extends Physical
     return collisions
 
   takeDamage: (other, damage) =>
+    @health -= damage
+    if other.__class == Projectile
+      --die immediately
+      if @health == 0
+        self.delete = true
     if other.__class == Player
-      @health -= damage
       --knockback movement
       @knockback = true
       @velocityPrev = @velocity
