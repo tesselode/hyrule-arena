@@ -1,6 +1,6 @@
 export class Enemy extends Physical
   new: (world, x, y) =>
-    super world, x, y, 40, 40
+    super world, x, y, 32, 32
 
     @isEnemy = true
     @inAir = false

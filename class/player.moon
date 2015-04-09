@@ -1,6 +1,6 @@
 export class Player extends Physical
   new: (world, x, y) =>
-    super world, x, y, 40, 40
+    super world, x, y, 32, 32
 
     --movement stuff
     @acceleration = 4000
@@ -14,7 +14,7 @@ export class Player extends Physical
     @canSwingTime = .1
     @attackRange = 50
     @swordHitbox =
-      w: 50, h: 50
+      w: 32, h: 32
       drawAlpha: 0
       center: vector!
     @canShoot = true

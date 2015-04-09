@@ -1,4 +1,4 @@
 love.conf = (t) ->
   with t.window
-    .width = 1280
-    .height = 720
+    .width = 1024
+    .height = 576

@@ -1,12 +1,12 @@
 random = love.math.random -- convenience
 
 export class Room
-	tileSize: 80
+	tileSize: 64
 	roomDensity: 4
 	doorSize: 4
 
 	new: (@world, @x, @y, @level) =>
-		w, h = love.graphics.getDimensions!
+		w, h = 1024, 576
 		@roomWidth  = math.floor w / @tileSize
 		@roomHeight = math.floor h / @tileSize
 		@tiles = {}
