@@ -17,7 +17,7 @@ export class Enemy extends Physical
       else
         return 'cross'
 
-    @depth = 100
+    @depth += 100
 
   update: (dt) =>
     --knockback movement

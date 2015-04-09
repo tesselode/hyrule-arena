@@ -38,7 +38,7 @@ export class Player extends Physical
 
     --cosmetic
     @shadowVisible = true
-    @depth = 100
+    @depth += 100
 
   update: (dt) =>
     if not @knockback

@@ -23,7 +23,7 @@ export class Gem extends Physical
       .5
 
     @image = images.gemBlue
-    @depth = 50
+    @depth += 50
 
   update: (dt) =>
     cols = super dt
