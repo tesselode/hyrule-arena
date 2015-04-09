@@ -7,16 +7,18 @@ export class Player extends Physical
     @drag = 8
     @maxSpeed = 300
     @direction = 0
+    @knockback = false
 
     --attack stuff
+    @canSwing = true
+    @canSwingTime = .1
     @attackRange = 50
-    @knockback = false
     @swordHitbox =
       w: 50, h: 50
       drawAlpha: 0
       center: vector!
     @canShoot = true
-    @reloadTime = .5
+    @canShootTime = .75
 
     --health and damage stuff
     @maxHealth = 10
@@ -88,19 +90,24 @@ export class Player extends Physical
     if @health == @maxHealth and @canShoot
       Projectile @world, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
       @canShoot = false
-      @timer\delay (-> @canShoot = true), @reloadTime
+      @timer\delay (-> @canShoot = true), @canShootTime
 
     --stabbing
-    with @swordHitbox
-      .center = @getCenter! + vector(@attackRange, 0)\rotated(@direction)
-      .drawAlpha = 255
-      @tween\to @swordHitbox, .5, drawAlpha: 0 --delete me when the game actually has graphics
+    if @canSwing
+      with @swordHitbox
+        .center = @getCenter! + vector(@attackRange, 0)\rotated(@direction)
+        .drawAlpha = 255
+        @tween\to @swordHitbox, .5, drawAlpha: 0 --delete me when the game actually has graphics
 
-      --deal damage to any enemies in range
-      for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
-        if item.__class == Enemy or item.__class.__parent == Enemy
-          --if not item.inAir
-          item\takeDamage self, @damage
+        --deal damage to any enemies in range
+        for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
+          if item.__class == Enemy or item.__class.__parent == Enemy
+            --if not item.inAir
+            item\takeDamage self, @damage
+
+      --delay before being able to stab again
+      @canSwing = false
+      @timer\delay (-> @canSwing = true), @canSwingTime
 
   takeDamage: (other) =>
     if not @ghosting
