@@ -2,6 +2,7 @@ export Game = {
   enter: =>
     @camera = camera.new!
     @map = Map!
+    @camera\zoomTo love.graphics.getHeight! / 576
 
     --temporary code so I can see shadows
     love.graphics.setBackgroundColor 100, 100, 100, 255

@@ -1,4 +1,5 @@
 love.conf = (t) ->
   with t.window
-    .width = 1024
-    .height = 576
+    .width = 1920
+    .height = 1080
+    .fullscreen = true
