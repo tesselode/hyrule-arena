@@ -1,6 +1,6 @@
 export class Gem extends Physical
   new: (world, x, y) =>
-    super world, x, y, 25, 25
+    super world, x, y, 24, 24
 
     @shadowVisible = false
 

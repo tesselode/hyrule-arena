@@ -21,7 +21,7 @@ love.load =  ->
   images =
     linkSpriteSheet: newImage 'images/female link oga 32px.png'
     shadow: newImage 'images/shadow.png'
-    gemBlue: newImage 'images/placeholder/gemBlue.png'
+    gemBlue: newImage 'images/blue gem.png'
     heartEmpty: newImage 'images/placeholder/heartEmpty.png'
     heartFull: newImage 'images/placeholder/heartFull.png'
 

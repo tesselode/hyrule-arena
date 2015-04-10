@@ -43,21 +43,18 @@ export class Physical extends Common
         .draw images.shadow, @getCenter!.x, @getCenter!.y, 0, 1, 1, images.shadow\getWidth! / 2
 
   draw: =>
-    --draw hitboxes (debugging)
-    if true
-      with love.graphics
+    --draw image
+    with love.graphics
+      if @image
+        .setColor 255, 255, 255, 255
+        x, y, w, h = @world\getRect self
+        .draw @image, x, y
+      else
         if @isEnemy
           .setColor 255, 0, 0, 255
         else
           .setColor 255, 255, 255, 255
         x, y, w, h = @world\getRect self
         .rectangle 'fill', x, y - @z, w, h
-
-    --draw image
-    if @image
-      with love.graphics
-        .setColor 255, 255, 255, 255
-        x, y, w, h = @world\getRect self
-        .draw @image, x, y
 
   onDelete: =>
