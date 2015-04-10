@@ -31,8 +31,8 @@ export class Room
 		x + w/2, y + h/2
 
 	generateRoom: =>
-		-- compute possible spawn positions (all tiles within walls)
-		spawnPositions = [ vector x,y for x=2, @roomWidth - 1 for y=2, @roomHeight - 1 ]
+		-- compute possible spawn positions (all tiles a space from walls (to prevent door blocks))
+		spawnPositions = [ vector x,y for x=3, @roomWidth - 2 for y=3, @roomHeight - 2 ]
 
 		-- outer wall calculations
 		wallWidth = @roomWidth/2 - @doorSize/2
