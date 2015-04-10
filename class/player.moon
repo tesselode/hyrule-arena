@@ -84,6 +84,17 @@ export class Player extends Physical
         @velocity.x = 0 if col.normal.x ~= 0 and col.normal.x ~= util.sign @velocity.x
         @velocity.y = 0 if col.normal.y ~= 0 and col.normal.y ~= util.sign @velocity.y
 
+    --update animation
+    with animations
+      if @velocity\len! < 20
+        .linkRunUp\gotoFrame 1
+        .linkRunRight\gotoFrame 1
+        .linkRunLeft\gotoFrame 1
+        .linkRunDown\gotoFrame 1
+      .linkRunUp\update dt * ((150 + .5 * @velocity\len!) / @maxSpeed)
+      .linkRunRight\update dt * ((150 + .5 * @velocity\len!) / @maxSpeed)
+      .linkRunLeft\update dt * ((150 + .5 * @velocity\len!) / @maxSpeed)
+      .linkRunDown\update dt * ((150 + .5 * @velocity\len!) / @maxSpeed)
 
   attack: =>
     --full health beam
@@ -120,18 +131,35 @@ export class Player extends Physical
       @timer\delay (-> @ghosting = false), @ghostingTime
 
   draw: =>
+    --if (not @ghosting) or (@ghostingVisible)
+      --super\draw!
+
+    --draw sprite/animations
     if (not @ghosting) or (@ghostingVisible)
-      super\draw!
+      with love.graphics
+        .setColor 255, 255, 255, 255
+        x, y, w, h = @world\getRect self
+        if @direction == 0
+          animations.linkRunRight\draw images.linkSpriteSheet, x, y
+        elseif @direction == math.pi
+          animations.linkRunLeft\draw images.linkSpriteSheet, x, y
+        elseif @direction == math.pi / 2
+          animations.linkRunDown\draw images.linkSpriteSheet, x, y
+        else
+          animations.linkRunUp\draw images.linkSpriteSheet, x, y
 
-    --debug stuff - shows which way the player is facing
-    with love.graphics
-      .setColor 0, 0, 0, 255
-      .setLineWidth 3
-      x, y, w, h = @world\getRect self
-      directionLine = vector(w/2, 0)\rotated(@direction)
-      .line @getCenter!.x, @getCenter!.y, @getCenter!.x + directionLine.x, @getCenter!.y + directionLine.y
+    --debug stuff
+    if true
+      --show which way the player is facing
+      if false
+        with love.graphics
+          .setColor 0, 0, 0, 255
+          .setLineWidth 3
+          x, y, w, h = @world\getRect self
+          directionLine = vector(w/2, 0)\rotated(@direction)
+          .line @getCenter!.x, @getCenter!.y, @getCenter!.x + directionLine.x, @getCenter!.y + directionLine.y
 
-    --show range of sword attack (debugging)
-    with @swordHitbox
-      love.graphics.setColor 0, 0, 0, .drawAlpha
-      love.graphics.rectangle 'fill', .center.x - .w/2, .center.y - .h/2, .w, .h
+      --show range of sword attack
+      with @swordHitbox
+        love.graphics.setColor 0, 0, 0, .drawAlpha
+        love.graphics.rectangle 'fill', .center.x - .w/2, .center.y - .h/2, .w, .h
