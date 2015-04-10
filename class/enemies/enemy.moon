@@ -27,9 +27,10 @@ export class Enemy extends Physical
         @knockback = false
         @drag = 0
         @velocity = @velocityPrev
-        --at this point this is a death animation
-        if @health <= 0
-          @delete = true
+        
+    --at this point this is a death animation
+    if @health <= 0
+      @delete = true
 
     collisions = super dt
     if @health > 0
@@ -49,7 +50,7 @@ export class Enemy extends Physical
     if other.__class == Projectile
       --die immediately
       if @health == 0
-        self.delete = true
+        @delete = true
     if other.__class == Player
       --knockback movement
       @knockback = true
