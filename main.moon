@@ -19,21 +19,21 @@ love.load =  ->
   newImage = love.graphics.newImage
 
   images =
-    linkSpriteSheet: newImage 'images/female link oga 32px.png'
+    linkSpriteSheet: newImage 'images/link.png'
     shadow: newImage 'images/shadow.png'
     gemBlue: newImage 'images/blue gem.png'
-    heartEmpty: newImage 'images/placeholder/heartEmpty.png'
-    heartFull: newImage 'images/placeholder/heartFull.png'
+    heartEmpty: newImage 'images/heartEmpty.png'
+    heartFull: newImage 'images/heartFull.png'
 
   -- link animations
   local g
-  g = anim8.newGrid 32, 32, images.linkSpriteSheet\getWidth!, images.linkSpriteSheet\getHeight!
+  g = anim8.newGrid 32, 48, images.linkSpriteSheet\getWidth!, images.linkSpriteSheet\getHeight!
 
   animations =
-    linkRunUp: anim8.newAnimation g('1-4', 1), 0.1
-    linkRunRight: anim8.newAnimation g('1-4', 2), 0.1
-    linkRunLeft: anim8.newAnimation(g('1-4', 2), 0.1)\flipH!
-    linkRunDown: anim8.newAnimation g('1-4', 3), 0.1
+    linkRunUp: anim8.newAnimation g('1-4', 3), 0.1
+    linkRunRight: anim8.newAnimation g('1-4', 1), 0.1
+    linkRunLeft: anim8.newAnimation(g('1-4', 1), 0.1)\flipH!
+    linkRunDown: anim8.newAnimation g('1-4', 2), 0.1
 
   -- classes
   require 'class.common'
