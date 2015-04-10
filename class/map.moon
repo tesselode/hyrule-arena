@@ -7,18 +7,23 @@ export class Map
 		@currentRoom = @addRoom 0, 0
 
 	update: (dt) =>
-		--update all instances
-		for item in *@world\getItems!
-			if item.delete
-				item\onDelete!
-				@world\remove item
-			else
-				item\update dt
-
-		--keep track of which room the player is in
 		room = @currentRoom
 		rx, ry, rw, rh = room\getWorldRect!
 
+		-- update all instances in the active room
+		items = @world\queryRect room\getWorldRect!
+
+		for item in *items
+			item\update dt
+
+		-- delete after all is said and done, so we don't update in the middle of removing objects
+		-- and get nasty holes in the table
+		for item in *items
+			if item.delete
+				item\onDelete!
+				@world\remove item
+
+		-- keep track of which room the player is in
 		with @player
 			{:x, :y} = \getCenter!
 			_, _, width, height = .world\getRect @player
