@@ -1,10 +1,7 @@
 love.load =  ->
   export * -- globalizes all variables in this scope
 
-  images = {}
-  animations = {}
-
-  --libraries
+  -- libraries
   vector = require 'lib.hump.vector'
   gamestate = require 'lib.hump.gamestate'
   camera = require 'lib.hump.camera'
@@ -14,21 +11,31 @@ love.load =  ->
   anim8 = require 'lib.anim8'
   util = require 'lib.util'
 
-  --link animations
-  images.linkSpriteSheet = love.graphics.newImage 'images/female link oga 32px.png'
+  -- use nearest when scaling up, for pixelation
+  love.graphics.setDefaultFilter 'linear', 'nearest'
+
+  -- images
+  local newImage
+  newImage = love.graphics.newImage
+
+  images =
+    linkSpriteSheet: newImage 'images/female link oga 32px.png'
+    shadow: newImage 'images/shadow.png'
+    gemBlue: newImage 'images/placeholder/gemBlue.png'
+    heartEmpty: newImage 'images/placeholder/heartEmpty.png'
+    heartFull: newImage 'images/placeholder/heartFull.png'
+
+  -- link animations
+  local g
   g = anim8.newGrid 32, 32, images.linkSpriteSheet\getWidth!, images.linkSpriteSheet\getHeight!
-  animations.linkRunUp = anim8.newAnimation g('1-4', 1), 0.1
-  animations.linkRunRight = anim8.newAnimation g('1-4', 2), 0.1
-  animations.linkRunLeft = anim8.newAnimation(g('1-4', 2), 0.1)\flipH!
-  animations.linkRunDown = anim8.newAnimation g('1-4', 3), 0.1
 
-  --other images
-  images.shadow = love.graphics.newImage 'images/shadow.png'
-  images.gemBlue = love.graphics.newImage 'images/placeholder/gemBlue.png'
-  images.heartEmpty = love.graphics.newImage 'images/placeholder/heartEmpty.png'
-  images.heartFull = love.graphics.newImage 'images/placeholder/heartFull.png'
+  animations =
+    linkRunUp: anim8.newAnimation g('1-4', 1), 0.1
+    linkRunRight: anim8.newAnimation g('1-4', 2), 0.1
+    linkRunLeft: anim8.newAnimation(g('1-4', 2), 0.1)\flipH!
+    linkRunDown: anim8.newAnimation g('1-4', 3), 0.1
 
-  --classes
+  -- classes
   require 'class.common'
   require 'class.physical'
   require 'class.wall'
@@ -43,7 +50,7 @@ love.load =  ->
   require 'class.room'
   require 'class.door'
 
-  --states
+  -- states
   require 'game'
 
   with gamestate
@@ -51,7 +58,7 @@ love.load =  ->
     .switch Game
 
 love.update = (dt) ->
-  --update some libraries
+  -- update some libraries
   tick.update dt
   flux.update dt
 
