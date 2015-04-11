@@ -140,13 +140,13 @@ export class Player extends Physical
         .setColor 255, 255, 255, 255
         x, y, w, h = @world\getRect self
         if @direction == 0
-          animations.linkRunRight\draw images.linkSpriteSheet, x, y
+          animations.linkRunRight\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 2, 2, 16, 16
         elseif @direction == math.pi
-          animations.linkRunLeft\draw images.linkSpriteSheet, x, y
+          animations.linkRunLeft\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 2, 2, 16, 16
         elseif @direction == math.pi / 2
-          animations.linkRunDown\draw images.linkSpriteSheet, x, y
+          animations.linkRunDown\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 2, 2, 16, 16
         else
-          animations.linkRunUp\draw images.linkSpriteSheet, x, y
+          animations.linkRunUp\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 2, 2, 16, 16
 
     --debug stuff
     if true
