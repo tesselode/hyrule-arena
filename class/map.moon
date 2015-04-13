@@ -1,5 +1,5 @@
 export class Map extends Common
-	new: =>
+	new: (@state) =>
 		super!
 
 		@world = bump.newWorld!
@@ -9,6 +9,7 @@ export class Map extends Common
 
 		--game flow
 		@gameStarted = false
+		@gameOver = false
 		@animationStarted = false
 		@playerSpawnAnimation = PlayerSpawnAnimation self
 
@@ -17,21 +18,22 @@ export class Map extends Common
 		@player = Player @world, 512 - 16, 288 - 16
 
 	update: (dt) =>
+		super dt
+
 		room = @currentRoom
 		rx, ry, rw, rh = room\getWorldRect!
 
-		-- update all instances in the active room
-		items = @world\queryRect room\getWorldRect!
+		if (not @gameOver)
+			-- update all instances in the active room
+			items = @world\queryRect room\getWorldRect!
+			for item in *items
+				item\update dt
 
-		for item in *items
-			item\update dt
-
-		-- delete after all is said and done, so we don't update in the middle of removing objects
-		-- and get nasty holes in the table
-		for item in *items
-			if item.delete
-				item\onDelete!
-				@world\remove item
+			-- delete instances
+			for item in *items
+				if item.delete
+					item\onDelete!
+					@world\remove item
 
 		-- keep track of which room the player is in
 		if @gameStarted
@@ -60,6 +62,11 @@ export class Map extends Common
 		if (not @gameStarted) and (not @animationStarted) and love.keyboard.isDown 'return'
 			@animationStarted = true
 			@playerSpawnAnimation\start!
+
+		--game over
+		if @gameStarted and (not @gameOver) and @player.health <= 0
+			@gameOver = true
+			@tween\to(@state, 1, {irisInRadius: 100})
 
 		--update cosmetic things
 		@playerSpawnAnimation\update dt
