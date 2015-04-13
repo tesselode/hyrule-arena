@@ -9,9 +9,9 @@ export class Game extends Common
     --cameras
     @camera = {}
     with @camera
-      .main = camera.new!
+      .main = camera.new! --for resolution independence
       .main\zoomTo love.graphics.getHeight! / 576
-      .map = camera.new!
+      .world = camera.new!
 
     --cosmetic stuff
     @cosmetic = {
@@ -54,6 +54,18 @@ export class Game extends Common
     --  @map.player\attack!
 
   draw: =>
+    --draw all instances
+    @camera.main\draw ->
+      @camera.world\draw ->
+        objects = @world\getItems!
+        table.sort objects, (a, b) -> return a.depth < b.depth --sort objects by drawing order
+
+        for object in *objects
+          object\drawShadow!
+
+        for object in *objects
+          object\draw!
+
     --render iris in transition
     --if @map.gameStarted
     --  with love.graphics
@@ -65,13 +77,13 @@ export class Game extends Common
     --      .circle 'fill', playerX - cameraX + 512, playerY - cameraY + 288, @irisInRadius)
 
 
-    @camera.main\draw ->
+    --@camera.main\draw ->
       --draw the game world
       --@camera.map\draw(->
       --  @map\draw!)
 
       --gui stuff
-      topLeftX, topLeftY = @camera.main\worldCoords 0, 0
+      --topLeftX, topLeftY = @camera.main\worldCoords 0, 0
       --if @map.gameStarted
       --  for i = 1, @map.player.maxHealth
       --    with love.graphics

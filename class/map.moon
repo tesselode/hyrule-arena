@@ -64,15 +64,5 @@ export class Map extends Common
 	getRoomAt: (x, y) => @rooms[x] and @rooms[x][y] or nil
 
 	draw: =>
-		--draw all instances
-		--objects = @world\getItems!
-		--table.sort objects, (a, b) -> return a.depth < b.depth --sort objects by drawing order
-
-		--for object in *objects
-		--	object\drawShadow!
-
-		--for object in *objects
-		--	object\draw!
-
 		--draw cosmetic things
 		--@playerSpawnAnimation\draw!
