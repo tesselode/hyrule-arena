@@ -70,9 +70,10 @@ export class Game extends Common
   keypressed: (key) =>
     if key == 'return'
       @startGame!
+
     --controls
-    --if key == 'x'
-    --  @map.player\attack!
+    if key == 'x'
+      @player\attack!
 
   draw: =>
     --draw all instances

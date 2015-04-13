@@ -6,7 +6,7 @@ export class Follower extends Enemy
 
   update: (dt) =>
     -- move towards the player
-    player = gamestate.current!.map.player --this is bad fix it later
+    player = currentState.player --this is bad fix it later
     if @knockback == false
       @velocity = (player\getCenter! - @getCenter!)\normalized! * @speed
 

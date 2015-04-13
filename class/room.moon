@@ -17,7 +17,7 @@ export class Room
 		if genTiles
 			spawnPositions = @createSpawnPositions!
 			@generateTiles spawnPositions
-			--@generateEnemies spawnPositions
+			@generateEnemies spawnPositions
 
 	getWorldSize: =>
 		@roomWidth * @tileSize, @roomHeight * @tileSize
