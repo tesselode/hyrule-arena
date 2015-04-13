@@ -4,7 +4,7 @@ export class Map
 		@player = Player @world, 400, 300
 		@rooms = {}
 		@currentLevel = 1
-		@currentRoom = @addRoom 0, 0
+		@currentRoom = @addRoom 0, 0, false
 
 	update: (dt) =>
 		room = @currentRoom
@@ -46,8 +46,8 @@ export class Map
 				-- 	\openDoors!
 
 
-	addRoom: (x, y) =>
-		newRoom = Room @world, x, y, @currentLevel
+	addRoom: (x, y, genRoom) =>
+		newRoom = Room @world, x, y, @currentLevel, genRoom
 		@rooms[x] or= {}
 		@rooms[x][y] = newRoom
 		@currentLevel += 1 -- increase level by one

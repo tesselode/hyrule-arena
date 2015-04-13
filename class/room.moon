@@ -5,14 +5,19 @@ export class Room
 	roomDensity: 4
 	doorSize: 4
 
-	new: (@world, @x, @y, @level) =>
+	new: (@world, @x, @y, @level, genTiles = true) =>
 		w, h = 1024, 576
 		@roomWidth  = math.floor w / @tileSize
 		@roomHeight = math.floor h / @tileSize
 		@tiles = {}
 		@enemies = {}
 		@doorsOpen = true
-		@generateRoom!
+
+		@generateWalls!
+		if genTiles
+			spawnPositions = @createSpawnPositions!
+			@generateTiles spawnPositions
+			@generateEnemies spawnPositions
 
 	getWorldSize: =>
 		@roomWidth * @tileSize, @roomHeight * @tileSize
@@ -30,10 +35,11 @@ export class Room
 		x, y, w, h = @getWorldRect!
 		x + w/2, y + h/2
 
-	generateRoom: =>
+	createSpawnPositions: =>
 		-- compute possible spawn positions (all tiles a space from walls (to prevent door blocks))
-		spawnPositions = [ vector x,y for x=3, @roomWidth - 2 for y=3, @roomHeight - 2 ]
+		[ vector x,y for x=3, @roomWidth - 2 for y=3, @roomHeight - 2 ]
 
+	generateWalls: =>
 		-- outer wall calculations
 		wallWidth = @roomWidth/2 - @doorSize/2
 		wallHeight = @roomHeight/2 - @doorSize/2
@@ -64,6 +70,7 @@ export class Room
 		@addRoomTile midX, @roomHeight, wallWidth, 1
 		@addRoomTile @roomWidth, midY, 1, wallHeight
 
+	generateTiles: (spawnPositions) =>
 		-- generate some tiles
 		for i=1, @roomDensity
 			pos = table.remove spawnPositions, love.math.random #spawnPositions
@@ -72,6 +79,7 @@ export class Room
 			@addRoomTile pos.x, pos.y, 1, 1
 			@addRoomTile mirrored.x, mirrored.y, 1, 1
 
+	generateEnemies: (spawnPositions) =>
 		-- throw in some enemies
 		for i=2, 2 + @level
 			pos = table.remove spawnPositions, love.math.random #spawnPositions
