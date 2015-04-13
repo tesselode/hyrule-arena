@@ -3,3 +3,4 @@ love.conf = (t) ->
     .width = 1920
     .height = 1080
     .fullscreen = true
+    .fullscreentype = 'desktop'
