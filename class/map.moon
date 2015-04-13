@@ -1,6 +1,8 @@
 export class Map extends Common
-	new: (@world) =>
+	new: (@state) =>
 		super!
+
+		@world = @state.world
 
 		@rooms = {}
 		@currentLevel = 1
@@ -29,12 +31,12 @@ export class Map extends Common
 		--		elseif y >= ry + rh and .velocity.y > 0
 		--			@exploreTo room.x, room.y + 1
 
-		--with room
-		--	if \isCompleted!
-		--		\openDoors!
-		--	else
-		--		if \withinWalls @player
-		--			\closeDoors!
+		with @currentRoom
+			if \isCompleted!
+				\openDoors!
+			else
+				if \withinWalls @state.player
+					\closeDoors!
 				-- else
 				-- 	\openDoors!
 

@@ -4,7 +4,7 @@ export class Game extends Common
 
     --game world
     @world = bump.newWorld!
-    @map = Map @world
+    @map = Map self
 
     --cameras
     @camera = {}
@@ -20,6 +20,7 @@ export class Game extends Common
 
     --cosmetic stuff
     @cosmetic = {
+      playerSpawnAnimation: PlayerSpawnAnimation self
       irisIn: {
         canvas: love.graphics.newCanvas 1024, 576
         radius: 2000
@@ -27,7 +28,7 @@ export class Game extends Common
     }
 
   startGame: =>
-    @gameFlow.state = 'playing'
+    @gameFlow.state = 'gameplay'
     @player = Player @world, 512 - 16, 288 - 16
 
   update: (dt) =>
@@ -37,7 +38,10 @@ export class Game extends Common
     room = @map.currentRoom
     rx, ry, rw, rh = room\getWorldRect!
 
-    if (not @gameOver)
+    if @gameFlow.state == 'gameplay'
+      --update the map
+      @map\update dt
+
 			-- update all instances in the active room
       items = @world\queryRect room\getWorldRect!
       for item in *items
@@ -49,36 +53,57 @@ export class Game extends Common
           item\onDelete!
           @world\remove item
 
-    -- keep track of which room the player is in
-    if @gameFlow.state == 'playing'
-    	with @player
-    		{:x, :y} = \getCenter!
-    		_, _, width, height = .world\getRect @player
-    		if x < rx and .velocity.x < 0
-    			@map\exploreTo room.x - 1, room.y
-    		elseif x >= rx + rw and .velocity.x > 0
-    			@map\exploreTo room.x + 1, room.y
-    		elseif y < ry and .velocity.y < 0
-    			@map\exploreTo room.x, room.y - 1
-    		elseif y >= ry + rh and .velocity.y > 0
-    			@map\exploreTo room.x, room.y + 1
+      with @player
+        -- keep track of which room the player is in
+        {:x, :y} = \getCenter!
+        _, _, width, height = .world\getRect @player
+        if x < rx and .velocity.x < 0
+          @map\exploreTo room.x - 1, room.y
+        elseif x >= rx + rw and .velocity.x > 0
+          @map\exploreTo room.x + 1, room.y
+        elseif y < ry and .velocity.y < 0
+          @map\exploreTo room.x, room.y - 1
+        elseif y >= ry + rh and .velocity.y > 0
+          @map\exploreTo room.x, room.y + 1
+
+      if @player.health <= 0
+        @gameFlow.state = 'game over'
+        @tween\to @cosmetic.irisIn, 1, {radius: 100}
 
     --update camera
     x, y = room\getWorldCenter!
     @camera.world\lookAt util.interpolate(@camera.world.x, x, dt * 7), util.interpolate(@camera.world.y, y, dt * 7)
 
+    --update cosmetic stuff
+    @cosmetic.playerSpawnAnimation\update dt
+
   keypressed: (key) =>
     if key == 'return'
-      @startGame!
+      if @gameFlow.state == 'title'
+        @gameFlow.state == 'startingAnimation'
+        @cosmetic.playerSpawnAnimation\start!
+
+    if key == 'f1'
+      @player.health = 0
 
     --controls
     if key == 'x'
       @player\attack!
 
   draw: =>
-    --draw all instances
+    --render iris in transition
+    if @gameFlow.state == 'game over'
+      with love.graphics
+        @cosmetic.irisIn.canvas\clear 0, 0, 0, 255
+        @cosmetic.irisIn.canvas\renderTo(->
+          cameraX, cameraY = @camera.world\pos!
+          playerX, playerY = @player\getCenter!.x, @player\getCenter!.y
+          .setColor 255, 255, 255, 255
+          .circle 'fill', playerX - cameraX + 512, playerY - cameraY + 288, @cosmetic.irisIn.radius)
+
     @camera.main\draw ->
       @camera.world\draw ->
+        --draw all instances
         objects = @world\getItems!
         table.sort objects, (a, b) -> return a.depth < b.depth --sort objects by drawing order
 
@@ -88,37 +113,24 @@ export class Game extends Common
         for object in *objects
           object\draw!
 
-    --render iris in transition
-    --if @map.gameStarted
-    --  with love.graphics
-    --    @irisInCanvas\clear 0, 0, 0, 255
-    --    @irisInCanvas\renderTo(->
-    --      cameraX, cameraY = @camera.map\pos!
-    --      playerX, playerY = @map.player\getCenter!.x, @map.player\getCenter!.y
-    --      .setColor 255, 255, 255, 255
-    --      .circle 'fill', playerX - cameraX + 512, playerY - cameraY + 288, @irisInRadius)
-
-
-    --@camera.main\draw ->
-      --draw the game world
-      --@camera.map\draw(->
-      --  @map\draw!)
+        --draw player spawn animation
+        @cosmetic.playerSpawnAnimation\draw!
 
       --gui stuff
-      --topLeftX, topLeftY = @camera.main\worldCoords 0, 0
-      --if @map.gameStarted
-      --  for i = 1, @map.player.maxHealth
-      --    with love.graphics
-      --      .setColor 255, 255, 255, 255
-      --      if i > @map.player.health
-      --        .draw images.heartEmpty, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
-      --      else
-      --        .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
+      topLeftX, topLeftY = @camera.main\worldCoords 0, 0
+      if @gameFlow.state == 'gameplay'
+        for i = 1, @player.maxHealth
+          with love.graphics
+            .setColor 255, 255, 255, 255
+            if i > @player.health
+              .draw images.heartEmpty, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
+            else
+              .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
 
-      --render iris in transition
-      --if @map.gameStarted
-      --  with love.graphics
-      --    .setBlendMode 'multiplicative'
-      --    .setColor 255, 255, 255, 255
-      --    .draw @irisInCanvas, topLeftX, topLeftY
-      --    .setBlendMode 'alpha'
+      --draw iris in transition
+      if @gameFlow.state == 'game over'
+        with love.graphics
+          .setBlendMode 'multiplicative'
+          .setColor 255, 255, 255, 255
+          .draw @cosmetic.irisIn.canvas, topLeftX, topLeftY
+          .setBlendMode 'alpha'
