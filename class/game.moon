@@ -13,6 +13,11 @@ export class Game extends Common
       .main\zoomTo love.graphics.getHeight! / 576
       .world = camera.new!
 
+    --game flow
+    @gameFlow = {
+      state: 'title'
+    }
+
     --cosmetic stuff
     @cosmetic = {
       irisIn: {
@@ -22,7 +27,7 @@ export class Game extends Common
     }
 
   startGame: =>
-    @gameStarted = true
+    @gameFlow.state = 'playing'
     @player = Player @world, 512 - 16, 288 - 16
 
   update: (dt) =>
@@ -44,11 +49,27 @@ export class Game extends Common
           item\onDelete!
           @world\remove item
 
+    -- keep track of which room the player is in
+    if @gameFlow.state == 'playing'
+    	with @player
+    		{:x, :y} = \getCenter!
+    		_, _, width, height = .world\getRect @player
+    		if x < rx and .velocity.x < 0
+    			@map\exploreTo room.x - 1, room.y
+    		elseif x >= rx + rw and .velocity.x > 0
+    			@map\exploreTo room.x + 1, room.y
+    		elseif y < ry and .velocity.y < 0
+    			@map\exploreTo room.x, room.y - 1
+    		elseif y >= ry + rh and .velocity.y > 0
+    			@map\exploreTo room.x, room.y + 1
+
     --update camera
-    --x, y = @map.currentRoom\getWorldCenter!
-    --@camera.map\lookAt util.interpolate(@camera.map.x, x, dt * 7), util.interpolate(@camera.map.y, y, dt * 7)
+    x, y = room\getWorldCenter!
+    @camera.world\lookAt util.interpolate(@camera.world.x, x, dt * 7), util.interpolate(@camera.world.y, y, dt * 7)
 
   keypressed: (key) =>
+    if key == 'return'
+      @startGame!
     --controls
     --if key == 'x'
     --  @map.player\attack!
