@@ -1,5 +1,5 @@
-export Game = {
-  enter: =>
+export class Game extends Common
+  new: =>
     @mainCamera = camera.new!
     @mainCamera\zoomTo love.graphics.getHeight! / 576
 
@@ -62,4 +62,3 @@ export Game = {
         .setBlendMode 'alpha'
 
     @mainCamera\detach!
-}

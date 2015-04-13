@@ -3,7 +3,6 @@ love.load =  ->
 
   -- libraries
   vector = require 'lib.hump.vector'
-  gamestate = require 'lib.hump.gamestate'
   camera = require 'lib.hump.camera'
   bump = require 'lib.bump'
   tick = require 'lib.tick'
@@ -37,6 +36,7 @@ love.load =  ->
 
   -- classes
   require 'class.common'
+  require 'class.game'
   require 'class.physical.physical'
   require 'class.physical.wall'
   require 'class.physical.projectile'
@@ -51,18 +51,20 @@ love.load =  ->
   require 'class.physical.door'
   require 'class.cosmetic.playerSpawnAnimation'
 
-  -- states
-  require 'game'
-
-  with gamestate
-    .registerEvents!
-    .switch Game
+  currentState = Game!
 
 love.update = (dt) ->
   -- update some libraries
   tick.update dt
   flux.update dt
 
+  currentState\update dt
+
 love.keypressed = (key) ->
   if key == 'escape' -- change this later
     love.event.quit!
+
+  currentState\keypressed key
+
+love.draw = ->
+  currentState\draw!
