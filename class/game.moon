@@ -1,10 +1,12 @@
 export class Game extends Common
   new: =>
-    @mainCamera = camera.new!
-    @mainCamera\zoomTo love.graphics.getHeight! / 576
-
     @map = Map self
-    @mapCamera = camera.new!
+
+    @camera = {}
+    with @camera
+      .main = camera.new!
+      .main\zoomTo love.graphics.getHeight! / 576
+      .map = camera.new!
 
     --cosmetic stuff
     @irisInCanvas = love.graphics.newCanvas 1024, 576
@@ -18,9 +20,10 @@ export class Game extends Common
 
     --update camera
     x, y = @map.currentRoom\getWorldCenter!
-    @mapCamera\lookAt util.interpolate(@mapCamera.x, x, dt * 7), util.interpolate(@mapCamera.y, y, dt * 7)
+    @camera.map\lookAt util.interpolate(@camera.map.x, x, dt * 7), util.interpolate(@camera.map.y, y, dt * 7)
 
   keypressed: (key) =>
+    --controls
     if key == 'x'
       @map.player\attack!
 
@@ -30,20 +33,20 @@ export class Game extends Common
       with love.graphics
         @irisInCanvas\clear 0, 0, 0, 255
         @irisInCanvas\renderTo(->
-          cameraX, cameraY = @mapCamera\pos!
+          cameraX, cameraY = @camera.map\pos!
           playerX, playerY = @map.player\getCenter!.x, @map.player\getCenter!.y
           .setColor 255, 255, 255, 255
           .circle 'fill', playerX - cameraX + 512, playerY - cameraY + 288, @irisInRadius)
 
 
-    @mainCamera\attach!
+    @camera.main\attach!
 
     --draw the game world
-    @mapCamera\draw(->
+    @camera.map\draw(->
       @map\draw!)
 
     --gui stuff
-    topLeftX, topLeftY = @mainCamera\worldCoords 0, 0
+    topLeftX, topLeftY = @camera.main\worldCoords 0, 0
     if @map.gameStarted
       for i = 1, @map.player.maxHealth
         with love.graphics
@@ -61,4 +64,4 @@ export class Game extends Common
         .draw @irisInCanvas, topLeftX, topLeftY
         .setBlendMode 'alpha'
 
-    @mainCamera\detach!
+    @camera.main\detach!
