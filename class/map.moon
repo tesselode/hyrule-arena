@@ -9,6 +9,7 @@ export class Map extends Common
 
 		--game flow
 		@gameStarted = false
+		@animationStarted = false
 		@playerSpawnAnimation = PlayerSpawnAnimation self
 
 	startGame: =>
@@ -56,7 +57,8 @@ export class Map extends Common
 				-- 	\openDoors!
 
 		--game start animation
-		if (not @gameStarted) and love.keyboard.isDown 'return'
+		if (not @gameStarted) and (not @animationStarted) and love.keyboard.isDown 'return'
+			@animationStarted = true
 			@playerSpawnAnimation\start!
 
 		--update cosmetic things

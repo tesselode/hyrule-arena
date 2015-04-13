@@ -2,25 +2,80 @@ export class PlayerSpawnAnimation extends Common
   new: (@map) =>
     super!
 
-    @shouldDraw = false
+    @active = false
     @position = vector!
+
     @shadowAlpha = 0
 
+    @currentAnimation = animations.linkRunDown
+    @animationTimer = 1
+    @animationSpeed = 20
+
+    @beamWidth = 0
+    @beamAlpha = 255
+
+    @fakeHealthY = -50
+
   start: =>
+    @active = true
+
     @position = vector 512, -50
-    @shouldDraw = true
-    @tween\to(self, 1.5, {shadowAlpha: 255})
+
+    @shadowAlpha = 0
+
+    @currentAnimation = animations.linkRunDown
+    @animationTimer = 1
+    @animationSpeed = 20
+
+    @beamWidth = 0
+    @beamAlpha = 255
+
+    @fakeHealthY = -50
+
     @tween\to(@position, 1.5, {y: 288})\oncomplete(->
-      @shouldDraw = false
+      @active = false
       @map\startGame!)
+    @tween\to(self, 1.5, {shadowAlpha: 255, animationSpeed: 2})
+    @tween\to(self, .2, {beamWidth: 25})
+    @tween\to(self, .5, {beamAlpha: 0})\delay(1)
+    @tween\to(self, 1.5, {fakeHealthY: 10})\ease('elasticinout')
+
+  update: (dt) =>
+    super dt
+
+    if @active
+      @animationTimer -= dt * @animationSpeed
+      while @animationTimer <= 0
+        @animationTimer += 1
+        @spin!
+
+  spin: =>
+    with animations
+      if @currentAnimation == .linkRunDown
+        @currentAnimation = .linkRunLeft
+      elseif @currentAnimation == .linkRunLeft
+        @currentAnimation = .linkRunUp
+      elseif @currentAnimation == .linkRunUp
+        @currentAnimation = .linkRunRight
+      elseif @currentAnimation == .linkRunRight
+        @currentAnimation = .linkRunDown
 
   draw: =>
-    if @shouldDraw
+    if @active
       with love.graphics
+        --draw beam
+        .setColor 100, 100, 255, @beamAlpha
+        .rectangle 'fill', 512 - @beamWidth / 2, 0, @beamWidth, 300
+
         --draw shadow
         .setColor 255, 255, 255, @shadowAlpha
         .draw images.shadow, 512, 288, 0, 1, 1, images.shadow\getWidth! / 2
 
         --draw link
         .setColor 255, 255, 255, 255
-        animations.linkRunDown\draw images.linkSpriteSheet, @position.x, @position.y, 0, 2, 2, 16, 16
+        @currentAnimation\draw images.linkSpriteSheet, @position.x, @position.y, 0, 2, 2, 16, 16
+
+        --fake health bar
+        .setColor 255, 255, 255, 255
+        for i = 1, 10
+          .draw images.heartFull, 10 + (i - 1) * 30, @fakeHealthY, 0, 1.5, 1.5

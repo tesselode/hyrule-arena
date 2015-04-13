@@ -30,10 +30,10 @@ love.load =  ->
   g = anim8.newGrid 32, 32, images.linkSpriteSheet\getWidth!, images.linkSpriteSheet\getHeight!
 
   animations =
-    linkRunUp: anim8.newAnimation g('1-4', 1), 0.5
-    linkRunRight: anim8.newAnimation g('1-4', 2), 0.5
-    linkRunLeft: anim8.newAnimation(g('1-4', 2), 0.5)\flipH!
-    linkRunDown: anim8.newAnimation g('1-4', 3), 0.5
+    linkRunUp: anim8.newAnimation g('1-4', 1), 0.1
+    linkRunRight: anim8.newAnimation g('1-4', 2), 0.1
+    linkRunLeft: anim8.newAnimation(g('1-4', 2), 0.1)\flipH!
+    linkRunDown: anim8.newAnimation g('1-4', 3), 0.1
 
   -- classes
   require 'class.common'
