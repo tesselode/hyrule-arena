@@ -37,18 +37,18 @@ love.load =  ->
 
   -- classes
   require 'class.common'
-  require 'class.physical'
-  require 'class.wall'
-  require 'class.projectile'
-  require 'class.gem'
-  require 'class.player'
-  require 'class.enemies.enemy'
-  require 'class.enemies.follower'
-  require 'class.enemies.octorok'
-  require 'class.enemies.tektite'
+  require 'class.physical.physical'
+  require 'class.physical.wall'
+  require 'class.physical.projectile'
+  require 'class.physical.gem'
+  require 'class.physical.player'
+  require 'class.physical.enemies.enemy'
+  require 'class.physical.enemies.follower'
+  require 'class.physical.enemies.octorok'
+  require 'class.physical.enemies.tektite'
   require 'class.map'
   require 'class.room'
-  require 'class.door'
+  require 'class.physical.door'
   require 'class.cosmetic.playerSpawnAnimation'
 
   -- states
