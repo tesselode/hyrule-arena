@@ -53,6 +53,9 @@ love.load =  ->
 
   currentState = Game!
 
+  --temporary code so I can see shadows
+  love.graphics.setBackgroundColor 100, 100, 100, 255
+
 love.update = (dt) ->
   -- update some libraries
   tick.update dt
