@@ -29,14 +29,15 @@ export Game = {
     @mapCamera\detach!
 
     --gui stuff
-    for i = 1, @map.player.maxHealth
-      topLeftX, topLeftY = @mainCamera\worldCoords 0, 0
-      with love.graphics
-        .setColor 255, 255, 255, 255
-        if i > @map.player.health
-          .draw images.heartEmpty, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
-        else
-          .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
+    if @map.gameStarted
+      for i = 1, @map.player.maxHealth
+        topLeftX, topLeftY = @mainCamera\worldCoords 0, 0
+        with love.graphics
+          .setColor 255, 255, 255, 255
+          if i > @map.player.health
+            .draw images.heartEmpty, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
+          else
+            .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
 
     @mainCamera\detach!
 }
