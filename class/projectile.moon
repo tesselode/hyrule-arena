@@ -10,6 +10,7 @@ export class Projectile extends Physical
 
   update: (dt) =>
     cols = super dt
+
     for col in *cols
       --destroy after hitting a wall
       if col.other.__class == Wall
@@ -19,3 +20,9 @@ export class Projectile extends Physical
         if @isEnemy ~= col.other.isEnemy
           col.other\takeDamage self, @damage
           self.delete = true
+
+    --delete if outside room
+    x, y = @getCenter!\unpack!
+    rx, ry, rw, rh = gamestate.current!.map.currentRoom\getWorldRect!
+    if x < rx or x > rx + rw or y < ry or y > ry + rh
+      @delete = true
