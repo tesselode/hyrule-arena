@@ -1,10 +1,19 @@
-export class Map
+export class Map extends Common
 	new: =>
+		super!
+
 		@world = bump.newWorld!
-		@player = Player @world, 400, 300
 		@rooms = {}
 		@currentLevel = 1
 		@currentRoom = @addRoom 0, 0, false
+
+		--game flow
+		@gameStarted = false
+		@playerSpawnAnimation = PlayerSpawnAnimation self
+
+	startGame: =>
+		@gameStarted = true
+		@player = Player @world, 512 - 16, 288 - 16
 
 	update: (dt) =>
 		room = @currentRoom
@@ -24,17 +33,18 @@ export class Map
 				@world\remove item
 
 		-- keep track of which room the player is in
-		with @player
-			{:x, :y} = \getCenter!
-			_, _, width, height = .world\getRect @player
-			if x < rx and .velocity.x < 0
-				@exploreTo room.x - 1, room.y
-			elseif x >= rx + rw and .velocity.x > 0
-				@exploreTo room.x + 1, room.y
-			elseif y < ry and .velocity.y < 0
-				@exploreTo room.x, room.y - 1
-			elseif y >= ry + rh and .velocity.y > 0
-				@exploreTo room.x, room.y + 1
+		if @gameStarted
+			with @player
+				{:x, :y} = \getCenter!
+				_, _, width, height = .world\getRect @player
+				if x < rx and .velocity.x < 0
+					@exploreTo room.x - 1, room.y
+				elseif x >= rx + rw and .velocity.x > 0
+					@exploreTo room.x + 1, room.y
+				elseif y < ry and .velocity.y < 0
+					@exploreTo room.x, room.y - 1
+				elseif y >= ry + rh and .velocity.y > 0
+					@exploreTo room.x, room.y + 1
 
 		with room
 			if \isCompleted!
@@ -44,6 +54,13 @@ export class Map
 					\closeDoors!
 				-- else
 				-- 	\openDoors!
+
+		--game start animation
+		if (not @gameStarted) and love.keyboard.isDown 'return'
+			@playerSpawnAnimation\start!
+
+		--update cosmetic things
+		@playerSpawnAnimation\update dt
 
 
 	addRoom: (x, y, genRoom) =>
@@ -68,3 +85,6 @@ export class Map
 
 		for object in *objects
 			object\draw!
+
+		--draw cosmetic things
+		@playerSpawnAnimation\draw!

@@ -6,7 +6,7 @@ export class Player extends Physical
     @acceleration = 4000
     @drag = 8
     @maxSpeed = 300
-    @direction = 0
+    @direction = math.pi / 2
     @knockback = false
 
     --attack stuff
