@@ -9,12 +9,12 @@ export class Door extends Wall
 		@tween\update dt
 
 	open: =>
-		with @tween\to self, 0.3, opacity: 0
-			\oncomplete -> @isOpen = true
+		@isOpen = true
+		@tween\to self, 0.3, opacity: 0
 
 	close: =>
-		with @tween\to self, 0.3, opacity: 1
-			\oncomplete -> @isOpen = false
+		@isOpen = false
+		@tween\to self, 0.3, opacity: 1
 
 	draw: =>
 		love.graphics.setColor 255, 255, 255, 255 * @opacity
