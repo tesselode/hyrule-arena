@@ -76,6 +76,6 @@ export class PlayerSpawnAnimation extends Common
         @currentAnimation\draw images.linkSpriteSheet, @position.x, @position.y, 0, 2, 2, 16, 16
 
         --fake health bar
-        .setColor 255, 255, 255, 255
-        for i = 1, 10
-          .draw images.heartFull, 10 + (i - 1) * 30, @fakeHealthY, 0, 1.5, 1.5
+        --.setColor 255, 255, 255, 255
+        --for i = 1, 10
+        --  .draw images.heartFull, 10 + (i - 1) * 30, @fakeHealthY, 0, 1.5, 1.5

@@ -57,6 +57,7 @@ love.load =  ->
   require 'class.map'
   require 'class.room'
   require 'class.physical.door'
+  require 'class.cosmetic.hud'
   require 'class.cosmetic.playerSpawnAnimation'
   require 'class.cosmetic.irisInAnimation'
   require 'class.menu.titleMenu'

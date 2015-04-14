@@ -25,6 +25,7 @@ export class Game extends Common
 
     --cosmetic stuff
     @cosmetic = {
+      hud: HUD self
       playerSpawnAnimation: PlayerSpawnAnimation self
       irisInAnimation: IrisInAnimation self
     }
@@ -81,6 +82,7 @@ export class Game extends Common
     --update cosmetic stuff
     @menu.title\update dt
     @menu.gameOver\update dt
+    @cosmetic.hud\update dt
     @cosmetic.playerSpawnAnimation\update dt
     @cosmetic.irisInAnimation\update dt
 
@@ -89,6 +91,7 @@ export class Game extends Common
       --start the game
       if @gameFlow.state == 'title'
         @gameFlow.state == 'startingAnimation'
+        @cosmetic.hud\flyDown!
         @cosmetic.playerSpawnAnimation\start!
         @menu.title\flyUp!
 
@@ -104,6 +107,7 @@ export class Game extends Common
         --animations
         @menu.title\flyDown!
         @menu.gameOver\flyDown!
+        @cosmetic.hud\flyUp!
         @cosmetic.irisInAnimation\openUp!
 
 
@@ -137,18 +141,7 @@ export class Game extends Common
 
       --gui stuff
       topLeftX, topLeftY = @camera.main\worldCoords 0, 0
-      if @gameFlow.state == 'gameplay'
-        for i = 1, @player.maxHealth
-          with love.graphics
-            .setColor 255, 255, 255, 255
-            if i > @player.health
-              .draw images.heartEmpty, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
-            else
-              .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
-
-      --draw iris in animation
       @cosmetic.irisInAnimation\draw topLeftX, topLeftY
-
-      --draw menus
+      @cosmetic.hud\draw topLeftX, topLeftY
       @menu.title\draw topLeftX, topLeftY
       @menu.gameOver\draw topLeftX, topLeftY
