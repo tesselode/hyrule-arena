@@ -50,6 +50,7 @@ love.load =  ->
   require 'class.room'
   require 'class.physical.door'
   require 'class.cosmetic.playerSpawnAnimation'
+  require 'class.cosmetic.irisInAnimation'
 
   currentState = Game!
 

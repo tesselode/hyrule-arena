@@ -21,11 +21,7 @@ export class Game extends Common
     --cosmetic stuff
     @cosmetic = {
       playerSpawnAnimation: PlayerSpawnAnimation self
-      irisIn: {
-        canvas: love.graphics.newCanvas 1024, 576
-        position: vector!
-        radius: 2000
-      }
+      irisInAnimation: IrisInAnimation self
     }
 
   startGame: =>
@@ -67,14 +63,10 @@ export class Game extends Common
         elseif y >= ry + rh and .velocity.y > 0
           @map\exploreTo room.x, room.y + 1
 
-      --update iris in animation
-      roomX, roomY = @map.currentRoom\getWorldPosition!
-      playerX, playerY = @player\getCenter!\unpack!
-      @cosmetic.irisIn.position = vector playerX - roomX, playerY - roomY
-
+      --trigger game over
       if @player.health <= 0
         @gameFlow.state = 'game over'
-        @tween\to @cosmetic.irisIn, 1, {radius: 100}
+        @cosmetic.irisInAnimation\closeIn!
 
     --update camera
     x, y = room\getWorldCenter!
@@ -82,6 +74,7 @@ export class Game extends Common
 
     --update cosmetic stuff
     @cosmetic.playerSpawnAnimation\update dt
+    @cosmetic.irisInAnimation\update dt
 
   keypressed: (key) =>
     if key == 'return'
@@ -100,7 +93,7 @@ export class Game extends Common
         --switch to title screen
         @gameFlow.state = 'title'
         --animation
-        @tween\to @cosmetic.irisIn, 1, {radius: 2000}
+        @cosmetic.irisInAnimation\openUp!
 
     if key == 'f1'
       @player.health = 0
@@ -112,12 +105,7 @@ export class Game extends Common
 
   draw: =>
     --render iris in transition
-    with love.graphics
-      @cosmetic.irisIn.canvas\clear 0, 0, 0, 255
-      @cosmetic.irisIn.canvas\renderTo(->
-        x, y = @cosmetic.irisIn.position\unpack!
-        .setColor 255, 255, 255, 255
-        .circle 'fill', x, y, @cosmetic.irisIn.radius)
+    @cosmetic.irisInAnimation\render!
 
     @camera.main\draw ->
       @camera.world\draw ->
@@ -135,8 +123,8 @@ export class Game extends Common
         @cosmetic.playerSpawnAnimation\draw!
 
       --gui stuff
-      topLeftX, topLeftY = @camera.main\worldCoords 0, 0
       if @gameFlow.state == 'gameplay'
+        topLeftX, topLeftY = @camera.main\worldCoords 0, 0
         for i = 1, @player.maxHealth
           with love.graphics
             .setColor 255, 255, 255, 255
@@ -145,9 +133,5 @@ export class Game extends Common
             else
               .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
 
-      --draw iris in transition
-      with love.graphics
-        .setBlendMode 'multiplicative'
-        .setColor 255, 255, 255, 255
-        .draw @cosmetic.irisIn.canvas, topLeftX, topLeftY
-        .setBlendMode 'alpha'
+      --draw iris in animation        
+      @cosmetic.irisInAnimation\draw!
