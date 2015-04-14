@@ -1,6 +1,6 @@
 export class Player extends Physical
-  new: (world, x, y) =>
-    super world, x, y, 32, 32
+  new: (state, x, y) =>
+    super state, x, y, 32, 32
 
     --movement stuff
     @acceleration = 4000
@@ -99,7 +99,7 @@ export class Player extends Physical
   attack: =>
     --full health beam
     if @health == @maxHealth and @canShoot
-      Projectile @world, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
+      Projectile @state, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
       @canShoot = false
       @timer\delay (-> @canShoot = true), @canShootTime
 
@@ -111,7 +111,7 @@ export class Player extends Physical
         @tween\to @swordHitbox, .5, drawAlpha: 0 --delete me when the game actually has graphics
 
         --deal damage to any enemies in range
-        for item in *@world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
+        for item in *@state.world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
           if item.__class == Enemy or item.__class.__parent == Enemy
             --if not item.inAir
             item\takeDamage self, @damage
@@ -138,7 +138,7 @@ export class Player extends Physical
     if (not @ghosting) or (@ghostingVisible)
       with love.graphics
         .setColor 255, 255, 255, 255
-        x, y, w, h = @world\getRect self
+        x, y, w, h = @state.world\getRect self
         if @direction == 0
           animations.linkRunRight\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 2, 2, 16, 16
         elseif @direction == math.pi
@@ -155,7 +155,7 @@ export class Player extends Physical
         with love.graphics
           .setColor 0, 0, 0, 255
           .setLineWidth 3
-          x, y, w, h = @world\getRect self
+          x, y, w, h = @state.world\getRect self
           directionLine = vector(w/2, 0)\rotated(@direction)
           .line @getCenter!.x, @getCenter!.y, @getCenter!.x + directionLine.x, @getCenter!.y + directionLine.y
 

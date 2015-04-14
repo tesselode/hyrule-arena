@@ -3,7 +3,6 @@ love.load =  ->
 
   -- libraries
   vector = require 'lib.hump.vector'
-  gamestate = require 'lib.hump.gamestate'
   camera = require 'lib.hump.camera'
   bump = require 'lib.bump'
   tick = require 'lib.tick'
@@ -37,32 +36,38 @@ love.load =  ->
 
   -- classes
   require 'class.common'
-  require 'class.physical'
-  require 'class.wall'
-  require 'class.projectile'
-  require 'class.gem'
-  require 'class.player'
-  require 'class.enemies.enemy'
-  require 'class.enemies.follower'
-  require 'class.enemies.octorok'
-  require 'class.enemies.tektite'
+  require 'class.game'
+  require 'class.physical.physical'
+  require 'class.physical.wall'
+  require 'class.physical.projectile'
+  require 'class.physical.gem'
+  require 'class.physical.player'
+  require 'class.physical.enemies.enemy'
+  require 'class.physical.enemies.follower'
+  require 'class.physical.enemies.octorok'
+  require 'class.physical.enemies.tektite'
   require 'class.map'
   require 'class.room'
-  require 'class.door'
+  require 'class.physical.door'
   require 'class.cosmetic.playerSpawnAnimation'
 
-  -- states
-  require 'game'
+  currentState = Game!
 
-  with gamestate
-    .registerEvents!
-    .switch Game
+  --temporary code so I can see shadows
+  love.graphics.setBackgroundColor 100, 100, 100, 255
 
 love.update = (dt) ->
   -- update some libraries
   tick.update dt
   flux.update dt
 
+  currentState\update dt
+
 love.keypressed = (key) ->
   if key == 'escape' -- change this later
     love.event.quit!
+
+  currentState\keypressed key
+
+love.draw = ->
+  currentState\draw!

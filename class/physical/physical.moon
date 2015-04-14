@@ -1,7 +1,7 @@
 export class Physical extends Common
-  new: (@world, x, y, w, h) =>
+  new: (@state, x, y, w, h) =>
     super!
-    @world\add self, x, y, w, h
+    @state.world\add self, x, y, w, h
     @z = 0
     @velocity = vector!
     @drag = 0
@@ -12,14 +12,14 @@ export class Physical extends Common
     @shadowVisible = false
 
   getCenter: =>
-    x, y, w, h = @world\getRect self
+    x, y, w, h = @state.world\getRect self
     vector x + w/2, y + h/2
 
   setPosition: (x, y) =>
-    @world\update self, x, y
+    @state.world\update self, x, y
 
   setPositionCentered: (x, y) =>
-    _, _, w, h = @world\getRect self
+    _, _, w, h = @state.world\getRect self
     @setPosition x - w/2, y - h/2
 
   update: (dt) =>
@@ -31,8 +31,8 @@ export class Physical extends Common
       .y = util.interpolate .y, 0, dt * @drag
 
     --movement
-    x, y = @world\getRect self
-    _, _, cols = @world\move self, x + @velocity.x * dt, y + @velocity.y * dt, @filter
+    x, y = @state.world\getRect self
+    _, _, cols = @state.world\move self, x + @velocity.x * dt, y + @velocity.y * dt, @filter
     return cols
 
   drawShadow: =>
@@ -47,14 +47,14 @@ export class Physical extends Common
     with love.graphics
       if @image
         .setColor 255, 255, 255, 255
-        x, y, w, h = @world\getRect self
+        x, y, w, h = @state.world\getRect self
         .draw @image, x, y
       else
         if @isEnemy
           .setColor 255, 0, 0, 255
         else
           .setColor 255, 255, 255, 255
-        x, y, w, h = @world\getRect self
+        x, y, w, h = @state.world\getRect self
         .rectangle 'fill', x, y - @z, w, h
 
   onDelete: =>
