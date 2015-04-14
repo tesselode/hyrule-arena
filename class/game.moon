@@ -23,6 +23,7 @@ export class Game extends Common
       playerSpawnAnimation: PlayerSpawnAnimation self
       irisIn: {
         canvas: love.graphics.newCanvas 1024, 576
+        position: vector!
         radius: 2000
       }
     }
@@ -66,6 +67,11 @@ export class Game extends Common
         elseif y >= ry + rh and .velocity.y > 0
           @map\exploreTo room.x, room.y + 1
 
+      --update iris in animation
+      roomX, roomY = @map.currentRoom\getWorldPosition!
+      playerX, playerY = @player\getCenter!\unpack!
+      @cosmetic.irisIn.position = vector playerX - roomX, playerY - roomY
+
       if @player.health <= 0
         @gameFlow.state = 'game over'
         @tween\to @cosmetic.irisIn, 1, {radius: 100}
@@ -79,27 +85,39 @@ export class Game extends Common
 
   keypressed: (key) =>
     if key == 'return'
+      --start the game
       if @gameFlow.state == 'title'
         @gameFlow.state == 'startingAnimation'
         @cosmetic.playerSpawnAnimation\start!
+
+      --reset game
+      if @gameFlow.state == 'game over'
+        --delete all world objects
+        for item in *@world\getItems!
+          @world\remove item
+        --reset map
+        @map = Map self
+        --switch to title screen
+        @gameFlow.state = 'title'
+        --animation
+        @tween\to @cosmetic.irisIn, 1, {radius: 2000}
 
     if key == 'f1'
       @player.health = 0
 
     --controls
-    if key == 'x'
-      @player\attack!
+    if @gameFlow.state == 'gameplay'
+      if key == 'x'
+        @player\attack!
 
   draw: =>
     --render iris in transition
-    if @gameFlow.state == 'game over'
-      with love.graphics
-        @cosmetic.irisIn.canvas\clear 0, 0, 0, 255
-        @cosmetic.irisIn.canvas\renderTo(->
-          cameraX, cameraY = @camera.world\pos!
-          playerX, playerY = @player\getCenter!.x, @player\getCenter!.y
-          .setColor 255, 255, 255, 255
-          .circle 'fill', playerX - cameraX + 512, playerY - cameraY + 288, @cosmetic.irisIn.radius)
+    with love.graphics
+      @cosmetic.irisIn.canvas\clear 0, 0, 0, 255
+      @cosmetic.irisIn.canvas\renderTo(->
+        x, y = @cosmetic.irisIn.position\unpack!
+        .setColor 255, 255, 255, 255
+        .circle 'fill', x, y, @cosmetic.irisIn.radius)
 
     @camera.main\draw ->
       @camera.world\draw ->
@@ -128,9 +146,8 @@ export class Game extends Common
               .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
 
       --draw iris in transition
-      if @gameFlow.state == 'game over'
-        with love.graphics
-          .setBlendMode 'multiplicative'
-          .setColor 255, 255, 255, 255
-          .draw @cosmetic.irisIn.canvas, topLeftX, topLeftY
-          .setBlendMode 'alpha'
+      with love.graphics
+        .setBlendMode 'multiplicative'
+        .setColor 255, 255, 255, 255
+        .draw @cosmetic.irisIn.canvas, topLeftX, topLeftY
+        .setBlendMode 'alpha'
