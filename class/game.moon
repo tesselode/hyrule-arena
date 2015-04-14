@@ -29,7 +29,7 @@ export class Game extends Common
 
   startGame: =>
     @gameFlow.state = 'gameplay'
-    @player = Player @world, 512 - 16, 288 - 16
+    @player = Player self, 512 - 16, 288 - 16
 
   update: (dt) =>
     super dt
@@ -56,7 +56,7 @@ export class Game extends Common
       with @player
         -- keep track of which room the player is in
         {:x, :y} = \getCenter!
-        _, _, width, height = .world\getRect @player
+        _, _, width, height = @world\getRect @player
         if x < rx and .velocity.x < 0
           @map\exploreTo room.x - 1, room.y
         elseif x >= rx + rw and .velocity.x > 0

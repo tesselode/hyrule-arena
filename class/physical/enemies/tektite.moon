@@ -1,6 +1,6 @@
 export class Tektite extends Enemy
-  new: (world, x, y) =>
-    super world, x, y
+  new: (state, x, y) =>
+    super state, x, y
 
     --jumping pattern
     @timer\recur ->

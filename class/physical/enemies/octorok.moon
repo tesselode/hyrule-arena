@@ -1,6 +1,6 @@
 export class Octorok extends Enemy
-  new: (world, x, y) =>
-    super world, x, y
+  new: (state, x, y) =>
+    super state, x, y
     @speed = 150
     @direction = 0
 
@@ -20,7 +20,7 @@ export class Octorok extends Enemy
         @velocity = vector.new(0, 0),
       3.5
     @timer\delay ->
-        projectile = Projectile @world, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
+        projectile = Projectile @state, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
         projectile.isEnemy = true,
       3.75
 
@@ -39,7 +39,7 @@ export class Octorok extends Enemy
     with love.graphics
       .setColor 255, 255, 255, 255
       .setLineWidth 3
-      x, y, w, h = @world\getRect self
+      x, y, w, h = @state.world\getRect self
       .circle 'line', x + w/2, y + h/2, w/2
       directionLine = vector.new(20, 0)\rotated(@direction)
       .line x + w/2, y + h/2, x + w/2 + directionLine.x, y + h/2 + directionLine.y

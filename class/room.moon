@@ -5,7 +5,7 @@ export class Room
 	roomDensity: 4
 	doorSize: 4
 
-	new: (@world, @x, @y, @level, genTiles = true) =>
+	new: (@state, @x, @y, @level, genTiles = true) =>
 		w, h = 1024, 576
 		@roomWidth  = math.floor w / @tileSize
 		@roomHeight = math.floor h / @tileSize
@@ -93,7 +93,7 @@ export class Room
 				when 3
 					Follower
 
-			with e = EnemyType @world, 0, 0
+			with e = EnemyType @state, 0, 0
 				\setPositionCentered worldPos\unpack!
 				table.insert @enemies, e
 
@@ -118,7 +118,7 @@ export class Room
 		#aliveEnemies == 0
 
 	withinWalls: (player) =>
-		x, y, w, h = player.world\getRect player
+		x, y, w, h = @state.world\getRect player
 		wx, wy, ww, wh = @getWorldRect!
 
 		wx += @tileSize
@@ -132,7 +132,7 @@ export class Room
 	addRoomTile: (tx, ty, tw, th, TileClass = Wall) =>
 		wx, wy = @getWorldPosition!
 
-		wall = TileClass @world,
+		wall = TileClass @state,
 			wx + util.multiple(tx - 1) * @tileSize,
 			wy + util.multiple(ty - 1) * @tileSize,
 			util.multiple(tw) * @tileSize,

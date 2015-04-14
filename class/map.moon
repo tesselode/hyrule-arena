@@ -27,7 +27,7 @@ export class Map extends Common
 				-- 	\openDoors!
 
 	addRoom: (x, y, genRoom) =>
-		newRoom = Room @world, x, y, @currentLevel, genRoom
+		newRoom = Room @state, x, y, @currentLevel, genRoom
 		@rooms[x] or= {}
 		@rooms[x][y] = newRoom
 		@currentLevel += 1 -- increase level by one

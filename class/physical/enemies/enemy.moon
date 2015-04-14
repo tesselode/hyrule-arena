@@ -1,6 +1,6 @@
 export class Enemy extends Physical
-  new: (world, x, y) =>
-    super world, x, y, 32, 32
+  new: (state, x, y) =>
+    super state, x, y, 32, 32
 
     @isEnemy = true
     @inAir = false
@@ -27,7 +27,7 @@ export class Enemy extends Physical
         @knockback = false
         @drag = 0
         @velocity = @velocityPrev
-        
+
     --at this point this is a death animation
     if @health <= 0
       @delete = true
@@ -60,4 +60,4 @@ export class Enemy extends Physical
   onDelete: =>
     --spawn gems when dead
     for i = 1, @gemAmount
-      Gem @world, @getCenter!.x, @getCenter!.y
+      Gem @state, @getCenter!.x, @getCenter!.y
