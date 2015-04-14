@@ -5,7 +5,7 @@ export class Tektite extends Enemy
     --jumping pattern
     @timer\recur ->
         @inAir = true
-        player = currentState.player
+        player = @state.player
         @velocity = vector player\getCenter!.x - @getCenter!.x, player\getCenter!.y - @getCenter!.y
         @velocity = @velocity\normalized! * 200
         flux.to(self, .3, {z: 50})\oncomplete(->

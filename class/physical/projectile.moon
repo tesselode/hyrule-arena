@@ -23,6 +23,6 @@ export class Projectile extends Physical
 
     --delete if outside room
     x, y = @getCenter!\unpack!
-    rx, ry, rw, rh = gamestate.current!.map.currentRoom\getWorldRect!
+    rx, ry, rw, rh = @state.map.currentRoom\getWorldRect!
     if x < rx or x > rx + rw or y < ry or y > ry + rh
       @delete = true
