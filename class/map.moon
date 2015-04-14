@@ -8,12 +8,6 @@ export class Map extends Common
 		@currentLevel = 1
 		@currentRoom = @addRoom 0, 0, false
 
-		--game flow
-		@gameStarted = false
-		@gameOver = false
-		@animationStarted = false
-		@playerSpawnAnimation = PlayerSpawnAnimation self
-
 	update: (dt) =>
 		super dt
 
