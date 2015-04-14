@@ -18,6 +18,11 @@ export class Game extends Common
       state: 'title'
     }
 
+    --menus
+    @menu =
+      title: TitleMenu self
+      gameOver: GameOverMenu self
+
     --cosmetic stuff
     @cosmetic = {
       playerSpawnAnimation: PlayerSpawnAnimation self
@@ -67,12 +72,15 @@ export class Game extends Common
       if @player.health <= 0
         @gameFlow.state = 'game over'
         @cosmetic.irisInAnimation\closeIn!
+        @menu.gameOver\flyUp!
 
     --update camera
     x, y = room\getWorldCenter!
     @camera.world\lookAt util.interpolate(@camera.world.x, x, dt * 7), util.interpolate(@camera.world.y, y, dt * 7)
 
     --update cosmetic stuff
+    @menu.title\update dt
+    @menu.gameOver\update dt
     @cosmetic.playerSpawnAnimation\update dt
     @cosmetic.irisInAnimation\update dt
 
@@ -82,6 +90,7 @@ export class Game extends Common
       if @gameFlow.state == 'title'
         @gameFlow.state == 'startingAnimation'
         @cosmetic.playerSpawnAnimation\start!
+        @menu.title\flyUp!
 
       --reset game
       if @gameFlow.state == 'game over'
@@ -92,16 +101,20 @@ export class Game extends Common
         @map = Map self
         --switch to title screen
         @gameFlow.state = 'title'
-        --animation
+        --animations
+        @menu.title\flyDown!
+        @menu.gameOver\flyDown!
         @cosmetic.irisInAnimation\openUp!
 
-    if key == 'f1'
-      @player.health = 0
 
     --controls
     if @gameFlow.state == 'gameplay'
       if key == 'x'
         @player\attack!
+
+      --for testing
+      if key == 'f1'
+        @player.health = 0
 
   draw: =>
     --render iris in transition
@@ -123,8 +136,8 @@ export class Game extends Common
         @cosmetic.playerSpawnAnimation\draw!
 
       --gui stuff
+      topLeftX, topLeftY = @camera.main\worldCoords 0, 0
       if @gameFlow.state == 'gameplay'
-        topLeftX, topLeftY = @camera.main\worldCoords 0, 0
         for i = 1, @player.maxHealth
           with love.graphics
             .setColor 255, 255, 255, 255
@@ -133,5 +146,9 @@ export class Game extends Common
             else
               .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + 10, 0, 1.5, 1.5
 
-      --draw iris in animation        
-      @cosmetic.irisInAnimation\draw!
+      --draw iris in animation
+      @cosmetic.irisInAnimation\draw topLeftX, topLeftY
+
+      --draw menus
+      @menu.title\draw topLeftX, topLeftY
+      @menu.gameOver\draw topLeftX, topLeftY

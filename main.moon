@@ -1,6 +1,10 @@
 love.load =  ->
   export * -- globalizes all variables in this scope
 
+  --constants
+  BASE_WIDTH = 1024
+  BASE_HEIGHT = 576
+
   -- libraries
   vector = require 'lib.hump.vector'
   camera = require 'lib.hump.camera'
@@ -23,6 +27,10 @@ love.load =  ->
     gemBlue: newImage 'images/blue gem.png'
     heartEmpty: newImage 'images/heartEmpty.png'
     heartFull: newImage 'images/heartFull.png'
+
+  fonts =
+    title: love.graphics.newFont 'images/fonts/vcr osd mono.ttf', 48
+    menu: love.graphics.newFont 'images/fonts/vcr osd mono.ttf', 24
 
   -- link animations
   local g
@@ -51,6 +59,8 @@ love.load =  ->
   require 'class.physical.door'
   require 'class.cosmetic.playerSpawnAnimation'
   require 'class.cosmetic.irisInAnimation'
+  require 'class.menu.titleMenu'
+  require 'class.menu.gameOverMenu'
 
   currentState = Game!
 

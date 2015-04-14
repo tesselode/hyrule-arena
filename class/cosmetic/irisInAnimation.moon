@@ -10,7 +10,7 @@ export class IrisInAnimation extends Common
     @tween\to self, 1, {radius: 100}
 
   openUp: =>
-    @tween\to self, 1, {radius: 2000}
+    @tween\to(self, 1, {radius: 2000})\ease('quadin')
 
   update: (dt) =>
     super dt
@@ -29,9 +29,8 @@ export class IrisInAnimation extends Common
         .setColor 255, 255, 255, 255
         .circle 'fill', x, y, @radius)
 
-  draw: =>
+  draw: (topLeftX, topLeftY) =>
     with love.graphics
-      topLeftX, topLeftY = @state.camera.main\worldCoords 0, 0
       .setBlendMode 'multiplicative'
       .setColor 255, 255, 255, 255
       .draw @canvas, topLeftX, topLeftY
