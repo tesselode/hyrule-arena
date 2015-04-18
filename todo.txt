@@ -4,7 +4,7 @@
 (D) Tile walls automatically
 (E) Add a scoring system
 Store scores
-Make the rupees disappear after a bit
+x Make the rupees disappear after a bit
 Add some kind of whoosh effect to give the sword stabbing a sense of motion
 Add voice clips
 Add sound effects

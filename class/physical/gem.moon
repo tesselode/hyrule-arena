@@ -3,7 +3,13 @@ export class Gem extends Physical
     super state, x, y, 24, 24
 
     @shadowVisible = false
-
+    @blinkingVisible = true
+    @blinkingSpeed = 0
+    @blinkingTimer = 1
+    --blinking behavior
+    @timer\delay (-> @blinkingSpeed = 10), .75
+    @timer\delay (-> @blinkingSpeed = 15), 1.5
+    @timer\delay (-> @delete = true), 2.5
     --burst movement
     @velocity = vector.new(love.math.random(500, 1000), 0)\rotated(math.random(2 * math.pi))
     @drag = 8
@@ -35,5 +41,12 @@ export class Gem extends Physical
       if col.other.__class == Player
         self.delete = true
 
+    --blinking effect
+    @blinkingTimer -= @blinkingSpeed * dt
+    while @blinkingTimer <= 0
+      @blinkingTimer += 1
+      @blinkingVisible = not @blinkingVisible
+
   draw: =>
-    super!
+    if @blinkingVisible
+      super!
