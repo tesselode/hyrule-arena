@@ -10,7 +10,7 @@ export class Game extends Common
     @camera = {}
     with @camera
       .main = camera.new! -- for resolution independence
-      .main\zoomTo love.graphics.getHeight! / BASE_HEIGHT
+      .main\zoomTo love.graphics.getHeight! / (BASE_HEIGHT - TILE_SIZE / 2)
       .world = camera.new!
 
     -- game flow

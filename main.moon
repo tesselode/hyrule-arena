@@ -2,8 +2,8 @@ love.load =  ->
   export * -- globalizes all variables in this scope
 
   -- constants
-  BASE_WIDTH = 512
-  BASE_HEIGHT = 288
+  BASE_WIDTH = 384
+  BASE_HEIGHT = 216
   TILE_SIZE = 16
 
   -- libraries
