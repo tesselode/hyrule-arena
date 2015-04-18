@@ -35,12 +35,12 @@ export class Physical extends Common
     _, _, cols = @state.world\move self, x + @velocity.x * dt, y + @velocity.y * dt, @filter
     return cols
 
-  drawShadow: =>
+  drawShadow: (ox = 0, oy = 0) =>
     --draw shadow
     if @shadowVisible
       with love.graphics
         .setColor 255, 255, 255, 255
-        .draw images.shadow, @getCenter!.x, @getCenter!.y, 0, 1, 1, images.shadow\getWidth! / 2
+        .draw images.shadow, @getCenter!.x + ox, @getCenter!.y + oy, 0, 1, 1, images.shadow\getWidth! / 2
 
   draw: =>
     --draw image

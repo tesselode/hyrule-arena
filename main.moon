@@ -1,7 +1,7 @@
 love.load =  ->
   export * -- globalizes all variables in this scope
 
-  --constants
+  -- constants
   BASE_WIDTH = 1024
   BASE_HEIGHT = 576
 
@@ -27,6 +27,7 @@ love.load =  ->
     gemBlue: newImage 'images/blue gem.png'
     heartEmpty: newImage 'images/heartEmpty.png'
     heartFull: newImage 'images/heartFull.png'
+    octorok: newImage 'images/octorok.png'
 
   fonts =
     title: love.graphics.newFont 'images/fonts/vcr osd mono.ttf', 48
@@ -65,7 +66,7 @@ love.load =  ->
 
   currentState = Game!
 
-  --temporary code so I can see shadows
+  -- temporary code so I can see shadows
   love.graphics.setBackgroundColor 100, 100, 100, 255
 
 love.update = (dt) ->

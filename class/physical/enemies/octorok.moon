@@ -25,21 +25,24 @@ export class Octorok extends Enemy
       3.75
 
   update: (dt) =>
-    collisions = super\update dt
+    collisions = super dt
 
     --get facing direction
     if @velocity\len! != 0
       @direction = math.atan2 @velocity.y, @velocity.x
 
   draw: =>
-    super\draw!
+    cx, cy = @getCenter!\unpack!
+    image = images.octorok
+    w,h = image\getDimensions!
 
-    --debug stuff - shows which way the enemy is facing
-    --shamelessly copied straight from the player
     with love.graphics
-      .setColor 255, 255, 255, 255
-      .setLineWidth 3
-      x, y, w, h = @state.world\getRect self
-      .circle 'line', x + w/2, y + h/2, w/2
-      directionLine = vector.new(20, 0)\rotated(@direction)
-      .line x + w/2, y + h/2, x + w/2 + directionLine.x, y + h/2 + directionLine.y
+      .setColor 255, 255, 255
+      .draw images.octorok,
+        cx, cy,
+        @direction,
+        1, 1,
+        w/2, h/2
+
+  drawShadow: =>
+    super 0, -6
