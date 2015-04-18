@@ -2,30 +2,30 @@ export class Game extends Common
   new: =>
     super!
 
-    --game world
+    -- game world
     @world = bump.newWorld!
     @map = Map self
 
-    --cameras
+    -- cameras
     @camera = {}
     with @camera
-      .main = camera.new! --for resolution independence
+      .main = camera.new! -- for resolution independence
       .main\zoomTo love.graphics.getHeight! / 576
       .world = camera.new!
 
-    --game flow
+    -- game flow
     @gameFlow = {
       state: 'title'
       score: 0
       multiplier: 1
     }
 
-    --menus
+    -- menus
     @menu =
       title: TitleMenu self
       gameOver: GameOverMenu self
 
-    --cosmetic stuff
+    -- cosmetic stuff
     @cosmetic = {
       hud: HUD self
       playerSpawnAnimation: PlayerSpawnAnimation self
@@ -40,12 +40,12 @@ export class Game extends Common
   update: (dt) =>
     super dt
 
-    --get the current room
+    -- get the current room
     room = @map.currentRoom
     rx, ry, rw, rh = room\getWorldRect!
 
     if @gameFlow.state == 'gameplay'
-      --update the map
+      -- update the map
       @map\update dt
 
 			-- update all instances in the active room
@@ -72,17 +72,17 @@ export class Game extends Common
         elseif y >= ry + rh and .velocity.y > 0
           @map\exploreTo room.x, room.y + 1
 
-      --trigger game over
+      -- trigger game over
       if @player.health <= 0
         @gameFlow.state = 'game over'
         @cosmetic.irisInAnimation\closeIn!
         @menu.gameOver\flyUp!
 
-    --update camera
+    -- update camera
     x, y = room\getWorldCenter!
     @camera.world\lookAt util.interpolate(@camera.world.x, x, dt * 7), util.interpolate(@camera.world.y, y, dt * 7)
 
-    --update cosmetic stuff
+    -- update cosmetic stuff
     @menu.title\update dt
     @menu.gameOver\update dt
     @cosmetic.hud\update dt
@@ -91,54 +91,59 @@ export class Game extends Common
 
   keypressed: (key) =>
     if key == 'return'
-      --start the game
+      -- start the game
       if @gameFlow.state == 'title'
         @gameFlow.state == 'startingAnimation'
         @cosmetic.hud\flyDown!
         @cosmetic.playerSpawnAnimation\start!
         @menu.title\flyUp!
 
-      --reset game
+      -- reset game
       if @gameFlow.state == 'game over'
-        --delete all world objects
+        -- delete all world objects
         for item in *@world\getItems!
           @world\remove item
 
         with @gameFlow
-          --switch to title screen
+          -- switch to title screen
           .state = 'title'
-          --reset score and stuff
+          -- reset score and stuff
           .score = 0
           .multiplier = 1
 
-        --reset map
+        -- reset map
         @map = Map self
 
-        --animations
+        -- animations
         @menu.title\flyDown!
         @menu.gameOver\flyDown!
         @cosmetic.hud\flyUp!
         @cosmetic.irisInAnimation\openUp!
 
 
-    --controls
+    -- controls
     if @gameFlow.state == 'gameplay'
       if key == 'x'
         @player\attack!
 
-      --for testing
+      -- for testing
       if key == 'f1'
         @player.health = 0
 
   draw: =>
-    --render iris in transition
+    -- render iris in transition
     @cosmetic.irisInAnimation\render!
 
     @camera.main\draw ->
       @camera.world\draw ->
-        --draw all instances
+        -- draw room floors
+        for _,row in pairs @map.rooms
+          for _,room in pairs row
+            room\drawFloor!
+
+        -- draw all instances
         objects = @world\getItems!
-        table.sort objects, (a, b) -> return a.depth < b.depth --sort objects by drawing order
+        table.sort objects, (a, b) -> return a.depth < b.depth -- sort objects by drawing order
 
         for object in *objects
           object\drawShadow!
@@ -146,10 +151,10 @@ export class Game extends Common
         for object in *objects
           object\draw!
 
-        --draw player spawn animation
+        -- draw player spawn animation
         @cosmetic.playerSpawnAnimation\draw!
 
-      --gui stuff
+      -- gui stuff
       topLeftX, topLeftY = @camera.main\worldCoords 0, 0
       @cosmetic.irisInAnimation\draw topLeftX, topLeftY
       @cosmetic.hud\draw topLeftX, topLeftY

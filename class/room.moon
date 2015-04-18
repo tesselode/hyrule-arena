@@ -1,6 +1,18 @@
 random = love.math.random -- convenience
 
 export class Room
+	randomTiles = {
+		'grave1'
+		'grave2'
+		'grave3'
+		'grave4'
+		'grave5'
+		'well'
+		'statue1'
+		'statue2'
+		'statue3'
+	}
+
 	tileSize: 64
 	roomDensity: 4
 	doorSize: 4
@@ -12,6 +24,11 @@ export class Room
 		@tiles = {}
 		@enemies = {}
 		@doorsOpen = true
+		@floor = with love.graphics.newSpriteBatch images.environment
+			w, h = @getWorldSize!
+			for x=0, w, @tileSize
+				for y=0, h, @tileSize
+					\add roomQuads.floor, x, y, 0, 4, 4
 
 		@generateWalls!
 		if genTiles
@@ -76,8 +93,11 @@ export class Room
 			pos = table.remove spawnPositions, love.math.random #spawnPositions
 			mirrored = vector pos.x + (@roomWidth/2 - pos.x)*2 + 1, pos.y
 
-			@addRoomTile pos.x, pos.y, 1, 1
-			@addRoomTile mirrored.x, mirrored.y, 1, 1
+			with @addRoomTile pos.x, pos.y, 1, 1
+				.quad = roomQuads[util.trandom randomTiles]
+
+			with @addRoomTile mirrored.x, mirrored.y, 1, 1
+				.quad = roomQuads[util.trandom randomTiles]
 
 	generateEnemies: (spawnPositions) =>
 		-- throw in some enemies
@@ -140,3 +160,8 @@ export class Room
 
 		table.insert @tiles, wall
 		wall
+
+	drawFloor: =>
+		with love.graphics
+			.setColor 255, 255, 255
+			.draw @floor, @getWorldPosition!

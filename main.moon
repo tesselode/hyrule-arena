@@ -28,6 +28,7 @@ love.load =  ->
     heartEmpty: newImage 'images/heartEmpty.png'
     heartFull: newImage 'images/heartFull.png'
     octorok: newImage 'images/octorok.png'
+    environment: newImage 'images/environment.png'
 
   fonts =
     title: love.graphics.newFont 'images/fonts/vcr osd mono.ttf', 48
@@ -42,6 +43,26 @@ love.load =  ->
     linkRunRight: anim8.newAnimation g('1-4', 2), 0.1
     linkRunLeft: anim8.newAnimation(g('1-4', 2), 0.1)\flipH!
     linkRunDown: anim8.newAnimation g('1-4', 3), 0.1
+
+  local roomTile
+  roomTile = (x, y, w = 1, h = 1) ->
+    love.graphics.newQuad (x - 1) * 16, (y - 1) * 16,
+      16 * w, 16 * h,
+      images.environment\getDimensions!
+
+  roomQuads =
+    grave1: roomTile 1, 3
+    grave2: roomTile 2, 3
+    grave3: roomTile 3, 3
+    grave4: roomTile 4, 3
+    grave5: roomTile 5, 3
+    well: roomTile 1, 6
+    statue1: roomTile 10, 8
+    statue2: roomTile 11, 8
+    statue3: roomTile 12, 8
+
+    floor: roomTile 9, 3, 2, 2
+    wall: roomTile 9, 1, 2, 2
 
   -- classes
   require 'class.common'

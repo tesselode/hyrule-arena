@@ -1,4 +1,5 @@
 export class Door extends Wall
+
 	new: (...) =>
 		super ...
 
