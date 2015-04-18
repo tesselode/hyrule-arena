@@ -40,6 +40,7 @@ export class Gem extends Physical
       --get collected by the player
       if col.other.__class == Player
         self.delete = true
+        @state.gameFlow.multiplier += 0.1
 
     --blinking effect
     @blinkingTimer -= @blinkingSpeed * dt

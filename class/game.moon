@@ -16,6 +16,8 @@ export class Game extends Common
     --game flow
     @gameFlow = {
       state: 'title'
+      score: 0
+      multiplier: 1
     }
 
     --menus
@@ -31,7 +33,8 @@ export class Game extends Common
     }
 
   startGame: =>
-    @gameFlow.state = 'gameplay'
+    with @gameFlow
+      .state = 'gameplay'
     @player = Player self, 512 - 16, 288 - 16
 
   update: (dt) =>
@@ -100,10 +103,17 @@ export class Game extends Common
         --delete all world objects
         for item in *@world\getItems!
           @world\remove item
+
+        with @gameFlow
+          --switch to title screen
+          .state = 'title'
+          --reset score and stuff
+          .score = 0
+          .multiplier = 1
+
         --reset map
         @map = Map self
-        --switch to title screen
-        @gameFlow.state = 'title'
+
         --animations
         @menu.title\flyDown!
         @menu.gameOver\flyDown!

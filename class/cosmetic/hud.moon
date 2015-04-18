@@ -5,7 +5,7 @@ export class HUD extends Common
     @maxHealth = 10
     @health = @maxHealth
 
-    @y = -50
+    @y = -100
 
   flyDown: =>
     @maxHealth = 10
@@ -14,7 +14,7 @@ export class HUD extends Common
 
   flyUp: =>
     --@tween\to(self, 1.5, {y: -50})\ease('elasticinout')
-    @y = -50
+    @y = -100
 
   update: (dt) =>
     super dt
@@ -33,3 +33,8 @@ export class HUD extends Common
           .draw images.heartEmpty, topLeftX + 10 + (i - 1) * 30, topLeftY + @y, 0, 1.5, 1.5
         else
           .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + @y, 0, 1.5, 1.5
+
+    with love.graphics
+      .setColor 0, 0, 0, 255
+      .setFont fonts.menu
+      .print 'Score: '..@state.gameFlow.score..' x '..@state.gameFlow.multiplier, topLeftX + 10, topLeftY + @y + 30

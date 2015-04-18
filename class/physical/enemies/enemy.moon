@@ -8,6 +8,7 @@ export class Enemy extends Physical
     @health = 3
     @damage = 1
     @gemAmount = 5
+    @score = 100
     @shadowVisible = true
 
     --collision filter
@@ -58,6 +59,8 @@ export class Enemy extends Physical
       @velocity = vector.new(800, 0)\rotated(other.direction)
 
   onDelete: =>
+    --give the player poins
+    @state.gameFlow.score += @score * @state.gameFlow.multiplier
     --spawn gems when dead
     for i = 1, @gemAmount
       Gem @state, @getCenter!.x, @getCenter!.y
