@@ -13,7 +13,7 @@ export class Wall extends Physical
     _, _, quadWidth, quadHeight = @quad\getViewport!
 
     with love.graphics
-      scale = 4
+      scale = 1
 
       .setStencil ->
         .setColor 255, 255, 255

@@ -1,7 +1,7 @@
 export class Octorok extends Enemy
   new: (state, x, y) =>
     super state, x, y
-    @speed = 150
+    @speed = 75
     @direction = 0
 
     --loop movement pattern
@@ -20,7 +20,7 @@ export class Octorok extends Enemy
         @velocity = vector.new(0, 0),
       3.5
     @timer\delay ->
-        projectile = Projectile @state, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
+        projectile = Projectile @state, @getCenter!.x, @getCenter!.y, 10, 10, 400, @direction
         projectile.isEnemy = true,
       3.75
 
@@ -41,7 +41,7 @@ export class Octorok extends Enemy
       .draw images.octorok,
         cx, cy,
         @direction,
-        2, 2,
+        1, 1,
         w/2, h/2
 
   drawShadow: =>

@@ -2,15 +2,15 @@ export class IrisInAnimation extends Common
   new: (@state) =>
     super!
 
-    @canvas = love.graphics.newCanvas 1024, 576
+    @canvas = love.graphics.newCanvas BASE_WIDTH, BASE_HEIGHT
     @position = vector!
-    @radius = 2000
+    @radius = 1000
 
   closeIn: =>
-    @tween\to self, 1, {radius: 100}
+    @tween\to self, 1, {radius: 50}
 
   openUp: =>
-    @tween\to(self, 1, {radius: 2000})\ease('quadin')
+    @tween\to(self, 1, {radius: 1000})\ease('quadin')
 
   update: (dt) =>
     super dt

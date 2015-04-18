@@ -19,7 +19,7 @@ export class PlayerSpawnAnimation extends Common
   start: =>
     @active = true
 
-    @position = vector 512, -50
+    @position = vector BASE_WIDTH / 2 - TILE_SIZE / 2, -50
 
     @shadowAlpha = 0
 
@@ -32,11 +32,11 @@ export class PlayerSpawnAnimation extends Common
 
     @fakeHealthY = -50
 
-    @tween\to(@position, 1.5, {y: 288})\oncomplete(->
+    @tween\to(@position, 1.5, {y: BASE_HEIGHT / 2 - TILE_SIZE / 2})\oncomplete(->
       @active = false
       @map\startGame!)
     @tween\to(self, 1.5, {shadowAlpha: 255, animationSpeed: 2})
-    @tween\to(self, .2, {beamWidth: 25})
+    @tween\to(self, .2, {beamWidth: TILE_SIZE})
     @tween\to(self, .5, {beamAlpha: 0})\delay(1)
     @tween\to(self, 1.5, {fakeHealthY: 10})\ease('elasticinout')
 
@@ -69,11 +69,11 @@ export class PlayerSpawnAnimation extends Common
 
         --draw shadow
         .setColor 255, 255, 255, @shadowAlpha
-        .draw images.shadow, 512, 288, 0, 1, 1, images.shadow\getWidth! / 2
+        --.draw images.shadow, 512, 288, 0, 1, 1, images.shadow\getWidth! / 2
 
         --draw link
         .setColor 255, 255, 255, 255
-        @currentAnimation\draw images.linkSpriteSheet, @position.x, @position.y, 0, 2, 2, 16, 16
+        @currentAnimation\draw images.linkSpriteSheet, @position.x, @position.y, 0, 1, 1, 16, 16
 
         --fake health bar
         --.setColor 255, 255, 255, 255

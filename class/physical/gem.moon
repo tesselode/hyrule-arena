@@ -1,6 +1,6 @@
 export class Gem extends Physical
   new: (state, x, y) =>
-    super state, x, y, 24, 24
+    super state, x, y, TILE_SIZE * 2 / 3, TILE_SIZE * 2 / 3
 
     @shadowVisible = false
     @blinkingVisible = true
@@ -11,7 +11,7 @@ export class Gem extends Physical
     @timer\delay (-> @blinkingSpeed = 15), 1.5
     @timer\delay (-> @delete = true), 2.5
     --burst movement
-    @velocity = vector.new(love.math.random(500, 1000), 0)\rotated(math.random(2 * math.pi))
+    @velocity = vector.new(love.math.random(250, 500), 0)\rotated(math.random(2 * math.pi))
     @drag = 8
 
     @filter = (other) =>

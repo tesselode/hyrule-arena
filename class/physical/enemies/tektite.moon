@@ -7,8 +7,8 @@ export class Tektite extends Enemy
         @inAir = true
         player = @state.player
         @velocity = vector player\getCenter!.x - @getCenter!.x, player\getCenter!.y - @getCenter!.y
-        @velocity = @velocity\normalized! * 200
-        flux.to(self, .3, {z: 50})\oncomplete(->
+        @velocity = @velocity\normalized! * 50
+        flux.to(self, .3, {z: 25})\oncomplete(->
           flux.to(self, .3, {z: 0})\ease('quadin')\oncomplete(->
             @inAir = false
             @velocity = vector 0, 0)),

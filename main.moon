@@ -2,8 +2,9 @@ love.load =  ->
   export * -- globalizes all variables in this scope
 
   -- constants
-  BASE_WIDTH = 1024
-  BASE_HEIGHT = 576
+  BASE_WIDTH = 512
+  BASE_HEIGHT = 288
+  TILE_SIZE = 16
 
   -- libraries
   vector = require 'lib.hump.vector'
@@ -31,8 +32,8 @@ love.load =  ->
     environment: newImage 'images/environment.png'
 
   fonts =
-    title: love.graphics.newFont 'images/fonts/vcr osd mono.ttf', 48
-    menu: love.graphics.newFont 'images/fonts/vcr osd mono.ttf', 24
+    title: love.graphics.newFont 'images/fonts/vcr osd mono.ttf', 24
+    menu: love.graphics.newFont 'images/fonts/vcr osd mono.ttf', 12
 
   -- link animations
   local g

@@ -2,7 +2,7 @@ export class Follower extends Enemy
   new: (state, x, y) =>
     super state, x, y
 
-    @speed = 100
+    @speed = 50
 
   update: (dt) =>
     -- move towards the player

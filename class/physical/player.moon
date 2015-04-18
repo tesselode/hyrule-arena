@@ -1,20 +1,20 @@
 export class Player extends Physical
   new: (state, x, y) =>
-    super state, x, y, 32, 32
+    super state, x, y, 16, 16
 
     --movement stuff
-    @acceleration = 4000
+    @acceleration = 2000
     @drag = 8
-    @maxSpeed = 300
+    @maxSpeed = 150
     @direction = math.pi / 2
     @knockback = false
 
     --attack stuff
     @canSwing = true
     @canSwingTime = .1
-    @attackRange = 50
+    @attackRange = 25
     @swordHitbox =
-      w: 32, h: 32
+      w: TILE_SIZE, h: TILE_SIZE
       drawAlpha: 0
       center: vector!
     @canShoot = true
@@ -99,7 +99,7 @@ export class Player extends Physical
   attack: =>
     --full health beam
     if @health == @maxHealth and @canShoot
-      Projectile @state, @getCenter!.x, @getCenter!.y, 10, 10, 800, @direction
+      Projectile @state, @getCenter!.x, @getCenter!.y, 10, 10, 400, @direction
       @canShoot = false
       @timer\delay (-> @canShoot = true), @canShootTime
 
@@ -125,7 +125,7 @@ export class Player extends Physical
       @health -= other.damage
       --knockback stuff
       knockbackVector = (@getCenter! - other\getCenter!)\normalized!
-      @velocity = knockbackVector * 650
+      @velocity = knockbackVector * 325
       @knockback = true
       @ghosting = true
       @timer\delay (-> @ghosting = false), @ghostingTime
@@ -140,13 +140,13 @@ export class Player extends Physical
         .setColor 255, 255, 255, 255
         x, y, w, h = @state.world\getRect self
         if @direction == 0
-          animations.linkRunRight\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 2, 2, 16, 16
+          animations.linkRunRight\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
         elseif @direction == math.pi
-          animations.linkRunLeft\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 2, 2, 16, 16
+          animations.linkRunLeft\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
         elseif @direction == math.pi / 2
-          animations.linkRunDown\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 2, 2, 16, 16
+          animations.linkRunDown\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
         else
-          animations.linkRunUp\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 2, 2, 16, 16
+          animations.linkRunUp\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
 
     --debug stuff
     if true

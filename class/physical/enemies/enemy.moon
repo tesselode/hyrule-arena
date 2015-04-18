@@ -1,6 +1,6 @@
 export class Enemy extends Physical
   new: (state, x, y) =>
-    super state, x, y, 32, 32
+    super state, x, y, TILE_SIZE, TILE_SIZE
 
     @isEnemy = true
     @inAir = false
@@ -56,7 +56,7 @@ export class Enemy extends Physical
       --knockback movement
       @knockback = true
       @velocityPrev = @velocity
-      @velocity = vector.new(800, 0)\rotated(other.direction)
+      @velocity = vector.new(400, 0)\rotated(other.direction)
 
   onDelete: =>
     --give the player poins

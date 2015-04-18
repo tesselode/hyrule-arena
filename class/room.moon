@@ -13,12 +13,12 @@ export class Room
 		'statue3'
 	}
 
-	tileSize: 64
+	tileSize: TILE_SIZE
 	roomDensity: 4
 	doorSize: 4
 
 	new: (@state, @x, @y, @level, genTiles = true) =>
-		w, h = 1024, 576
+		w, h = BASE_WIDTH, BASE_HEIGHT
 		@roomWidth  = math.floor w / @tileSize
 		@roomHeight = math.floor h / @tileSize
 		@tiles = {}
@@ -28,7 +28,7 @@ export class Room
 			w, h = @getWorldSize!
 			for x=0, w, @tileSize
 				for y=0, h, @tileSize
-					\add roomQuads.floor, x, y, 0, 4, 4
+					\add roomQuads.floor, x, y, 0, 1, 1
 
 		@generateWalls!
 		if genTiles

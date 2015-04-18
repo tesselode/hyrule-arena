@@ -28,13 +28,14 @@ export class HUD extends Common
   draw: (topLeftX, topLeftY) =>
     for i = 1, @maxHealth
       with love.graphics
+        interval = images.heartFull\getWidth!
         .setColor 255, 255, 255, 255
         if i > @.health
-          .draw images.heartEmpty, topLeftX + 10 + (i - 1) * 30, topLeftY + @y, 0, 1.5, 1.5
+          .draw images.heartEmpty, topLeftX + 5 + (i - 1) * 16, topLeftY + @y, 0, 1, 1
         else
-          .draw images.heartFull, topLeftX + 10 + (i - 1) * 30, topLeftY + @y, 0, 1.5, 1.5
+          .draw images.heartFull, topLeftX + 5 + (i - 1) * 16, topLeftY + @y, 0, 1, 1
 
     with love.graphics
       .setColor 0, 0, 0, 255
       .setFont fonts.menu
-      .print 'Score: '..@state.gameFlow.score..' x '..@state.gameFlow.multiplier, topLeftX + 10, topLeftY + @y + 30
+      .print 'Score: '..@state.gameFlow.score..' x '..@state.gameFlow.multiplier, topLeftX + 5, topLeftY + @y + 21
