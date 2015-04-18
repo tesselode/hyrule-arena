@@ -12,6 +12,11 @@ export class Game extends Common
       .main = camera.new! -- for resolution independence
       .main\zoomTo love.graphics.getHeight! / (BASE_HEIGHT - TILE_SIZE / 2)
       .world = camera.new!
+      --initial camera placement
+      room = @map.currentRoom
+      x, y = room\getWorldCenter!
+      .world\lookAt x, y
+
 
     -- game flow
     @gameFlow = {

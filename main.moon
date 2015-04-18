@@ -23,7 +23,10 @@ love.load =  ->
   newImage = love.graphics.newImage
 
   images =
-    linkSpriteSheet: newImage 'images/link.png'
+    linkSpriteSheet: newImage 'images/link/link.png'
+    linkStabUp: newImage 'images/link/linkStabUp.png'
+    linkStabRight: newImage 'images/link/linkStabRight.png'
+    linkStabDown: newImage 'images/link/linkStabDown.png'
     shadow: newImage 'images/shadow.png'
     gemBlue: newImage 'images/blue gem.png'
     heartEmpty: newImage 'images/heartEmptySmall.png'

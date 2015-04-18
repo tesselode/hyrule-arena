@@ -11,8 +11,8 @@ export class Player extends Physical
 
     --attack stuff
     @canSwing = true
-    @canSwingTime = .1
-    @attackRange = 25
+    @canSwingTime = .2
+    @attackRange = 12
     @swordHitbox =
       w: TILE_SIZE, h: TILE_SIZE
       drawAlpha: 0
@@ -37,11 +37,12 @@ export class Player extends Physical
         return 'cross'
 
     --cosmetic
+    @sprite = 'animation'
     @shadowVisible = true
     @depth += 100
 
   update: (dt) =>
-    if not @knockback
+    if @canSwing and not @knockback
       --movement
       if love.keyboard.isDown 'left'
         if not love.keyboard.isDown 'right'
@@ -75,6 +76,11 @@ export class Player extends Physical
     if @knockback
       if @velocity\len! < 100
         @knockback = false
+
+    --drag
+    with @velocity
+      .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
+      .y = util.interpolate .y, 0, dt * @drag
 
     cols = super dt
 
@@ -118,7 +124,24 @@ export class Player extends Physical
 
       --delay before being able to stab again
       @canSwing = false
-      @timer\delay (-> @canSwing = true), @canSwingTime
+      @drag = 2
+      --@velocity = vector 0, 0
+
+      --cosmetic stuff
+      if @direction == 0
+        @sprite = 'stabRight'
+      elseif @direction == math.pi
+        @sprite = 'stabLeft'
+      elseif @direction == math.pi / 2
+        @sprite = 'stabDown'
+      elseif @direction == -math.pi / 2
+        @sprite = 'stabUp'
+
+      @timer\delay (->
+          @canSwing = true
+          @drag = 8
+          @sprite = 'animation'),
+        @canSwingTime
 
   takeDamage: (other) =>
     if not @ghosting
@@ -139,14 +162,24 @@ export class Player extends Physical
       with love.graphics
         .setColor 255, 255, 255, 255
         x, y, w, h = @state.world\getRect self
-        if @direction == 0
-          animations.linkRunRight\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
-        elseif @direction == math.pi
-          animations.linkRunLeft\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
-        elseif @direction == math.pi / 2
-          animations.linkRunDown\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
-        else
-          animations.linkRunUp\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
+
+        if @sprite == 'animation'
+          if @direction == 0
+            animations.linkRunRight\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
+          elseif @direction == math.pi
+            animations.linkRunLeft\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
+          elseif @direction == math.pi / 2
+            animations.linkRunDown\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
+          else
+            animations.linkRunUp\draw images.linkSpriteSheet, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
+        elseif @sprite == 'stabRight'
+          .draw images.linkStabRight, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
+        elseif @sprite == 'stabLeft'
+          .draw images.linkStabRight, @getCenter!.x, @getCenter!.y, 0, -1, 1, 16, 16
+        elseif @sprite == 'stabUp'
+          .draw images.linkStabUp, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
+        elseif @sprite == 'stabDown'
+          .draw images.linkStabDown, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
 
     --debug stuff
     if true
@@ -162,4 +195,4 @@ export class Player extends Physical
       --show range of sword attack
       with @swordHitbox
         love.graphics.setColor 0, 0, 0, .drawAlpha
-        love.graphics.rectangle 'fill', .center.x - .w/2, .center.y - .h/2, .w, .h
+        --love.graphics.rectangle 'fill', .center.x - .w/2, .center.y - .h/2, .w, .h
