@@ -35,7 +35,7 @@ export class Game extends Common
   startGame: =>
     with @gameFlow
       .state = 'gameplay'
-    @player = Player self, BASE_WIDTH / 2 - TILE_SIZE, BASE_HEIGHT / 2 - TILE_SIZE
+    @player = Player self, BASE_WIDTH / 2 - TILE_SIZE / 2, BASE_HEIGHT / 2 - TILE_SIZE / 2
 
   update: (dt) =>
     super dt

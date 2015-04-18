@@ -65,7 +65,7 @@ export class PlayerSpawnAnimation extends Common
       with love.graphics
         --draw beam
         .setColor 100, 100, 255, @beamAlpha
-        .rectangle 'fill', 512 - @beamWidth / 2, 0, @beamWidth, 300
+        .rectangle 'fill', BASE_WIDTH / 2 - @beamWidth / 2, 0, @beamWidth, BASE_HEIGHT / 2 + 10
 
         --draw shadow
         .setColor 255, 255, 255, @shadowAlpha
@@ -73,9 +73,4 @@ export class PlayerSpawnAnimation extends Common
 
         --draw link
         .setColor 255, 255, 255, 255
-        @currentAnimation\draw images.linkSpriteSheet, @position.x, @position.y, 0, 1, 1, 16, 16
-
-        --fake health bar
-        --.setColor 255, 255, 255, 255
-        --for i = 1, 10
-        --  .draw images.heartFull, 10 + (i - 1) * 30, @fakeHealthY, 0, 1.5, 1.5
+        @currentAnimation\draw images.linkSpriteSheet, @position.x, @position.y, 0, 1, 1, 8, 8

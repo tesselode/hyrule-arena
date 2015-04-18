@@ -26,14 +26,14 @@ love.load =  ->
     linkSpriteSheet: newImage 'images/link.png'
     shadow: newImage 'images/shadow.png'
     gemBlue: newImage 'images/blue gem.png'
-    heartEmpty: newImage 'images/heartEmpty.png'
-    heartFull: newImage 'images/heartFull.png'
+    heartEmpty: newImage 'images/heartEmptySmall.png'
+    heartFull: newImage 'images/heartFullSmall.png'
     octorok: newImage 'images/octorok.png'
     environment: newImage 'images/environment.png'
 
   fonts =
-    title: love.graphics.newFont 'images/fonts/vcr osd mono.ttf', 24
-    menu: love.graphics.newFont 'images/fonts/vcr osd mono.ttf', 12
+    title: love.graphics.newFont 'images/fonts/visitor1.ttf', 30
+    menu: love.graphics.newFont 'images/fonts/visitor1.ttf', 10
 
   -- link animations
   local g
