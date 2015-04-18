@@ -41,7 +41,7 @@ export class Octorok extends Enemy
       .draw images.octorok,
         cx, cy,
         @direction,
-        1, 1,
+        2, 2,
         w/2, h/2
 
   drawShadow: =>
