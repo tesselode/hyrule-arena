@@ -124,8 +124,7 @@ export class Player extends Physical
 
       --delay before being able to stab again
       @canSwing = false
-      @drag = 8
-      --@velocity = vector 0, 0
+      @drag = 1000
 
       --cosmetic stuff
       if @direction == 0
