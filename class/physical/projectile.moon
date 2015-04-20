@@ -1,6 +1,6 @@
 export class Projectile extends Physical
   new: (state, x, y, w, h, speed, dir) =>
-    super state, x, y, w, h
+    super state, x - w/2, y - h/2, w, h
 
     @velocity = vector.new(speed, 0)\rotated(dir)
 
