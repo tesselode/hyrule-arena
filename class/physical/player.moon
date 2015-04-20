@@ -12,7 +12,7 @@ export class Player extends Physical
     --attack stuff
     @canSwing = true
     @canSwingTime = .2
-    @attackRange = 12
+    @attackRange = 16
     @swordHitbox =
       w: TILE_SIZE, h: TILE_SIZE
       drawAlpha: 0
@@ -124,7 +124,7 @@ export class Player extends Physical
 
       --delay before being able to stab again
       @canSwing = false
-      @drag = 2
+      @drag = 8
       --@velocity = vector 0, 0
 
       --cosmetic stuff
@@ -136,6 +136,10 @@ export class Player extends Physical
         @sprite = 'stabDown'
       elseif @direction == -math.pi / 2
         @sprite = 'stabUp'
+
+      --spark animation
+      positionVector = vector(@getCenter!.x, @getCenter!.y) + vector(16, 0)\rotated(@direction)
+      Whoosh @state, positionVector.x, positionVector.y, @direction
 
       @timer\delay (->
           @canSwing = true

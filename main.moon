@@ -33,6 +33,7 @@ love.load =  ->
     heartFull: newImage 'images/heartFullSmall.png'
     octorok: newImage 'images/octorok.png'
     environment: newImage 'images/environment.png'
+    whoosh: newImage 'images/whoosh.png'
 
   fonts =
     title: love.graphics.newFont 'images/fonts/visitor1.ttf', 30
@@ -88,6 +89,7 @@ love.load =  ->
   require 'class.cosmetic.irisInAnimation'
   require 'class.menu.titleMenu'
   require 'class.menu.gameOverMenu'
+  require 'class.cosmetic.whoosh'
 
   currentState = Game!
 
