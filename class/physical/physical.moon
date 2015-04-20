@@ -40,7 +40,7 @@ export class Physical extends Common
     if @shadowVisible
       with love.graphics
         .setColor 255, 255, 255, 255
-        --.draw images.shadow, @getCenter!.x + ox, @getCenter!.y + oy, 0, 1, 1, images.shadow\getWidth! / 2
+        .draw images.shadow, @getCenter!.x + ox, @getCenter!.y + oy, 0, 1, 1, images.shadow\getWidth! / 2
 
   draw: =>
     --draw image
