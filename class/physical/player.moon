@@ -39,7 +39,7 @@ export class Player extends Physical
     --cosmetic
     @sprite = 'animation'
     @shadowVisible = true
-    @depth += 100
+    @depth += 200
 
   update: (dt) =>
     if @canSwing and not @knockback
@@ -105,7 +105,7 @@ export class Player extends Physical
   attack: =>
     --full health beam
     if @health == @maxHealth and @canShoot
-      Projectile @state, @getCenter!.x, @getCenter!.y, 10, 10, 400, @direction
+      SwordBeam @state, @getCenter!.x, @getCenter!.y, @direction
       @canShoot = false
       @timer\delay (-> @canShoot = true), @canShootTime
 

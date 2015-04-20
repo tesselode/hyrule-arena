@@ -34,6 +34,7 @@ love.load =  ->
     octorok: newImage 'images/octorok.png'
     environment: newImage 'images/environment.png'
     whoosh: newImage 'images/whoosh.png'
+    swordBeam: newImage 'images/swordBeam.png'
 
   fonts =
     title: love.graphics.newFont 'images/fonts/visitor1.ttf', 30
@@ -77,6 +78,7 @@ love.load =  ->
   require 'class.physical.projectile'
   require 'class.physical.gem'
   require 'class.physical.player'
+  require 'class.physical.swordBeam'
   require 'class.physical.enemies.enemy'
   require 'class.physical.enemies.follower'
   require 'class.physical.enemies.octorok'

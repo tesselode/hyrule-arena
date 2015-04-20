@@ -5,6 +5,8 @@ export class Whoosh extends Physical
     @velocity = vector(300, 0)\rotated(@direction)
     @timer\delay (-> @delete = true), 0.07
 
+    @depth += 150
+
   draw: =>
     with love.graphics
       .setColor 255, 255, 255, 255
