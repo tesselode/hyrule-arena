@@ -48,11 +48,7 @@ export class Enemy extends Physical
 
   takeDamage: (other, damage) =>
     @health -= damage
-    if other.__class == Projectile
-      --die immediately
-      if @health == 0
-        @delete = true
-    if other.__class == Player
+    if other.__class.__parent == Projectile or other.__class == Player
       --knockback movement
       @knockback = true
       @velocityPrev = @velocity
