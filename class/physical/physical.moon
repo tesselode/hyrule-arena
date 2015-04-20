@@ -48,7 +48,7 @@ export class Physical extends Common
       if @image
         .setColor 255, 255, 255, 255
         x, y, w, h = @state.world\getRect self
-        .draw @image, x, y
+        .draw @image, @getCenter!.x, @getCenter!.y, 0, 1, 1, @image\getWidth! / 2, @image\getHeight! / 2
       else
         if @isEnemy
           .setColor 255, 0, 0, 255

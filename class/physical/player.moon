@@ -1,6 +1,6 @@
 export class Player extends Physical
   new: (state, x, y) =>
-    super state, x, y, 16, 16
+    super state, x, y, 14, 14
 
     --movement stuff
     @acceleration = 2000
