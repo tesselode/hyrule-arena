@@ -5,10 +5,10 @@ export class TitleMenu extends Common
     @y = 85
 
   flyUp: =>
-    @tween\to(self, 0.5, {y: -100})\ease('backin')
+    @tween\to(self, 0.5, {y: -100})\ease('quadin')
 
   flyDown: =>
-    @tween\to(self, 0.5, {y: 85})\ease('backout')
+    @tween\to(self, 0.5, {y: 85})
 
   draw: (topLeftX, topLeftY) =>
     with love.graphics

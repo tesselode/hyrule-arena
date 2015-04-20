@@ -10,11 +10,10 @@ export class HUD extends Common
   flyDown: =>
     @maxHealth = 10
     @health = @maxHealth
-    @tween\to(self, 1.5, {y: 0})\ease('elasticinout')
+    @tween\to(self, 1.5, {y: 0})
 
   flyUp: =>
-    --@tween\to(self, 1.5, {y: -50})\ease('elasticinout')
-    @y = -100
+    @tween\to(self, 1.5, {y: -50})
 
   update: (dt) =>
     super dt

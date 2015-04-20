@@ -79,6 +79,7 @@ export class Game extends Common
 
       -- trigger game over
       if @player.health <= 0
+        @player.ghostingVisible = true
         @gameFlow.state = 'game over'
         @cosmetic.irisInAnimation\closeIn!
         @menu.gameOver\flyUp!
