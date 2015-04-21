@@ -36,6 +36,14 @@ love.load =  ->
     whoosh: newImage 'images/whoosh.png'
     swordBeam: newImage 'images/swordBeam.png'
 
+  local newSource
+  newSource = love.audio.newSource
+  sounds =
+    damage: newSource 'audio/damage.wav', 'static'
+    damage2: newSource 'audio/damage2.wav', 'static'
+    rupee: newSource 'audio/rupee.wav', 'static'
+    swing: newSource 'audio/sword.wav', 'static'
+
   fonts =
     title: love.graphics.newFont 'images/fonts/visitor1.ttf', 30
     menu: love.graphics.newFont 'images/fonts/visitor1.ttf', 10

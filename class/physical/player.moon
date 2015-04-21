@@ -146,6 +146,10 @@ export class Player extends Physical
           @sprite = 'animation'),
         @canSwingTime
 
+      --sounds
+      --sounds[util.trandom({'swing1', 'swing2', 'swing3'})]\play!
+      sounds.swing\play!
+
   takeDamage: (other) =>
     if not @ghosting
       @health -= other.damage
@@ -155,6 +159,9 @@ export class Player extends Physical
       @knockback = true
       @ghosting = true
       @timer\delay (-> @ghosting = false), @ghostingTime
+
+      --sounds
+      sounds.damage\play!
 
   draw: =>
     --if (not @ghosting) or (@ghostingVisible)

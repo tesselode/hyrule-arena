@@ -54,6 +54,9 @@ export class Enemy extends Physical
       @velocityPrev = @velocity
       @velocity = vector.new(400, 0)\rotated(other.direction)
 
+      --sounds
+      sounds.damage2\play!
+
   onDelete: =>
     --give the player poins
     @state.gameFlow.score += @score * @state.gameFlow.multiplier

@@ -42,6 +42,11 @@ export class Gem extends Physical
         self.delete = true
         @state.gameFlow.multiplier += 0.1
 
+        --sound stuff
+        sounds.rupee\stop!
+        sounds.rupee\setPitch 1 + love.math.random() * .1
+        sounds.rupee\play!
+
     --blinking effect
     @blinkingTimer -= @blinkingSpeed * dt
     while @blinkingTimer <= 0
