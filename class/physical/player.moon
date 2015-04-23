@@ -149,6 +149,7 @@ export class Player extends Physical
       --sounds
       --sounds[util.trandom({'swing1', 'swing2', 'swing3'})]\play!
       sounds.swing\play!
+      sounds[util.trandom({'voice_swing', 'voice_swing2'})]\play!
 
   takeDamage: (other) =>
     if not @ghosting
@@ -162,6 +163,10 @@ export class Player extends Physical
 
       --sounds
       sounds.damage\play!
+      if @health == 0
+        sounds.voice_death\play!
+      else
+        sounds.voice_damage\play!
 
   draw: =>
     --if (not @ghosting) or (@ghostingVisible)

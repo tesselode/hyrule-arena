@@ -43,6 +43,10 @@ love.load =  ->
     damage2: newSource 'audio/damage2.wav', 'static'
     rupee: newSource 'audio/rupee.wav', 'static'
     swing: newSource 'audio/sword.wav', 'static'
+    voice_damage: newSource 'audio/voice_damage.wav', 'static'
+    voice_death: newSource 'audio/voice_death.wav', 'static'
+    voice_swing: newSource 'audio/voice_swing.wav', 'static'
+    voice_swing2: newSource 'audio/voice_swing2.wav', 'static'
 
   fonts =
     title: love.graphics.newFont 'images/fonts/visitor1.ttf', 30
