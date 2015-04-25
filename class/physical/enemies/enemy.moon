@@ -1,5 +1,5 @@
 export class Enemy extends Physical
-  painVibration = 6
+  painVibration = 1
 
   new: (state, x, y) =>
     super state, x, y, TILE_SIZE - 2, TILE_SIZE - 2
