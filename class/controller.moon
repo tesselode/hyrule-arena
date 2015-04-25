@@ -84,22 +84,23 @@ export class Controller
       @removeDirection button
 
   gamepadaxis: (gamepad, axis, value) =>
+    deadzone = 0.3
     print(axis, value)
     if gamepad == @gamepad
       switch axis
         when 'leftx','rightx'
-          if value < -0.3
+          if value < -deadzone
             @addDirection 'left'
-          elseif value > 0.3
+          elseif value > deadzone
             @addDirection 'right'
           else
             @removeDirection 'left'
             @removeDirection 'right'
 
         when 'lefty','righty'
-          if value < -0.3
+          if value < -deadzone
             @addDirection 'up'
-          elseif value > 0.3
+          elseif value > deadzone
             @addDirection 'down'
           else
             @removeDirection 'up'
