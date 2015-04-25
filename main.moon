@@ -114,6 +114,9 @@ love.load =  ->
 
   gamestate.registerEvents {
     'keyreleased'
+    'gamepadpressed'
+    'gamepadreleased'
+    'gamepadaxis'
   }
 
   gamestate.switch Game!

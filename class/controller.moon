@@ -8,6 +8,12 @@ export class Controller
     left:  vector -1, 0
     up:    vector  0,-1
 
+    -- for gamepad dpad buttons
+    dpright: vector  1, 0
+    dpdown:  vector  0, 1
+    dpleft:  vector -1, 0
+    dpup:    vector  0,-1
+
 
   new: (@player, @gamepad) =>
     @directions = {} -- table of directions that are being held down
@@ -42,17 +48,59 @@ export class Controller
           .x = util.interpolate .x, 0, drag * dt
           .y = util.interpolate .y, 0, drag * dt
 
+  addDirection: (dirName) =>
+    -- "we are now trying to move in this direction"
+    @removeDirection dirName -- so we don't add a direction multiple times
+
+    if directions[dirName]
+      table.insert @directions, directions[dirName]
+
+  removeDirection: (dirName) =>
+    -- "we have stopped trying to move in this direction"
+    for i,dir in ipairs @directions
+      if dir == directions[dirName]
+        table.remove @directions, i
+        return
+
   keypressed: (key) =>
-    -- if a key is pressed, add it to the table of held directions
-    if directions[key]
-      table.insert @directions, directions[key]
+    @addDirection key
 
     if key == 'x'
       @player\attack!
 
   keyreleased: (key) =>
-    -- if a key is released, find and remove it from the held directions
-    for i,dir in ipairs @directions
-      if dir == directions[key]
-        table.remove @directions, i
-        return
+    @removeDirection key
+
+  gamepadpressed: (gamepad, button) =>
+    if gamepad == @gamepad
+      switch button
+        when 'a'
+          @player\attack!
+        else
+          @addDirection button
+
+  gamepadreleased: (gamepad, button) =>
+    if gamepad == @gamepad
+      @removeDirection button
+
+  gamepadaxis: (gamepad, axis, value) =>
+    print(axis, value)
+    if gamepad == @gamepad
+      switch axis
+        when 'leftx','rightx'
+          if value < -0.3
+            @addDirection 'left'
+          elseif value > 0.3
+            @addDirection 'right'
+          else
+            @removeDirection 'left'
+            @removeDirection 'right'
+
+        when 'lefty','righty'
+          if value < -0.3
+            @addDirection 'up'
+          elseif value > 0.3
+            @addDirection 'down'
+          else
+            @removeDirection 'up'
+            @removeDirection 'down'

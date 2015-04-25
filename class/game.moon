@@ -138,6 +138,18 @@ export class Game extends Common
     if @gameFlow.state == 'gameplay'
       @controller\keyreleased key
 
+  gamepadpressed: (...) =>
+    if @gameFlow.state == 'gameplay'
+      @controller\gamepadpressed ...
+
+  gamepadreleased: (...) =>
+    if @gameFlow.state == 'gameplay'
+      @controller\gamepadreleased ...
+
+  gamepadaxis: (...) =>
+    if @gameFlow.state == 'gameplay'
+      @controller\gamepadaxis ...
+
   draw: =>
     -- render iris in transition
     @cosmetic.irisInAnimation\render!
