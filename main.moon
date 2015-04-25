@@ -50,6 +50,7 @@ love.load =  ->
     voice_death: newSource 'audio/voice_death.wav', 'static'
     voice_swing: newSource 'audio/voice_swing.wav', 'static'
     voice_swing2: newSource 'audio/voice_swing2.wav', 'static'
+  love.audio.setVolume 0.5
 
   fonts =
     title: love.graphics.newFont 'images/fonts/visitor1.ttf', 30
