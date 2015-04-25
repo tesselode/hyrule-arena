@@ -1,4 +1,6 @@
 export class Enemy extends Physical
+  painVibration = 6
+
   new: (state, x, y) =>
     super state, x, y, TILE_SIZE - 2, TILE_SIZE - 2
 
@@ -10,6 +12,7 @@ export class Enemy extends Physical
     @gemAmount = 5
     @score = 100
     @shadowVisible = true
+    @pain = 0
 
     --collision filter
     @filter = (other) =>
@@ -46,6 +49,8 @@ export class Enemy extends Physical
 
     return collisions
 
+  shake: =>
+
   takeDamage: (other, damage) =>
     @health -= damage
     if other.__class.__parent == Projectile or other.__class == Player
@@ -57,9 +62,24 @@ export class Enemy extends Physical
       --sounds
       sounds.damage2\play!
 
+      -- tween the pain variable, some things depend on it
+      @pain = 1
+      @tween\to self, 0.3, pain: 0
+
   onDelete: =>
     --give the player poins
     @state.gameFlow.score += @score * @state.gameFlow.multiplier
     --spawn gems when dead
     for i = 1, @gemAmount
       Gem @state, @getCenter!.x, @getCenter!.y
+
+  draw: =>
+    -- apply painVibration
+    with love.graphics
+      vx = love.math.random -@pain * painVibration, @pain * painVibration
+      vy = love.math.random -@pain * painVibration, @pain * painVibration
+
+      .push!
+      .translate vx, vy
+      super!
+      .pop!
