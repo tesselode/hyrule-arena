@@ -64,7 +64,7 @@ export class Enemy extends Physical
 
       -- tween the pain variable, some things depend on it
       @pain = 1
-      @tween\to self, 0.3, pain: 0
+      @tween\to self, 0.5, pain: 0
 
   onDelete: =>
     --give the player poins

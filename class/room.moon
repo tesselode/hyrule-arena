@@ -14,7 +14,7 @@ export class Room
 	}
 
 	tileSize: TILE_SIZE
-	roomDensity: 4
+	roomDensity: 6
 	doorSize: 4
 
 	new: (@state, @x, @y, @level, genTiles = true) =>
@@ -106,12 +106,9 @@ export class Room
 			worldPos = vector(@getWorldPosition!) + (pos - vector 0.5, 0.5) * @tileSize
 
 			EnemyType = switch love.math.random 3
-				when 1
-					Octorok
-				when 2
-					Tektite
-				when 3
-					Follower
+				when 1 then Octorok
+				when 2 then Tektite
+				when 3 then Follower
 
 			with e = EnemyType @state, 0, 0
 				\setPositionCentered worldPos\unpack!
