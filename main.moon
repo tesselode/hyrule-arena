@@ -35,6 +35,7 @@ love.load =  ->
     environment: newImage 'images/environment.png'
     whoosh: newImage 'images/whoosh.png'
     swordBeam: newImage 'images/swordBeam.png'
+    blob: newImage 'images/blob.png'
 
   local newSource
   newSource = love.audio.newSource

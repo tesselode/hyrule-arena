@@ -2,6 +2,7 @@ export class Follower extends Enemy
   new: (state, x, y) =>
     super state, x, y
 
+    @image = images.blob
     @speed = 50
 
   update: (dt) =>
