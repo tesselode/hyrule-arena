@@ -52,11 +52,6 @@ export class Player extends Physical
       if @velocity\len! < 100
         @knockback = false
 
-    -- drag
-    -- with @velocity
-    --   .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
-    --   .y = util.interpolate .y, 0, dt * @drag
-
     cols = super dt
 
     -- velocity resolution (weird stuff happens without it)
