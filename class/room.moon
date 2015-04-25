@@ -14,7 +14,7 @@ export class Room
 	}
 
 	tileSize: TILE_SIZE
-	roomDensity: 6
+	roomDensity: 5
 	doorSize: 4
 
 	new: (@state, @x, @y, @level, genTiles = true) =>

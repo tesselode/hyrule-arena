@@ -1,6 +1,8 @@
 export class Octorok extends Enemy
   new: (state, x, y) =>
     super state, x, y
+
+    @image = images.octorok
     @speed = 75
     @direction = 0
 
@@ -32,17 +34,18 @@ export class Octorok extends Enemy
       @direction = math.atan2 @velocity.y, @velocity.x
 
   draw: =>
-    cx, cy = @getCenter!\unpack!
-    image = images.octorok
-    w,h = image\getDimensions!
+    @drawPainEffects ->
+      cx, cy = @getCenter!\unpack!
+      image = images.octorok
+      w,h = image\getDimensions!
 
-    with love.graphics
-      .setColor 255, 255, 255
-      .draw images.octorok,
-        cx, cy,
-        @direction,
-        1, 1,
-        w/2, h/2
+      with love.graphics
+        .setColor 255, 255, 255
+        .draw images.octorok,
+          cx, cy,
+          @direction,
+          1, 1,
+          w/2, h/2
 
   drawShadow: =>
     super 0, -6
