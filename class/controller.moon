@@ -36,9 +36,11 @@ export class Controller
         if @directions[2] -- strafing direction
           .velocity += .acceleration * @directions[2] * dt
       else
+        -- if there are no directions, slow down
+        drag = .drag
         with @player.velocity
-          .x = util.interpolate .x, 0, 10 * dt
-          .y = util.interpolate .y, 0, 10 * dt
+          .x = util.interpolate .x, 0, drag * dt
+          .y = util.interpolate .y, 0, drag * dt
 
   keypressed: (key) =>
     -- if a key is pressed, add it to the table of held directions
