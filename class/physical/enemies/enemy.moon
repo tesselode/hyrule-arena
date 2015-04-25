@@ -72,6 +72,9 @@ export class Enemy extends Physical
     --spawn gems when dead
     for i = 1, @gemAmount
       Gem @state, @getCenter!.x, @getCenter!.y
+    --occasionally drop hearts
+    if love.math.random(1, 5) == 5
+      Heart @state, @getCenter!.x, @getCenter!.y
 
   drawPainEffects: (func) =>
     -- apply pain vibration + shader
