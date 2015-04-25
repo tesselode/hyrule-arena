@@ -37,6 +37,12 @@ export class Game extends Common
       irisInAnimation: IrisInAnimation self
     }
 
+  runStartingAnimation: =>
+    @gameFlow.state == 'startingAnimation'
+    @cosmetic.hud\flyDown!
+    @cosmetic.playerSpawnAnimation\start!
+    @menu.title\flyUp!
+
   startGame: =>
     with @gameFlow
       .state = 'gameplay'
@@ -102,10 +108,7 @@ export class Game extends Common
     if key == 'return'
       -- start the game
       if @gameFlow.state == 'title'
-        @gameFlow.state == 'startingAnimation'
-        @cosmetic.hud\flyDown!
-        @cosmetic.playerSpawnAnimation\start!
-        @menu.title\flyUp!
+        @runStartingAnimation!
 
       -- reset game
       if @gameFlow.state == 'game over'
@@ -138,9 +141,13 @@ export class Game extends Common
     if @gameFlow.state == 'gameplay'
       @controller\keyreleased key
 
-  gamepadpressed: (...) =>
+  gamepadpressed: (gamepad, button) =>
+    if @gameFlow.state == 'title'
+      if button == 'a' or button == 'start'
+        @runStartingAnimation!
+
     if @gameFlow.state == 'gameplay'
-      @controller\gamepadpressed ...
+      @controller\gamepadpressed gamepad, button
 
   gamepadreleased: (...) =>
     if @gameFlow.state == 'gameplay'
