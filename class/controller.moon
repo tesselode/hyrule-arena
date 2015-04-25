@@ -74,7 +74,7 @@ export class Controller
   gamepadpressed: (gamepad, button) =>
     if gamepad == @gamepad
       switch button
-        when 'a'
+        when 'a','b','x','y'
           @player\attack!
         else
           @addDirection button
