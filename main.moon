@@ -83,6 +83,9 @@ love.load =  ->
     floor: roomTile 9, 3, 2, 2
     wall: roomTile 9, 1, 2, 2
 
+  shaders =
+    pain: love.graphics.newShader 'shaders/pain.frag'
+
   -- classes
   require 'class.common'
   require 'class.game'

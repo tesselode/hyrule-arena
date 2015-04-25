@@ -74,12 +74,14 @@ export class Enemy extends Physical
       Gem @state, @getCenter!.x, @getCenter!.y
 
   draw: =>
-    -- apply painVibration
+    -- apply pain vibration + shader
     with love.graphics
       vx = love.math.random -@pain * painVibration, @pain * painVibration
       vy = love.math.random -@pain * painVibration, @pain * painVibration
+      shaders.pain\send 'magnitude', @pain
 
-      .push!
+      .push 'all'
+      .setShader shaders.pain
       .translate vx, vy
       super!
       .pop!
