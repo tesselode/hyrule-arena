@@ -7,6 +7,7 @@ love.load =  ->
   TILE_SIZE = 16
 
   -- libraries
+  gamestate = require 'lib.hump.gamestate'
   vector = require 'lib.hump.vector'
   camera = require 'lib.hump.camera'
   bump = require 'lib.bump'
@@ -109,24 +110,26 @@ love.load =  ->
   require 'class.menu.titleMenu'
   require 'class.menu.gameOverMenu'
   require 'class.cosmetic.whoosh'
+  require 'class.controller'
 
-  currentState = Game!
+  gamestate.registerEvents {
+    'keyreleased'
+  }
 
-  -- temporary code so I can see shadows
-  love.graphics.setBackgroundColor 100, 100, 100, 255
+  gamestate.switch Game!
 
 love.update = (dt) ->
   -- update some libraries
   tick.update dt
   flux.update dt
 
-  currentState\update dt
+  gamestate.update dt
 
 love.keypressed = (key) ->
   if key == 'escape' -- change this later
     love.event.quit!
 
-  currentState\keypressed key
+  gamestate.keypressed key
 
 love.draw = ->
-  currentState\draw!
+  gamestate.draw!

@@ -1,3 +1,5 @@
+io.stdout\setvbuf'no'
+
 love.conf = (t) ->
   with t.window
     .width = 1920

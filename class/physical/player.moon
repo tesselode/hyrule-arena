@@ -43,44 +43,19 @@ export class Player extends Physical
 
   update: (dt) =>
     if @canSwing and not @knockback
-      --movement
-      if love.keyboard.isDown 'left'
-        if not love.keyboard.isDown 'right'
-          @velocity.x -= @acceleration * dt
-        if not love.keyboard.isDown 'up', 'down'
-          @direction = math.pi
-
-      if love.keyboard.isDown 'right'
-        if not love.keyboard.isDown 'left'
-          @velocity.x += @acceleration * dt
-        if not love.keyboard.isDown 'up', 'down'
-          @direction = 0
-
-      if love.keyboard.isDown 'up'
-        if not love.keyboard.isDown 'down'
-          @velocity.y -= @acceleration * dt
-        if not love.keyboard.isDown 'left', 'right'
-          @direction = -math.pi / 2
-
-      if love.keyboard.isDown 'down'
-        if not love.keyboard.isDown 'up'
-          @velocity.y += @acceleration * dt
-        if not love.keyboard.isDown 'left', 'right'
-          @direction = math.pi / 2
-
-      --limit speed
+      -- limit speed
       if @velocity\len! > @maxSpeed
         @velocity = @velocity\normalized! * @maxSpeed
 
-    --knockback movement
+    -- knockback movement
     if @knockback
       if @velocity\len! < 100
         @knockback = false
 
-    --drag
-    with @velocity
-      .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
-      .y = util.interpolate .y, 0, dt * @drag
+    -- drag
+    -- with @velocity
+    --   .x = util.interpolate .x, 0, dt * @drag -- go from current vel to 0 at a rate of dt * 10
+    --   .y = util.interpolate .y, 0, dt * @drag
 
     cols = super dt
 

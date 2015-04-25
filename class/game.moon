@@ -41,6 +41,7 @@ export class Game extends Common
     with @gameFlow
       .state = 'gameplay'
     @player = Player self, BASE_WIDTH / 2 - TILE_SIZE / 2, BASE_HEIGHT / 2 - TILE_SIZE / 2
+    @controller = Controller @player, love.joystick.getJoysticks![1]
 
   update: (dt) =>
     super dt
@@ -52,6 +53,8 @@ export class Game extends Common
     if @gameFlow.state == 'gameplay'
       -- update the map
       @map\update dt
+
+      @controller\update dt
 
 			-- update all instances in the active room
       items = @world\queryRect room\getWorldRect!
@@ -129,12 +132,11 @@ export class Game extends Common
 
     -- controls
     if @gameFlow.state == 'gameplay'
-      if key == 'x'
-        @player\attack!
+      @controller\keypressed key
 
-      -- for testing
-      if key == 'f1'
-        @player.health = 0
+  keyreleased: (key) =>
+    if @gameFlow.state == 'gameplay'
+      @controller\keyreleased key
 
   draw: =>
     -- render iris in transition
