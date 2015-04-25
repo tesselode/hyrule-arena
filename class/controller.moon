@@ -13,6 +13,20 @@ export class Controller
     @directions = {} -- table of directions that are being held down
     -- only the first and second are used, the third and the rest are ignored
 
+    -- in essence, here's how this shit works
+    -- let's say you hold the up key, then the left key
+    -- up and left directional vectors (see the "directions" table above) are added to @directions in that order
+    -- the up direction is first and treated as the movement direction, and the facing direction
+    -- the left direction is second and treated as the secondary strafing direction
+
+    -- so let's say you let go of the up direction
+    -- the up direction is found and removed from the @directions table
+    -- then the left direction is pushed up front and is treated as the primary movement direction
+    -- and, by effect, you start moving left
+
+    -- so on and so forth when you then decide to press down, you start strafing down
+    -- i'm so happy i figured this out
+
   update: (dt) =>
     with @player
       if @directions[1] -- movement direction
@@ -27,6 +41,7 @@ export class Controller
           .y = util.interpolate .y, 0, 10 * dt
 
   keypressed: (key) =>
+    -- if a key is pressed, add it to the table of held directions
     if directions[key]
       table.insert @directions, directions[key]
 
@@ -34,6 +49,7 @@ export class Controller
       @player\attack!
 
   keyreleased: (key) =>
+    -- if a key is released, find and remove it from the held directions
     for i,dir in ipairs @directions
       if dir == directions[key]
         table.remove @directions, i
