@@ -2,6 +2,8 @@ export class Tektite extends Enemy
   new: (state, x, y) =>
     super state, x, y
 
+    @image = images.tektite
+
     --jumping pattern
     @timer\recur ->
         @inAir = true
