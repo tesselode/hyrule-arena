@@ -109,14 +109,17 @@ love.load =  ->
   require 'class.cosmetic.irisInAnimation'
   require 'class.menu.titleMenu'
   require 'class.menu.gameOverMenu'
+  require 'class.menu.paused'
   require 'class.cosmetic.whoosh'
   require 'class.controller'
 
   gamestate.registerEvents {
+    'keypressed'
     'keyreleased'
     'gamepadpressed'
     'gamepadreleased'
     'gamepadaxis'
+    'draw'
   }
 
   gamestate.switch Game!
@@ -127,12 +130,3 @@ love.update = (dt) ->
   flux.update dt
 
   gamestate.update dt
-
-love.keypressed = (key) ->
-  if key == 'escape' -- change this later
-    love.event.quit!
-
-  gamestate.keypressed key
-
-love.draw = ->
-  gamestate.draw!

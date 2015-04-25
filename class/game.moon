@@ -132,6 +132,8 @@ export class Game extends Common
         @cosmetic.hud\flyUp!
         @cosmetic.irisInAnimation\openUp!
 
+      if @gameFlow.state == 'gameplay'
+        gamestate.push Paused!
 
     -- controls
     if @gameFlow.state == 'gameplay'
@@ -147,7 +149,10 @@ export class Game extends Common
         @runStartingAnimation!
 
     if @gameFlow.state == 'gameplay'
-      @controller\gamepadpressed gamepad, button
+      if button == 'start'
+        gamestate.push Paused!
+      else
+        @controller\gamepadpressed gamepad, button
 
   gamepadreleased: (...) =>
     if @gameFlow.state == 'gameplay'
