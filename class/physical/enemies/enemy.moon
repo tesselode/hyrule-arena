@@ -1,5 +1,6 @@
 export class Enemy extends Physical
-  painVibration = 1
+  painVibration = 3
+  knockbackVelocity = 300
 
   new: (state, x, y) =>
     super state, x, y, TILE_SIZE - 2, TILE_SIZE - 2
@@ -49,22 +50,20 @@ export class Enemy extends Physical
 
     return collisions
 
-  shake: =>
-
   takeDamage: (other, damage) =>
     @health -= damage
     if other.__class.__parent == Projectile or other.__class == Player
       --knockback movement
       @knockback = true
       @velocityPrev = @velocity
-      @velocity = vector.new(400, 0)\rotated(other.direction)
+      @velocity = vector.new(knockbackVelocity, 0)\rotated(other.direction)
 
       --sounds
       sounds.damage2\play!
 
       -- tween the pain variable, some things depend on it
       @pain = 1
-      @tween\to self, 0.5, pain: 0
+      @tween\to self, 0.3, pain: 0
 
   onDelete: =>
     --give the player poins
