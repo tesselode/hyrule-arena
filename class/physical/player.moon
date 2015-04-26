@@ -151,7 +151,7 @@ export class Player extends Physical
 
       --sounds
       sounds.damage\play!
-      if @health == 0
+      if @health < 1
         sounds.voice_death\play!
       elseif love.math.random(1, 2) == 2 then
         sounds.voice_damage\play!
@@ -166,7 +166,14 @@ export class Player extends Physical
         .setColor 255, 255, 255, 255
         .draw @rageParticles
 
-        if @health < 4
+        --game over background
+        if @health < 1
+          .setColor 255, 0, 0, 255
+          .rectangle 'fill', @getCenter!.x - 10000, @getCenter!.y - 10000, 20000, 20000
+
+        if @health < 1
+          .setColor 0, 0, 0, 255
+        elseif @health < 4
           .setColor 255, 150, 150, 255
         else
           .setColor 255, 255, 255, 255
