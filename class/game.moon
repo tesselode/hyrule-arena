@@ -38,7 +38,7 @@ export class Game extends Common
     }
 
   runStartingAnimation: =>
-    @gameFlow.state == 'startingAnimation'
+    @gameFlow.state = 'startingAnimation'
     @cosmetic.hud\flyDown!
     @cosmetic.playerSpawnAnimation\start!
     @menu.title\flyUp!
