@@ -1,12 +1,7 @@
-(A) Add enemy graphics
-(B) Add environment graphics
-(C) Add Link stabbing sprites
-(D) Tile walls automatically
-(E) Add a scoring system
-Store scores
-x Make the rupees disappear after a bit
-Add some kind of whoosh effect to give the sword stabbing a sense of motion
-Add voice clips
-Add sound effects
 Add music
-Gameplay tweaking
+Gameplay tweaking  (?)
+
+doors need textures
+octorok bullets need textures
+change a line in the paused menu to "enter or start to resume"
+make walls just generate newly regardless of explored or not
