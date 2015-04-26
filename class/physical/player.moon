@@ -94,6 +94,7 @@ export class Player extends Physical
       SwordBeam @state, @getCenter!.x, @getCenter!.y, @direction
       @canShoot = false
       @timer\delay (-> @canShoot = true), @canShootTime
+      sounds.beam\play!
 
     --stabbing
     if @canSwing
