@@ -92,6 +92,14 @@ love.load =  ->
   shaders =
     pain: love.graphics.newShader 'shaders/pain.frag'
 
+  saveData =
+    highScore: 0
+  with love.filesystem
+    if .exists 'highscore'
+      saveData.highScore = .read 'highscore'
+      saveData.highScore = tonumber saveData.highScore
+  print saveData.highScore
+
   -- classes
   require 'class.common'
   require 'class.game'
@@ -135,3 +143,6 @@ love.update = (dt) ->
   flux.update dt
 
   gamestate.update dt
+
+export writeSaveData = ->
+  love.filesystem.write 'highscore', saveData.highScore

@@ -49,6 +49,12 @@ export class Game extends Common
     @player = Player self, BASE_WIDTH / 2 - TILE_SIZE / 2, BASE_HEIGHT / 2 - TILE_SIZE / 2
     @controller = Controller @player, love.joystick.getJoysticks![1]
 
+  gameOver: =>
+    @player.ghostingVisible = true
+    @gameFlow.state = 'game over'
+    @cosmetic.irisInAnimation\closeIn!
+    @menu.gameOver\flyUp!
+
   update: (dt) =>
     super dt
 
@@ -88,10 +94,10 @@ export class Game extends Common
 
       -- trigger game over
       if @player.health <= 0
-        @player.ghostingVisible = true
-        @gameFlow.state = 'game over'
-        @cosmetic.irisInAnimation\closeIn!
-        @menu.gameOver\flyUp!
+        @gameOver!
+        if @gameFlow.score > saveData.highScore
+          saveData.highScore = @gameFlow.score
+          writeSaveData!
 
     -- update camera
     x, y = room\getWorldCenter!
