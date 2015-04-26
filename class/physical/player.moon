@@ -40,6 +40,14 @@ export class Player extends Physical
     @sprite = 'animation'
     @shadowVisible = true
     @depth += 200
+    @rageParticles = love.graphics.newParticleSystem images.particle, 100
+    with @rageParticles
+      \setColors 255, 255, 0, 255, 255, 255, 0, 0
+      \setEmissionRate 20
+      \setParticleLifetime .2, .3
+      \setSpeed 50, 60
+      \setSpread 2 * math.pi
+      \start!
 
   update: (dt) =>
     if @canSwing and not @knockback
@@ -72,9 +80,17 @@ export class Player extends Physical
       .linkRunLeft\update dt * ((150 + .5 * @velocity\len!) / @maxSpeed)
       .linkRunDown\update dt * ((150 + .5 * @velocity\len!) / @maxSpeed)
 
+    with @rageParticles
+      if @health < 4
+        \start!
+        \setPosition @getCenter!.x, @getCenter!.y
+      else
+        \stop!
+      \update dt
+
   attack: =>
     --full health beam
-    if @health == @maxHealth and @canShoot
+    if @health < 4 and @canShoot
       SwordBeam @state, @getCenter!.x, @getCenter!.y, @direction
       @canShoot = false
       @timer\delay (-> @canShoot = true), @canShootTime
@@ -147,6 +163,12 @@ export class Player extends Physical
     if (not @ghosting) or (@ghostingVisible)
       with love.graphics
         .setColor 255, 255, 255, 255
+        .draw @rageParticles
+
+        if @health < 4
+          .setColor 255, 150, 150, 255
+        else
+          .setColor 255, 255, 255, 255
         x, y, w, h = @state.world\getRect self
 
         if @sprite == 'animation'

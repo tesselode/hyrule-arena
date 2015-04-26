@@ -32,12 +32,14 @@ love.load =  ->
     gemBlue: newImage 'images/blue gem.png'
     heartEmpty: newImage 'images/heartEmptySmall.png'
     heartFull: newImage 'images/heartFullSmall.png'
+    heart: newImage 'images/heart.png'
     octorok: newImage 'images/octorok.png'
     environment: newImage 'images/environment.png'
     whoosh: newImage 'images/whoosh.png'
     swordBeam: newImage 'images/swordBeam.png'
     blob: newImage 'images/blob.png'
     tektite: newImage 'images/tektite.png'
+    particle: newImage 'images/particle.png'
 
   local newSource
   newSource = love.audio.newSource
@@ -50,6 +52,7 @@ love.load =  ->
     voice_death: newSource 'audio/voice_death.wav', 'static'
     voice_swing: newSource 'audio/voice_swing.wav', 'static'
     voice_swing2: newSource 'audio/voice_swing2.wav', 'static'
+  love.audio.setVolume 0.5
 
   fonts =
     title: love.graphics.newFont 'images/fonts/visitor1.ttf', 30
@@ -95,6 +98,7 @@ love.load =  ->
   require 'class.physical.wall'
   require 'class.physical.projectile'
   require 'class.physical.gem'
+  require 'class.physical.heart'
   require 'class.physical.player'
   require 'class.physical.swordBeam'
   require 'class.physical.enemies.enemy'
