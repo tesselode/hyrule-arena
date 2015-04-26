@@ -51,19 +51,20 @@ export class Enemy extends Physical
     return collisions
 
   takeDamage: (other, damage) =>
-    @health -= damage
-    if other.__class.__parent == Projectile or other.__class == Player
-      --knockback movement
-      @knockback = true
-      @velocityPrev = @velocity
-      @velocity = vector.new(knockbackVelocity, 0)\rotated(other.direction)
+    if not @knockback
+      @health -= damage
+      if other.__class.__parent == Projectile or other.__class == Player
+        --knockback movement
+        @knockback = true
+        @velocityPrev = @velocity
+        @velocity = vector.new(knockbackVelocity, 0)\rotated(other.direction)
 
-      --sounds
-      sounds.damage2\play!
+        --sounds
+        sounds.damage2\play!
 
-      -- tween the pain variable, some things depend on it
-      @pain = 1
-      @tween\to self, 0.3, pain: 0
+        -- tween the pain variable, some things depend on it
+        @pain = 1
+        @tween\to self, 0.3, pain: 0
 
   onDelete: =>
     --give the player poins
