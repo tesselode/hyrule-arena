@@ -141,6 +141,10 @@ export class Game extends Common
       if @gameFlow.state == 'gameplay'
         gamestate.push Paused!
 
+    if key == 'escape'
+      if @gameFlow.state == 'title'
+        love.event.quit!
+
     -- controls
     if @gameFlow.state == 'gameplay'
       @controller\keypressed key
