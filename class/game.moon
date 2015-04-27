@@ -37,6 +37,8 @@ export class Game extends Common
       irisInAnimation: IrisInAnimation self
     }
 
+    music.loop\play!
+
   runStartingAnimation: =>
     @gameFlow.state = 'startingAnimation'
     @cosmetic.hud\flyDown!
@@ -52,8 +54,13 @@ export class Game extends Common
   gameOver: =>
     @player.ghostingVisible = true
     @gameFlow.state = 'game over'
-    @cosmetic.irisInAnimation\closeIn!
-    @menu.gameOver\flyUp!
+    music.loop\stop!
+
+    @timer\delay (->
+      @cosmetic.irisInAnimation\closeIn!
+      @menu.gameOver\flyUp!
+      music.gameOver\play!
+    ), 1
 
   update: (dt) =>
     super dt
@@ -128,6 +135,8 @@ export class Game extends Common
           -- reset score and stuff
           .score = 0
           .multiplier = 1
+          --play music
+          music.loop\play!
 
         -- reset map
         @map = Map self

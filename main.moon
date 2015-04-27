@@ -54,7 +54,16 @@ love.load =  ->
     voice_death: newSource 'audio/voice_death.wav', 'static'
     voice_swing: newSource 'audio/voice_swing.wav', 'static'
     voice_swing2: newSource 'audio/voice_swing2.wav', 'static'
-  love.audio.setVolume 0.5
+  for k, v in pairs sounds
+    v\setVolume .3
+
+  music =
+    loop: newSource 'audio/music_loop.ogg', 'stream'
+    gameOver: newSource 'audio/game_over.ogg', 'stream'
+  with music
+    .loop\setLooping true
+
+  love.audio.setVolume 0.8
 
   fonts =
     title: love.graphics.newFont 'images/fonts/visitor1.ttf', 30

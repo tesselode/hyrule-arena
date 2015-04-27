@@ -10,3 +10,6 @@ MoikMellah:
 
 Voice:
 http://freesound.org/people/montblanccandies/
+
+Music:
+avgvsta: http://opengameart.org/content/generic-8-bit-jrpg-soundtrack
