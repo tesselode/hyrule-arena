@@ -105,10 +105,19 @@ export class Room
 			pos = table.remove spawnPositions, love.math.random #spawnPositions
 			worldPos = vector(@getWorldPosition!) + (pos - vector 0.5, 0.5) * @tileSize
 
-			EnemyType = switch love.math.random 3
+			local numEnemies
+			if @state.map.currentLevel > 5
+				numEnemies = 7
+			else
+				numEnemies = 6
+			EnemyType = switch love.math.random numEnemies
 				when 1 then Octorok
 				when 2 then Tektite
 				when 3 then Follower
+				when 4 then Octorok
+				when 5 then Tektite
+				when 6 then Follower
+				when 7 then HardOctorok
 
 			with e = EnemyType @state, 0, 0
 				\setPositionCentered worldPos\unpack!
