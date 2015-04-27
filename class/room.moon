@@ -111,13 +111,10 @@ export class Room
 			else
 				numEnemies = 6
 			EnemyType = switch love.math.random numEnemies
-				when 1 then Octorok
-				when 2 then Tektite
-				when 3 then Follower
-				when 4 then Octorok
-				when 5 then Tektite
-				when 6 then Follower
-				when 7 then HardOctorok
+				when 1, 2 then Octorok
+				when 3, 4 then Follower
+				when 5, 6 then Tektite
+				when 7 		then HardOctorok
 
 			with e = EnemyType @state, 0, 0
 				\setPositionCentered worldPos\unpack!
