@@ -196,19 +196,3 @@ export class Player extends Physical
           .draw images.linkStabUp, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
         elseif @sprite == 'stabDown'
           .draw images.linkStabDown, @getCenter!.x, @getCenter!.y, 0, 1, 1, 16, 16
-
-    --debug stuff
-    if true
-      --show which way the player is facing
-      if false
-        with love.graphics
-          .setColor 0, 0, 0, 255
-          .setLineWidth 3
-          x, y, w, h = @state.world\getRect self
-          directionLine = vector(w/2, 0)\rotated(@direction)
-          .line @getCenter!.x, @getCenter!.y, @getCenter!.x + directionLine.x, @getCenter!.y + directionLine.y
-
-      --show range of sword attack
-      with @swordHitbox
-        love.graphics.setColor 0, 0, 0, .drawAlpha
-        --love.graphics.rectangle 'fill', .center.x - .w/2, .center.y - .h/2, .w, .h
