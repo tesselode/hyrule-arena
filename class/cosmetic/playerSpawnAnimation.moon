@@ -69,7 +69,7 @@ export class PlayerSpawnAnimation extends Common
 
         --draw shadow
         .setColor 255, 255, 255, @shadowAlpha
-        --.draw images.shadow, 512, 288, 0, 1, 1, images.shadow\getWidth! / 2
+        .draw images.shadow, BASE_WIDTH / 2 - 1, BASE_HEIGHT / 2 - 1, 0, 1, 1, images.shadow\getWidth! / 2
 
         --draw link
         .setColor 255, 255, 255, 255
