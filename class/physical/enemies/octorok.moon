@@ -21,7 +21,9 @@ export class Octorok extends Enemy
     @timer\delay ->
         @velocity = vector.new(0, 0),
       3.5
-    @timer\delay (-> OctorokBullet @state, @getCenter!.x, @getCenter!.y, @direction), 3.75
+    @timer\delay (->
+      bullet = OctorokBullet @state, @getCenter!.x, @getCenter!.y, @direction
+      bullet.image = images.rock), 3.75
 
   update: (dt) =>
     collisions = super dt
@@ -68,7 +70,9 @@ export class HardOctorok extends Enemy
     @timer\delay ->
         @velocity = vector.new(0, 0),
       1.5
-    @timer\delay (-> OctorokBullet @state, @getCenter!.x, @getCenter!.y, @direction), 1.75
+    @timer\delay (->
+      bullet = OctorokBullet @state, @getCenter!.x, @getCenter!.y, @direction
+      bullet.image = images.blueRock), 1.75
 
   update: (dt) =>
     collisions = super dt

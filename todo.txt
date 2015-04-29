@@ -2,5 +2,4 @@ Add music
 Gameplay tweaking  (?)
 
 doors need textures
-octorok bullets need textures
 change a line in the paused menu to "enter or start to resume" for gamepad

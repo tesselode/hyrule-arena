@@ -35,6 +35,8 @@ love.load =  ->
     heart: newImage 'images/heart.png'
     octorok: newImage 'images/octorok.png'
     blueOctorok: newImage 'images/blueOctorok.png'
+    rock: newImage 'images/rock.png'
+    blueRock: newImage 'images/blueRock.png'
     environment: newImage 'images/environment.png'
     whoosh: newImage 'images/whoosh.png'
     swordBeam: newImage 'images/swordBeam.png'
