@@ -19,4 +19,6 @@ export class Door extends Wall
 
 	draw: =>
 		love.graphics.setColor 255, 255, 255, 255 * @opacity
-		love.graphics.rectangle 'fill', @state.world\getRect self
+		--love.graphics.rectangle 'fill', @state.world\getRect self
+
+		super!

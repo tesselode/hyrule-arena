@@ -3,6 +3,7 @@ export class Wall extends Physical
     super state, x, y, w, h
 
     @shadowVisible = false
+    @opacity = 1
 
   draw: =>
     -- with love.graphics
@@ -16,7 +17,7 @@ export class Wall extends Physical
       scale = 1
 
       .setStencil ->
-        .setColor 255, 255, 255
+        .setColor 255, 255, 255, 255 * @opacity
         .rectangle 'fill', x, y, width, height
 
       for imageX = x, x + width, quadWidth * scale
