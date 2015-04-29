@@ -37,6 +37,7 @@ export class Heart extends Physical
       --get collected by the player
       if col.other.__class == Player
         self.delete = true
+        sounds.heart\play!
         if col.other.health < col.other.maxHealth
           col.other.health += 1
 

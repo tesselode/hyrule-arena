@@ -52,6 +52,7 @@ love.load =  ->
     rupee: newSource 'audio/rupee.wav', 'static'
     swing: newSource 'audio/sword.wav', 'static'
     beam: newSource 'audio/beam.wav', 'static'
+    heart: newSource 'audio/heart.wav', 'static'
     voice_damage: newSource 'audio/voice_damage.wav', 'static'
     voice_death: newSource 'audio/voice_death.wav', 'static'
     voice_swing: newSource 'audio/voice_swing.wav', 'static'
