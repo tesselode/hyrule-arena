@@ -198,9 +198,10 @@ export class Game extends Common
 
         for object in *objects
           object\drawShadow!
+
+        for object in *objects
           object\draw!
-          if true
-            object\drawDebug! if object.drawDebug
+          --object\drawDebug! if object.drawDebug
 
         -- draw player spawn animation
         @cosmetic.playerSpawnAnimation\draw!

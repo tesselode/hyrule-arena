@@ -2,8 +2,8 @@ export class Enemy extends Physical
   painVibration = 3
   knockbackVelocity = 300
 
-  new: (state, x, y) =>
-    super state, x, y, TILE_SIZE - 2, TILE_SIZE - 2
+  new: (state, x, y, w, h) =>
+    super state, x, y, w, h
 
     @isEnemy = true
     @inAir = false

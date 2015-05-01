@@ -1,6 +1,6 @@
 export class Tektite extends Enemy
   new: (state, x, y) =>
-    super state, x, y
+    super state, x, y, 12, 8
 
     @image = images.tektite
 

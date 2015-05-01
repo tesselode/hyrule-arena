@@ -1,6 +1,6 @@
 export class Octorok extends Enemy
   new: (state, x, y) =>
-    super state, x, y
+    super state, x, y, 12, 12
 
     @image = images.octorok
     @speed = 65
@@ -53,7 +53,7 @@ export class Octorok extends Enemy
 
 export class HardOctorok extends Enemy
   new: (state, x, y) =>
-    super state, x, y
+    super state, x, y, 12, 12
 
     @speed = 100
     @direction = 0

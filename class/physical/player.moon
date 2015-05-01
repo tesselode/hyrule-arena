@@ -1,6 +1,6 @@
 export class Player extends Physical
   new: (state, x, y) =>
-    super state, x, y, 14, 14
+    super state, x, y, 10, 10
 
     --movement stuff
     @acceleration = 2000
@@ -12,7 +12,7 @@ export class Player extends Physical
     --attack stuff
     @canSwing = true
     @canSwingTime = .2
-    @attackRange = 16
+    @attackRange = 25
     @swordHitbox =
       w: TILE_SIZE, h: TILE_SIZE
       drawAlpha: 0
@@ -104,7 +104,7 @@ export class Player extends Physical
         @tween\to @swordHitbox, .5, drawAlpha: 0 --delete me when the game actually has graphics
 
         --deal damage to any enemies in range
-        for item in *@state.world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, 40, 40
+        for item in *@state.world\queryRect .center.x - .w/2, @swordHitbox.center.y - .h/2, .w, .h
           if item.__class == Enemy or item.__class.__parent == Enemy
             --if not item.inAir
             item\takeDamage self, @damage

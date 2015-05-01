@@ -30,6 +30,7 @@ love.load =  ->
     linkStabDown: newImage 'images/link/linkStabDown.png'
     shadow: newImage 'images/shadow.png'
     gemBlue: newImage 'images/blue gem.png'
+    gemGreen: newImage 'images/green gem.png'
     heartEmpty: newImage 'images/heartEmptySmall.png'
     heartFull: newImage 'images/heartFullSmall.png'
     heart: newImage 'images/heart.png'

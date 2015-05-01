@@ -1,6 +1,6 @@
 export class Follower extends Enemy
   new: (state, x, y) =>
-    super state, x, y
+    super state, x, y, 12, 12
 
     @image = images.blob
     @speed = 50
