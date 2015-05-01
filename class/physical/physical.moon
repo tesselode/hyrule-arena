@@ -49,12 +49,14 @@ export class Physical extends Common
         .setColor 255, 255, 255, 255
         x, y, w, h = @state.world\getRect self
         .draw @image, @getCenter!.x, @getCenter!.y - @z, 0, 1, 1, @image\getWidth! / 2, @image\getHeight! / 2
+
+  drawDebug: =>
+    with love.graphics
+      if @isEnemy
+        .setColor 255, 0, 0, 100
       else
-        if @isEnemy
-          .setColor 255, 0, 0, 255
-        else
-          .setColor 255, 255, 255, 255
-        x, y, w, h = @state.world\getRect self
-        .rectangle 'fill', x, y - @z, w, h
+        .setColor 255, 255, 255, 100
+      x, y, w, h = @state.world\getRect self
+      .rectangle 'fill', x, y - @z, w, h
 
   onDelete: =>
